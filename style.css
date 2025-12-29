@@ -1,0 +1,250 @@
+:root {
+    --primary: #074528;    /* SEU VERDE (Base) */
+    --secondary: #0b5c36;  /* Um tom levemente mais claro para degradês */
+    --accent: #d35400;     /* Laranja Queimado (Para botões de destaque/PDF) */
+    --success: #074528;    /* O botão de salvar agora usa a cor da marca */
+    --danger: #c0392b;     /* Vermelho para excluir/perigo */
+    --bg: #f4f7f6;         /* Fundo gelo */
+    --card-bg: #ffffff;    /* Fundo branco */
+    --text: #333333;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg);
+    color: var(--text);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* =========================================
+   ESTILOS GERAIS (HEADER E LOGO)
+   ========================================= */
+header {
+    background: linear-gradient(180deg, var(--primary) 0%, #032b18 100%); /* Degradê do seu verde */
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    margin-bottom: 40px;
+    border-bottom: 5px solid #d4ac0d; /* Um detalhe dourado sutil na borda fica lindo com verde */
+}
+
+/* Configuração da LOGO */
+.logo {
+    max-height: 100px; /* Tamanho máximo da altura */
+    width: auto;
+    display: block;
+    margin: 0 auto 15px auto; /* Centraliza e dá espaço embaixo */
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+header h1 { margin: 0; font-size: 2.2rem; font-weight: 700; letter-spacing: 1px; }
+header p { margin: 5px 0 0; opacity: 0.9; font-weight: 300; font-size: 1.1rem; }
+
+.container { max-width: 900px; margin: 0 auto; padding: 0 20px; }
+
+/* Botão PDF (Index) */
+.btn-pdf {
+    background-color: white; /* Botão Branco */
+    color: var(--primary);   /* Texto Verde */
+    border: 2px solid white;
+    padding: 12px 30px;
+    font-size: 1rem;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    transition: all 0.3s ease;
+    margin-top: 20px;
+    display: inline-flex; align-items: center; gap: 10px;
+}
+.btn-pdf:hover { 
+    background-color: var(--accent); 
+    color: white; 
+    border-color: var(--accent);
+    transform: translateY(-2px); 
+}
+
+/* =========================================
+   ÁREA DO ADMIN
+   ========================================= */
+.admin-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    margin-bottom: 30px;
+    border: 1px solid #e1e4e8;
+    border-top: 4px solid var(--primary); /* Detalhe verde no topo do card */
+}
+
+.card-header {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 20px;
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 10px;
+}
+
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--primary); }
+
+.admin-card input, .admin-card select {
+    width: 100%; padding: 12px;
+    border: 1px solid #ced6e0; border-radius: 8px;
+    box-sizing: border-box; font-family: 'Poppins', sans-serif;
+}
+.admin-card input:focus, .admin-card select:focus {
+    outline: none; border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(7, 69, 40, 0.1);
+}
+
+/* Grid de Dias */
+.day-grid {
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px;
+    background: #f8f9fa; padding: 15px; border-radius: 8px; border: 1px solid #eee;
+}
+.day-btn {
+    aspect-ratio: 1; border: 1px solid #ddd; background: white;
+    cursor: pointer; border-radius: 6px; font-weight: 600; color: #555;
+    display: flex; align-items: center; justify-content: center; transition: all 0.2s;
+}
+.day-btn:hover { background: #e2e6ea; }
+.day-btn.selected { 
+    background: var(--primary); /* Verde selecionado */
+    color: white; border-color: var(--primary); 
+}
+
+/* Botões do Admin */
+.btn-row { display: flex; gap: 10px; margin-top: 20px; }
+.btn-add { background: var(--primary); color: white; padding: 14px; width: 100%; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; font-size: 1rem; }
+.btn-add:hover { background: #05331e; }
+.btn-add.updating { background: var(--accent); }
+.btn-cancel { background: #95a5a6; color: white; border: none; padding: 14px; border-radius: 8px; cursor: pointer; font-weight: bold; }
+.btn-edit { background: var(--primary); color: white; border:none; padding: 5px 10px; border-radius: 4px; cursor: pointer; margin-right: 5px; }
+.btn-delete { background: #fab1a0; color: #c0392b; border:none; padding: 5px 10px; border-radius: 4px; cursor: pointer; }
+.row-fields { display: flex; gap: 20px; } .row-fields .form-group { flex: 1; }
+
+/* Lista Admin */
+.month-block { margin-bottom: 20px; border: 1px solid #eee; border-radius: 8px; overflow: hidden; }
+.month-header { background: var(--primary); color: white; padding: 10px; font-weight: bold; }
+.event-row { padding: 15px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background: white; }
+.danger-zone { margin-top: 50px; border: 2px dashed #ffcdd2; background: #fff5f5; border-radius: 12px; padding: 20px; text-align: center; }
+.btn-import { background: var(--danger); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; margin-top: 10px; }
+
+/* =========================================
+   ÁREA DO SITE PÚBLICO (INDEX)
+   ========================================= */
+.grid-container {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 25px;
+    max-width: 1400px; margin: 0 auto; padding: 0 20px 40px 20px;
+}
+@media (min-width: 950px) { .grid-container { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1250px) { .grid-container { grid-template-columns: repeat(4, 1fr); } }
+
+.month-card {
+    background: var(--card-bg); border-radius: 15px; overflow: hidden;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.05); border-top: 5px solid var(--primary); /* Topo verde */
+    display: flex; flex-direction: column;
+}
+.month-title {
+    background: var(--primary); color: white; padding: 12px; text-align: center; font-weight: 700; text-transform: uppercase;
+}
+.events-list { list-style: none; padding: 0; margin: 0; }
+.event-item { display: flex; align-items: center; padding: 12px 15px; border-bottom: 1px solid #f1f1f1; }
+.event-date { background: #e8f5e9; /* Fundo verde bem clarinho */ color: var(--primary); padding: 6px 10px; border-radius: 8px; font-weight: 700; min-width: 40px; text-align: center; margin-right: 12px; }
+.event-name { font-weight: 600; display: block; line-height: 1.2; }
+.event-meta { font-size: 0.75rem; color: #666; margin-top: 2px; }
+.tag { background-color: var(--accent); color: white; padding: 2px 6px; border-radius: 10px; font-size: 0.65rem; font-weight: bold; margin-left: 5px; text-transform: uppercase; }
+
+/* =========================================
+   IMPRESSÃO PERFEITA (PDF)
+   ========================================= */
+@media print {
+    @page { margin: 1cm; size: A4 portrait; }
+    html, body { margin: 0 !important; padding: 0 !important; background: white; }
+    .btn-pdf, .actions, .danger-zone, .admin-card, header p { display: none !important; }
+    
+    /* Configuração do Header na Impressão */
+    header {
+        background: none !important; color: #000 !important; box-shadow: none !important;
+        padding: 0 !important; margin-bottom: 20px !important; border-bottom: 2px solid var(--primary); text-align: center;
+    }
+    header h1 { font-size: 1.8rem; color: var(--primary); }
+    
+    /* Força a Logo a aparecer no PDF */
+    .logo { max-height: 60px; margin: 0 auto 10px auto; } 
+
+    .grid-container {
+        display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 20px !important; padding: 0 !important; max-width: 100% !important;
+    }
+    .month-card {
+        box-shadow: none !important; border: 1px solid #ccc !important;
+        break-inside: avoid !important; page-break-inside: avoid !important;
+    }
+    .month-title {
+        background: #eee !important; color: #000 !important; border-bottom: 1px solid #999;
+    }
+    .event-item { border-bottom: 1px solid #ddd; }
+    * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+}
+
+/* --- NOVOS BOTÕES DE AÇÃO (MODERNOS) --- */
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end; /* Alinha à direita */
+}
+
+/* Botão Base */
+.btn-icon {
+    border: none;
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px; /* Espaço entre ícone e texto */
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Botão EDITAR (Estilo Azul Suave) */
+.btn-edit {
+    background-color: #e3f2fd; /* Fundo azul bem clarinho */
+    color: #1976d2;            /* Texto azul escuro */
+    border: 1px solid transparent;
+}
+
+.btn-edit:hover {
+    background-color: #2196f3; /* Fundo azul forte */
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(33, 150, 243, 0.3);
+}
+
+/* Botão EXCLUIR (Estilo Vermelho Suave) */
+.btn-delete {
+    background-color: #ffebee; /* Fundo vermelho bem clarinho */
+    color: #c62828;            /* Texto vermelho escuro */
+    border: 1px solid transparent;
+}
+
+.btn-delete:hover {
+    background-color: #e53935; /* Fundo vermelho forte */
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(229, 57, 53, 0.3);
+}
+
+/* Ajuste para telas pequenas (esconde o texto, mostra só ícone) */
+@media (max-width: 600px) {
+    .btn-icon span { display: none; }
+    .btn-icon { padding: 10px; }
+}
