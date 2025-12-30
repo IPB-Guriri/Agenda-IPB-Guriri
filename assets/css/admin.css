@@ -1,0 +1,418 @@
+/* =========================================
+   1. CARD PRINCIPAL E ESTRUTURA
+   ========================================= */
+.admin-card {
+    background: var(--card-bg); 
+    border-radius: 12px; 
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
+    margin-bottom: 30px;
+    border: 1px solid #e1e4e8; 
+    border-top: 4px solid var(--primary);
+}
+
+.card-header { 
+    font-size: 1.25rem; 
+    font-weight: 700; 
+    color: var(--primary); 
+    margin-bottom: 20px; 
+    border-bottom: 2px solid #f0f0f0; 
+    padding-bottom: 10px; 
+}
+
+/* =========================================
+   2. LISTA DE EVENTOS (PREVIEW) - NOVO DESIGN
+   ========================================= */
+
+/* Bloco que agrupa o mês inteiro */
+.month-block {
+    margin-bottom: 25px; /* Espaço entre os meses */
+}
+
+/* Cabeçalho do Mês (EMPHASIS AQUI) */
+.month-header {
+    background-color: #e8f5e9; /* Verde bem clarinho */
+    color: var(--primary);
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border-left: 5px solid var(--primary); /* Tarja verde na esquerda */
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+}
+
+/* Item da lista (Evento individual) */
+.event-preview-item {
+    display: flex; 
+    justify-content: space-between; /* Texto na esquerda, botões na direita */
+    align-items: center; /* Centraliza verticalmente */
+    
+    padding: 15px 20px; /* Mais preenchimento para padronizar altura */
+    background-color: white;
+    border: 1px solid #eee; /* Borda completa suave */
+    border-left: 4px solid transparent; /* Prepara para hover */
+    border-radius: 8px;
+    margin-bottom: 8px; 
+    transition: all 0.2s ease;
+}
+
+.event-preview-item:hover {
+    border-left-color: var(--primary);
+    transform: translateX(3px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+/* Informações do texto */
+.event-preview-info { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 5px; 
+}
+
+.event-preview-info strong { 
+    font-size: 1rem; 
+    color: #333;
+}
+
+.event-preview-date { 
+    font-size: 0.85rem; 
+    color: #666; 
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Grupo de botões (Editar/Excluir) */
+.event-actions-group { 
+    display: flex; 
+    gap: 10px; 
+    flex-shrink: 0; /* Impede que os botões esmaguem */
+}
+
+/* Botões Pequenos (Quadrados perfeitos) */
+.btn-icon-small {
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 1rem;
+}
+
+.btn-edit-icon { background-color: #e3f2fd; color: #1976d2; }
+.btn-delete-icon { background-color: #ffebee; color: #c62828; }
+.btn-icon-small:hover { transform: translateY(-2px); filter: brightness(0.95); }
+
+/* =========================================
+   3. FORMULÁRIOS
+   ========================================= */
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--primary); }
+.row-fields { display: flex; gap: 20px; } 
+.row-fields .form-group { flex: 1; }
+.btn-row { display: flex; gap: 10px; margin-top: 20px; }
+
+/* =========================================
+   4. RECORRÊNCIA E DATA
+   ========================================= */
+.recurrence-type-selector { display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+.rec-type-label { 
+    display: flex; align-items: center; gap: 8px; cursor: pointer; 
+    font-weight: 600; color: #555; padding: 8px 15px; border-radius: 20px; transition: all 0.2s; 
+}
+.rec-type-label:has(input:checked) { background: #e8f5e9; color: var(--primary); border: 1px solid var(--primary); }
+.rec-options-group { display: none; background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #eee; }
+.rec-options-group.active { display: block; }
+
+.inline-selects { display: flex; flex-direction: column; gap: 15px !important; margin-top: 10px; }
+.inline-selects select { width: 100%; height: 45px; margin-bottom: 0; }
+
+/* Grid Dias da Semana (Tamanho Reduzido/Corrigido) */
+.day-grid { 
+    display: grid; 
+    grid-template-columns: repeat(7, 1fr); 
+    gap: 5px; 
+    background: #f8f9fa; padding: 10px; 
+    border-radius: 8px; border: 1px solid #eee; 
+}
+.day-btn { 
+    height: 40px; /* Altura fixa */
+    border: 1px solid #ddd; background: white; cursor: pointer; 
+    border-radius: 6px; font-weight: 600; color: #555; display: flex; 
+    align-items: center; justify-content: center; transition: all 0.2s; 
+    font-size: 0.9rem;
+}
+.day-btn:hover { background: #e2e6ea; }
+.day-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
+
+/* =========================================
+   5. GESTÃO DE TAGS
+   ========================================= */
+/* Garante que a linha do formulário alinhe os itens corretamente */
+.tag-form-row {
+    display: flex;
+    gap: 10px;
+    align-items: center; /* Alinha o input e o botão pelo centro */
+    margin-bottom: 20px;
+}
+.btn-create-tag { height: 45px; background: var(--primary); color: white; border: none; border-radius: 8px; padding: 0 25px; font-weight: bold; cursor: pointer; }
+.tags-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+.tags-table th { text-align: left; color: #666; font-size: 0.85rem; padding: 10px; border-bottom: 2px solid #eee; }
+.tags-table td { padding: 10px; border-bottom: 1px solid #f1f1f1; vertical-align: middle; }
+
+.btn-delete-tag-table {
+    background-color: #ffebee; color: #c62828; border: none;
+    width: 35px; height: 35px; border-radius: 8px;
+    cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
+    transition: all 0.2s ease; font-size: 0.9rem;
+}
+.btn-delete-tag-table:hover { background-color: #ef9a9a; color: #b71c1c; transform: translateY(-2px); }
+
+/* Correção de Inputs de Cor */
+input[type="color"] { -webkit-appearance: none; border: none; width: 45px; height: 45px; cursor: pointer; background: none; padding: 0; }
+input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+input[type="color"]::-webkit-color-swatch { border: 2px solid #ddd; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+
+/* =========================================
+   6. TELA DE LOGIN (BLOQUEIO)
+   ========================================= */
+#loginOverlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #074528; z-index: 99999;
+    display: flex; justify-content: center; align-items: center;
+}
+.login-box {
+    background: white; padding: 40px; border-radius: 15px;
+    text-align: center; width: 90%; max-width: 400px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+.login-box h2 { color: #074528; margin-bottom: 20px; }
+.login-box input { margin-bottom: 15px; }
+.login-btn {
+    background-color: #074528; color: white; border: none; padding: 12px;
+    width: 100%; border-radius: 8px; font-size: 1rem; font-weight: bold;
+    cursor: pointer; transition: background 0.2s;
+}
+.login-btn:hover { background-color: #0b5c36; }
+
+.tab-controls {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 0;
+}
+
+.btn-tab {
+    background: #e1e4e8;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    font-weight: 600;
+    color: #666;
+    transition: all 0.3s;
+}
+
+.btn-tab.active {
+    background: var(--primary);
+    color: white;
+}
+
+.admin-actions-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Centraliza verticalmente */
+    background: #fff;
+    padding: 12px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+    border: 1px solid #eee;
+}
+
+.tab-controls {
+    display: flex;
+    background: #f1f3f5;
+    padding: 5px;
+    border-radius: 10px;
+    gap: 5px;
+}
+
+.btn-tab {
+    border: none;
+    padding: 8px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #666;
+    background: transparent;
+    transition: all 0.3s;
+}
+
+/* Corrigindo conflito: Apenas botões com classe active de abas mudam */
+.btn-tab.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 8px rgba(7, 69, 40, 0.2);
+}
+
+/* --- CORREÇÃO DO BOTÃO RECORRÊNCIA (RADIO) --- */
+.recurrence-type-selector {
+    display: flex;
+    gap: 10px;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 12px;
+    border: 1px solid #eee;
+}
+
+.rec-type-label {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 8px;
+    border: 2px solid transparent;
+    background: white;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+/* Quando o input radio dentro dele está checado */
+.rec-type-label:has(input:checked) {
+    border-color: var(--primary);
+    background: #e8f5e9;
+    color: var(--primary);
+}
+
+.rec-type-label input {
+    accent-color: var(--primary);
+}
+
+/* Força o botão a ter tamanho baseado apenas no texto interno */
+.btn-add-fix {
+    width: auto !important;
+    min-width: 120px;
+    padding: 0 20px !important;
+    height: 40px !important; /* Altura exata para alinhar com o input */
+    display: inline-flex !important;
+    align-items: center;
+    justify-content: center;
+    white-space: nowrap;
+    margin: 0;
+}
+
+/* --- BARRA DE ABAS E BOTÕES MELHORADA --- */
+.admin-actions-bar {
+    display: flex;
+    justify-content: space-between; /* Mantém abas na esquerda e botões na direita */
+    align-items: center;
+    background: #fff;
+    padding: 12px 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+    border: 1px solid #eee;
+}
+
+/* Container dos botões da direita (Tags e Recorrência) */
+#acoesAgenda {
+    display: flex;
+    gap: 12px; /* Adiciona o espaço exato entre os botões de Sociedade e Recorrência */
+}
+
+/* Ajuste fino nos botões secundários para não ficarem "altos" demais na barra */
+.admin-actions-bar .btn-secondary {
+    padding: 8px 16px; /* Reduz um pouco o enchimento interno */
+    font-size: 0.85rem; /* Letra levemente menor para caber melhor */
+    width: auto;       /* Garante que não ocupem 100% */
+    margin: 0;         /* Remove margens residuais */
+}
+
+/* Estilo das Abas (Lado Esquerdo) */
+.tab-controls {
+    display: flex;
+    background: #f1f3f5;
+    padding: 5px;
+    border-radius: 10px;
+    gap: 5px;
+}
+
+.btn-tab {
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #666;
+    background: transparent;
+    transition: all 0.3s;
+}
+
+.btn-tab.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 8px rgba(7, 69, 40, 0.2);
+}
+
+/* Padroniza a altura de todos os campos de formulário no painel */
+.admin-card input, 
+.admin-card select, 
+.admin-card textarea {
+    height: 42px !important;
+    box-sizing: border-box !important;
+}
+
+/* Container dos botões da direita (Tags e Recorrência) */
+#acoesAgenda {
+    display: flex;
+    gap: 12px; /* Espaçamento entre os botões da direita */
+    align-items: center;
+}
+
+/* Ajuste nos botões da barra para não ocuparem largura total */
+.admin-actions-bar .btn-secondary {
+    width: auto !important;
+    white-space: nowrap;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    height: 40px; /* Altura fixa para os botões da barra */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Estilo das Abas (Lado Esquerdo) */
+.tab-controls {
+    display: flex;
+    background: #f1f3f5;
+    padding: 5px;
+    border-radius: 10px;
+    gap: 5px;
+}
+
+.btn-tab {
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #666;
+    background: transparent;
+    transition: all 0.3s;
+}
+
+.btn-tab.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 8px rgba(7, 69, 40, 0.2);
+}
