@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda IPB Guriri 2026</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/ui-elements.css">
+    <link rel="stylesheet" href="assets/css/agenda.css">
+    <link rel="stylesheet" href="assets/css/print.css">
+</head>
+
+<body>
+
+    <header>
+        <a href="./" class="btn-voltar-hub">
+            <i class="fas fa-arrow-left"></i> Voltar
+        </a>
+        <img src="./assets/img/logo.png" alt="Logo IPB" class="logo">
+
+        <h1>Agenda 2026</h1>
+        <p>Igreja Presbiteriana do Brasil - Guriri</p>
+
+        <button onclick="window.print()" class="btn-pdf">
+            <i class="fas fa-print"></i> Imprimir / PDF
+        </button>
+    </header>
+
+<div class="filters-container">
+        
+        <div class="filter-group">
+            <span class="filter-label">Período:</span>
+            <button class="filter-btn active" onclick="filtrarTempo('todos', this)">Ano Todo</button>
+            <button class="filter-btn" onclick="filtrarTempo('mes', this)">Este Mês</button>
+            <button class="filter-btn" onclick="filtrarTempo('trimestre', this)">Trimestre</button>
+            <button class="filter-btn" onclick="filtrarTempo('semestre', this)">Semestre</button>
+        </div>
+
+        <div class="filter-group">
+            <span class="filter-label">Sociedade:</span>
+            <button class="filter-btn active" onclick="filtrarSociedade('todas', this)">Todas</button>
+            <button class="filter-btn" onclick="filtrarSociedade('saf', this)">SAF</button>
+            <button class="filter-btn" onclick="filtrarSociedade('uph', this)">UPH</button>
+            <button class="filter-btn" onclick="filtrarSociedade('ump', this)">UMP</button>
+            <button class="filter-btn" onclick="filtrarSociedade('ucp', this)">UCP</button>
+            <button class="filter-btn" onclick="filtrarSociedade('igreja', this)">Igreja</button>
+            <button class="filter-btn" onclick="filtrarSociedade('ebd', this)">EBD</button>
+        </div>
+
+    </div>
+
+    <div id="agenda-container" class="grid-container"></div>
+
+    <div id="modalDetalhes" class="modal-overlay">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h2 id="modalTitulo">Título da Programação</h2>
+                <button class="close-btn" onclick="fecharModal()">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                
+                <div class="info-row">
+                    <div class="icon-area">
+                        <i class="far fa-calendar-alt"></i>
+                    </div>
+                    <div class="text-area">
+                        <span class="label">DATA</span>
+                        <span class="value" id="modalData">--</span>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="icon-area">
+                        <i class="far fa-clock"></i>
+                    </div>
+                    <div class="text-area">
+                        <span class="label">HORÁRIO</span>
+                        <span class="value" id="modalHora">--</span>
+                    </div>
+                </div>
+
+                <div class="info-row">
+                    <div class="icon-area">
+                        <i class="fas fa-map-marker-alt"></i>
+                    </div>
+                    <div class="text-area">
+                        <span class="label">LOCAL</span>
+                        <span class="value" id="modalLocal">--</span>
+                    </div>
+                </div>
+
+                <div id="modalDescricaoContainer" style="display:none;">
+                    <div class="desc-box" id="modalDescricao"></div>
+                </div>
+
+                <div id="modalTagContainer" class="tag-footer"></div>
+
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+    <script src="./assets/js/config.js"></script>
+    <script src="./assets/js/agenda.js"></script>
+</body>
+
+</html>
