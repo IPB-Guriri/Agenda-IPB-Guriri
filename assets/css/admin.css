@@ -933,3 +933,78 @@ td:last-child {
         margin: 0 !important;
     }
 }
+
+/* --- RESOLUÇÃO FINAL PARA MOBILE (SEM VAZAMENTOS) --- */
+@media (max-width: 768px) {
+    /* 1. Trava o site para não balançar lateralmente */
+    html, body {
+        overflow-x: hidden !important;
+        width: 100% !important;
+        position: relative;
+    }
+
+    /* 2. Ajuste dos Cards para não estourarem a borda */
+    .admin-card {
+        margin: 10px !important;
+        width: auto !important;
+        max-width: calc(100vw - 20px) !important;
+        padding: 15px !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+    }
+
+    /* 3. Correção dos Eventos (Lápis e Lixeira bugados) */
+    .event-preview-item {
+        flex-direction: column !important; /* Empilha texto em cima e botões embaixo */
+        align-items: flex-start !important;
+        gap: 12px;
+        padding: 15px !important;
+    }
+
+    .event-actions-group {
+        width: 100%;
+        justify-content: flex-end; /* Joga os botões para a direita na linha de baixo */
+        border-top: 1px solid #f0f0f0;
+        padding-top: 10px;
+    }
+
+    /* 4. Correção do Botão "+" e Alinhamento do Cargo */
+    .row-fields {
+        flex-direction: column !important;
+    }
+
+    /* Container do Select + Botão "+" */
+    div[style*="display: flex"] {
+        display: flex !important;
+        width: 100% !important;
+        gap: 8px !important;
+    }
+
+    #membroCargoSelect {
+        flex: 1 !important;
+        min-width: 0 !important; /* Essencial para não empurrar a tela */
+    }
+
+    .btn-inline-add {
+        height: 42px !important; /* Força igualdade com o select */
+        flex-shrink: 0 !important;
+    }
+
+    /* 5. Tabelas de Membros (Barra Lateral Interna) */
+    /* Isso permite ver tudo sem quebrar o design do site */
+    #listaLideranca, .tags-table {
+        display: block !important;
+        width: 100% !important;
+        overflow-x: auto !important; 
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap !important;
+    }
+
+    /* Garante que os botões de ação na tabela fiquem visíveis ao rolar */
+    .acoes-lideranca {
+        display: flex !important;
+        gap: 10px !important;
+        min-width: 90px !important;
+    }
+}
+
