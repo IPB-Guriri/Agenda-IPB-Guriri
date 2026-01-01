@@ -795,3 +795,62 @@ td:last-child {
     width: auto !important;
     padding: 0 15px !important;
 }
+
+/* Padronização absoluta para evitar o botão "+" maior que o select */
+.admin-card select, 
+.admin-card input,
+.btn-inline-add, /* Botão "+" */
+.btn-add-fix {
+    height: 42px !important; /* Altura exata da sua barra de digitar */
+    padding: 0 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    box-sizing: border-box !important;
+}
+
+/* Garante que o container do cargo não quebre a linha no mobile */
+.form-group div[style*="display: flex"] {
+    display: flex !important;
+    gap: 10px !important;
+    align-items: center !important;
+}
+
+@media (max-width: 768px) {
+    /* Impede o card de ser empurrado pela tabela */
+    .admin-card {
+        max-width: 100% !important;
+        overflow-x: hidden !important;
+        padding: 15px !important;
+    }
+
+    /* Cria a rolagem interna específica para a lista de membros e eventos */
+    #listaLideranca, 
+    #listaPreview, 
+    .tags-table {
+        display: block !important;
+        width: 100% !important;
+        overflow-x: auto !important; /* Permite deslizar a tabela para o lado */
+        white-space: nowrap !important; /* Impede os nomes de quebrarem linha estranho */
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* Garante que os botões de ação (lápis e lixeira) apareçam no final da rolagem */
+    .acoes-lideranca, .event-actions-group {
+        min-width: 85px !important;
+    }
+}
+
+#loginOverlay {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    position: fixed !important;
+    inset: 0 !important; /* Top, Bottom, Left, Right = 0 */
+}
+
+.login-box {
+    margin: 0 20px !important; /* Margem lateral no mobile */
+    transform: none !important; /* Remove transforms que podem bugar o centro */
+    position: relative !important;
+}
