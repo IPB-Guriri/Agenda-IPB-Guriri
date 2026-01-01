@@ -627,3 +627,72 @@ td:last-child {
         box-sizing: border-box !important;
     }
 }
+
+/* --- CORREÇÃO DE CENTRALIZAÇÃO DO LOGIN --- */
+#loginOverlay {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.login-box {
+    margin: auto !important; /* Força o navegador a calcular o centro */
+    position: relative; /* Remove possíveis conflitos de posicionamento */
+}
+
+/* --- AJUSTE DA BARRA DE AÇÕES (MOBILE) --- */
+@media (max-width: 768px) {
+    .admin-actions-bar {
+        flex-direction: column !important; /* Empilha abas em cima e botões embaixo */
+        gap: 15px;
+        padding: 15px !important;
+        align-items: stretch !important;
+        width: calc(100% - 20px) !important;
+        margin-left: 10px;
+        margin-right: 10px;
+        box-sizing: border-box;
+    }
+
+    #acoesAgenda {
+        justify-content: space-between; /* Distribui Sociedades e Recorrência na largura total */
+        width: 100%;
+    }
+
+    #acoesAgenda .btn-secondary {
+        flex: 1; /* Faz os botões dividirem o espaço igualmente */
+        font-size: 0.75rem !important; /* Diminui a letra para caber em telas pequenas */
+        padding: 8px 4px !important;
+    }
+
+    .tab-controls {
+        width: 100%;
+        justify-content: space-around;
+    }
+
+    .btn-tab {
+        flex: 1;
+        text-align: center;
+        padding: 8px 5px !important;
+    }
+}
+
+/* --- ESTABILIZAÇÃO DE TABELAS --- */
+@media (max-width: 768px) {
+    .admin-card {
+        overflow: hidden !important; /* Garante que o card não cresça para os lados */
+    }
+
+    /* Container específico para a tabela poder deslizar */
+    #listaLideranca, #listaPreview {
+        width: 100%;
+        overflow-x: auto !important;
+        display: block;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .tags-table {
+        min-width: 500px; /* Força um tamanho mínimo para a tabela ser legível ao deslizar */
+    }
+}
