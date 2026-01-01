@@ -574,3 +574,56 @@ td:last-child {
     color: #c62828;
     margin: 0 !important; /* Remove margens residuais */
 }
+
+/* --- CORREÇÕES EXCLUSIVAS PARA MOBILE --- */
+@media (max-width: 768px) {
+    
+    /* 1. Impede que o card principal estoure a largura */
+    .admin-card {
+        padding: 15px;
+        margin: 10px;
+        width: calc(100% - 20px) !important;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+
+    /* 2. Ajusta as linhas com múltiplos campos (Ano/Mês, Sociedade/Cargo) */
+    .row-fields {
+        display: flex;
+        flex-direction: column !important; /* Empilha um embaixo do outro no celular */
+        gap: 10px;
+    }
+
+    /* 3. Torna as tabelas roláveis lateralmente para não quebrar o layout */
+    .admin-card {
+        overflow-x: auto; /* Permite deslizar a tabela se ela for maior que a tela */
+    }
+
+    table.tags-table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    /* 4. Ajusta os botões de ação para não ficarem muito colados */
+    .acoes-lideranca {
+        display: flex;
+        justify-content: flex-end;
+        min-width: 80px;
+    }
+
+    /* 5. Ajusta o botão "Salvar" para ocupar a largura total no mobile */
+    .btn-row .btn-add, 
+    .btn-row .btn-cancel {
+        width: 100% !important;
+        margin: 5px 0;
+    }
+
+    /* 6. Ajusta os inputs para não passarem da borda */
+    input, select, textarea {
+        width: 100% !important;
+        max-width: 100% !important;
+        box-sizing: border-box !important;
+    }
+}
