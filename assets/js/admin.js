@@ -66,24 +66,30 @@ function verificarAcesso() {
     const input = document.getElementById("senhaInput");
     const msg = document.getElementById("msgErro");
     const overlay = document.getElementById("loginOverlay");
-    
-    // Certifique-se de que a senha é EXATAMENTE esta (respeitando maiúsculas)
     const senhaCorreta = "Presbiteriana2023"; 
 
+    console.log("Tentando login..."); // Para teste
+
     if (input.value === senhaCorreta) {
+        console.log("Senha correta!");
         sessionStorage.setItem("adminLogado", "sim");
-        overlay.style.display = "none";
-        // Dispara o toast de sucesso que criamos
+        
+        // Força o sumiço da tela de login
+        if (overlay) {
+            overlay.style.setProperty("display", "none", "important");
+            overlay.classList.add("hidden"); // Garantia extra
+        }
+        
         if (typeof showToast === "function") showToast("Acesso concedido!", "success");
     } else {
+        console.log("Senha errada!");
         if (msg) msg.style.display = "block";
-        input.style.border = "2px solid #e74c3c";
+        input.style.border = "2px solid red";
         input.value = "";
         input.focus();
         if (typeof showToast === "function") showToast("Senha incorreta!", "error");
     }
 }
-
 // Atualização da inicialização para capturar o "Enter" corretamente
 document.addEventListener("DOMContentLoaded", () => {
     const overlay = document.getElementById("loginOverlay");
@@ -464,3 +470,4 @@ document.addEventListener("DOMContentLoaded", () => {
     iniciarAdmin();
 
 });
+
