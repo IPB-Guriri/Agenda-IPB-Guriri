@@ -1008,3 +1008,112 @@ td:last-child {
     }
 }
 
+/* =========================================
+   MOBILE E RESPONSIVIDADE (POLIDO)
+   ========================================= */
+@media (max-width: 768px) {
+    
+    /* 1. TRAVAMENTO GERAL DA TELA */
+    html, body {
+        overflow-x: hidden; /* Impede a página de dançar para os lados */
+        width: 100%;
+        position: relative;
+    }
+
+    /* 2. CARD PRINCIPAL (AJUSTE FINO) */
+    .admin-card {
+        margin: 10px !important;
+        width: auto !important; /* Deixa o card fluir */
+        padding: 15px !important;
+        box-sizing: border-box; /* O padding não aumenta a largura */
+    }
+
+    /* 3. INPUTS E BOTÃO "+" (CORREÇÃO DE DESIGN) */
+    /* Coloca o Select e o Botão na mesma linha, bonitinhos */
+    .row-fields .form-group div[style*="display: flex"] {
+        display: grid !important; /* Grid é mais estável que Flex aqui */
+        grid-template-columns: 1fr 50px; /* Select ocupa tudo, botão 50px */
+        gap: 8px;
+        width: 100%;
+    }
+
+    /* Força altura igual para Select, Input e Botão */
+    .admin-card select,
+    .admin-card input,
+    .btn-inline-add {
+        height: 45px !important;
+        font-size: 14px; /* Evita zoom automático no iPhone */
+    }
+
+    .btn-inline-add {
+        width: 100% !important; /* Ocupa os 50px do grid */
+        border-radius: 8px !important; /* Arredondado igual ao input */
+        padding: 0 !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* 4. TABELAS (MEMBROS E PREVIEW) - ROLAGEM INTERNA */
+    /* A mágica para não estourar a tela */
+    #listaLideranca, 
+    #listaPreview, 
+    .tags-table {
+        display: block; /* Necessário para rolar */
+        width: 100%;
+        overflow-x: auto; /* Cria barra de rolagem SÓ na tabela */
+        -webkit-overflow-scrolling: touch; /* Rolagem suave no celular */
+        white-space: nowrap; /* Mantém os dados na mesma linha */
+        padding-bottom: 10px; /* Espaço para a barra de rolagem não colar */
+    }
+
+    /* Ajuste para a tabela ocupar 100% visualmente sem bordas estranhas */
+    table {
+        min-width: 600px; /* Garante que a tabela tenha tamanho para ser lida */
+    }
+
+    /* 5. LISTA DE EVENTOS (PREVIEW) - CORREÇÃO DE BOTÕES */
+    .event-preview-item {
+        display: flex;
+        flex-direction: column; /* Texto em cima, botões embaixo */
+        align-items: flex-start !important;
+        padding: 15px;
+        gap: 10px;
+        height: auto !important; /* Deixa a altura crescer conforme o texto */
+    }
+
+    .event-preview-info {
+        width: 100%;
+        white-space: normal; /* Permite que o texto do evento quebre linha */
+    }
+
+    .event-actions-group {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end; /* Botões alinhados à direita */
+        gap: 10px;
+        margin-top: 5px;
+        border-top: 1px solid #f0f0f0; /* Linha sutil separando */
+        padding-top: 10px;
+    }
+
+    /* 6. LOGIN CENTRALIZADO (FIXO) */
+    #loginOverlay {
+        position: fixed !important;
+        inset: 0; /* Cola nos 4 cantos da tela */
+        padding: 20px;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        z-index: 99999;
+        background-color: #074528; /* Garante fundo verde */
+    }
+
+    .login-box {
+        width: 100% !important;
+        max-width: 350px !important;
+        margin: 0 !important;
+        transform: none !important;
+    }
+}
+
