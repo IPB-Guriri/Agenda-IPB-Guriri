@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - IPB Guriri</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="assets/css/global.css">
+    <link rel="stylesheet" href="assets/css/ui-elements.css">
+    <link rel="stylesheet" href="assets/css/modal.css">
+    <link rel="stylesheet" href="assets/css/admin.css">
+</head>
+<body>
+    <div id="loginOverlay">
+        <div class="login-box">
+            <img src="assets/img/logo.png" alt="Logo" style="height: 60px; margin-bottom: 15px;">
+            <h2>Área Restrita</h2>
+            <p style="color: #666; margin-bottom: 20px;">Digite a senha da liderança para acessar.</p>
+            <input type="password" id="senhaInput" placeholder="Senha de acesso">
+            <button class="login-btn" onclick="verificarAcesso()">ENTRAR</button>
+            <p id="msgErro" style="color: red; margin-top: 10px; display: none; font-size: 0.9rem;">Senha incorreta!</p>
+            <a href="./" style="display: block; margin-top: 20px; color: #888; text-decoration: none; font-size: 0.8rem;">Voltar ao Início</a>
+        </div>
+    </div>
+
+    <header>
+        <a href="./index.html" class="btn-voltar-hub">⬅ Voltar</a>
+        <img src="assets/img/logo.png" alt="Logo IPB" class="logo">
+        <h1>⚙️ Gerenciador Administrativo</h1>
+        <p id="statusMsg">Conectando ao sistema...</p>
+    </header>
+
+    <div class="container">
+        <div class="admin-actions-bar">
+            <div class="tab-controls">
+                <button class="btn-tab active" id="tabAgenda" onclick="trocarAba('agenda')">📅 Agenda</button>
+                <button class="btn-tab" id="tabLideranca" onclick="trocarAba('lideranca')">👥 Liderança</button>
+            </div>
+
+            <div id="acoesAgenda">
+                <button class="btn-secondary" onclick="abrirModalTags()">
+                    <i class="fas fa-tags"></i> Gerenciar Sociedades
+                </button>
+                <button class="btn-secondary" onclick="abrirModalRecorrencia()">
+                    <i class="fas fa-sync-alt"></i> Criar Recorrência
+                </button>
+            </div>
+        </div>
+
+        <div id="secaoAgenda">
+            <div class="admin-card">
+                <div class="card-header" id="formTitle">Adicionar Novo Evento</div>
+                <div class="row-fields">
+                    <div class="form-group" style="flex: 1;">
+                        <label>Ano:</label>
+                        <input type="number" id="inputAno" value="2026">
+                    </div>
+                    <div class="form-group" style="flex: 2;">
+                        <label>Mês:</label>
+                        <select id="inputMes">
+                            <option value="Janeiro">Janeiro</option>
+                            <option value="Fevereiro">Fevereiro</option>
+                            <option value="Março">Março</option>
+                            <option value="Abril">Abril</option>
+                            <option value="Maio">Maio</option>
+                            <option value="Junho">Junho</option>
+                            <option value="Julho">Julho</option>
+                            <option value="Agosto">Agosto</option>
+                            <option value="Setembro">Setembro</option>
+                            <option value="Outubro">Outubro</option>
+                            <option value="Novembro">Novembro</option>
+                            <option value="Dezembro">Dezembro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Selecione o(s) Dia(s):</label>
+                    <div class="day-grid" id="dayGrid"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Nome do Evento:</label>
+                    <input type="text" id="inputNome" placeholder="Ex: Culto de Doutrina">
+                </div>
+
+                <div class="form-group">
+                    <label>Descrição (Opcional):</label>
+                    <textarea id="inputDescricao" placeholder="Ex: Preletor: Rev. Fulano..."></textarea>
+                </div>
+
+                <div class="row-fields">
+                    <div class="form-group"><label>Horário:</label><input type="time" id="inputHorario"></div>
+                    <div class="form-group"><label>Local:</label><input type="text" id="inputLocal" placeholder="Ex: Templo"></div>
+                </div>
+
+                <div class="form-group">
+                    <label>Sociedade (Tag):</label>
+                    <div style="display: flex; gap: 10px;">
+                        <select id="inputTag" style="flex: 1;"><option value="">Nenhuma</option></select>
+                        <button type="button" class="btn-inline-add" onclick="abrirModalTags()" title="Gerenciar Sociedades">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn-add" id="btnSalvar" onclick="processarEvento()">💾 Salvar Evento</button>
+                    <button class="btn-cancel" id="btnCancelar" onclick="cancelarEdicao()" style="display:none;">Cancelar Edição</button>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <div class="card-header">Eventos Cadastrados</div>
+                <div id="listaPreview">Carregando dados...</div>
+            </div>
+        </div>
+
+    <div id="secaoLideranca" style="display: none;">
+        <div class="admin-card">
+            <div class="card-header" id="tituloMembro">Cadastrar Liderança / Membro</div>
+            
+            <div class="form-group">
+                <label>Nome Completo:</label>
+                <input type="text" id="membroNome" placeholder="Ex: João Silva">
+            </div>
+
+            <div class="row-fields">
+                <div class="form-group">
+                    <label>Sociedade:</label>
+                    <select id="membroSociedade">
+                        <option value="">Carregando sociedades...</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Telefone (WhatsApp):</label>
+                    <input type="text" id="membroTelefone" placeholder="(27) 99999-9999">
+                </div>
+
+                <div class="form-group">
+                    <label>Cargo / Função:</label>
+                    <div style="display: flex; gap: 10px;">
+                        <select id="membroCargoSelect" style="flex: 1;">
+                            <option value="">Selecione...</option>
+                        </select>
+                        <button type="button" class="btn-inline-add" onclick="abrirModalCargos()" title="Gerenciar Cargos">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="btn-row">
+                <button class="btn-add" id="btnSalvarMembro" onclick="salvarMembro()">💾 Salvar na Liderança</button>
+                <button class="btn-cancel" id="btnCancelarMembro" onclick="cancelarEdicaoMembro()" style="display:none;">Cancelar Edição</button>
+            </div>
+        </div>
+
+        <div class="admin-card">
+            <div class="card-header">Membros Cadastrados</div>
+            <table class="tags-table">
+                <thead>
+                    <tr>
+                        <th>NOME</th>
+                        <th>SOCIEDADE</th>
+                        <th>CARGO</th>
+                        <th style="text-align:right">AÇÕES</th>
+                    </tr>
+                </thead>
+                <tbody id="listaLideranca">
+                    </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <div id="modalTags" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🏷️ Gerenciar Sociedades</h2>
+                <button class="btn-close-modal" onclick="fecharModais()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="tag-form-row" style="display: flex; gap: 10px; margin-bottom: 20px; align-items: center;">
+                    <input type="text" id="newTagName" placeholder="Ex: SAF, UMP..." style="flex:1;">
+                    <input type="color" id="newTagColor" value="#074528">
+                    <button type="button" class="btn-add btn-add-fix" onclick="criarTagNoModal()">+ Criar</button>
+                </div>
+                <table class="tags-table">
+                    <thead>
+                        <tr>
+                            <th>NOME</th>
+                            <th style="text-align:center">COR</th>
+                            <th style="text-align:right">AÇÕES</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaTagsEditaveis"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalCargos" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🎓 Gerenciar Cargos</h2>
+                <button class="btn-close-modal" onclick="fecharModais()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="tag-form-row" style="display: flex; gap: 10px; align-items: center;">
+                    <input type="text" id="newCargoName" placeholder="Ex: Presidente, Diácono..." style="flex:1; height: 40px;">
+                    <button type="button" class="btn-add btn-add-fix" onclick="criarCargoNoModal()">+ ADICIONAR</button>
+                </div>
+                <table class="tags-table">
+                    <thead>
+                        <tr>
+                            <th>CARGO</th>
+                            <th style="text-align:right">AÇÕES</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaCargosEditaveis"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalRecorrencia" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>🔄 Gerar Recorrência</h2>
+                <button class="btn-close-modal" onclick="fecharModais()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group"><label>Nome do Evento:</label><input type="text" id="recNome"></div>
+                <div class="form-group"><label>Descrição:</label><textarea id="recDescricao"></textarea></div>
+                <div class="row-fields">
+                    <div class="form-group"><label>Horário:</label><input type="time" id="recHorario"></div>
+                    <div class="form-group"><label>Sociedade:</label><select id="recTag"></select></div>
+                </div>
+                <div class="form-group">
+                    <label>Repetição:</label>
+                    <div class="recurrence-type-selector">
+                        <label class="rec-type-label"><input type="radio" name="recType" value="semanal" checked onclick="toggleRecMode()"> Semanal</label>
+                        <label class="rec-type-label"><input type="radio" name="recType" value="mensal" onclick="toggleRecMode()"> Mensal</label>
+                    </div>
+                    <div id="optSemanal" class="rec-options-group active">
+                        <div class="week-days-selector" style="display: flex; flex-wrap: wrap; gap: 10px;">
+                            <label><input type="checkbox" value="0"> Dom</label>
+                            <label><input type="checkbox" value="1"> Seg</label>
+                            <label><input type="checkbox" value="2"> Ter</label>
+                            <label><input type="checkbox" value="3"> Qua</label>
+                            <label><input type="checkbox" value="4"> Qui</label>
+                            <label><input type="checkbox" value="5"> Sex</label>
+                            <label><input type="checkbox" value="6"> Sáb</label>
+                        </div>
+                    </div>
+                    <div id="optMensal" class="rec-options-group">
+                        <div class="inline-selects">
+                            <select id="recMensalOrdem"><option value="1">Primeiro(a)</option><option value="2">Segundo(a)</option><option value="3">Terceiro(a)</option><option value="4">Quarto(a)</option><option value="5">Último(a)</option></select>
+                            <select id="recMensalDia"><option value="0">Domingo</option><option value="1">Segunda</option><option value="2">Terça</option><option value="3">Quarta</option><option value="4">Quinta</option><option value="5">Sexta</option><option value="6">Sábado</option></select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row-fields">
+                    <div class="form-group"><label>Ano:</label><input type="number" id="recAno" value="2026"></div>
+                    <div class="form-group"><label>De:</label><select id="recMesInicio"><option value="0">Jan</option><option value="1">Fev</option><option value="2">Mar</option><option value="3">Abr</option><option value="4">Mai</option><option value="5">Jun</option><option value="6">Jul</option><option value="7">Ago</option><option value="8">Set</option><option value="9">Out</option><option value="10">Nov</option><option value="11">Dez</option></select></div>
+                    <div class="form-group"><label>Até:</label><select id="recMesFim"><option value="11" selected>Dezembro</option></select></div>
+                </div>
+                <button class="btn-add" onclick="gerarEventosRecorrentes()">🚀 Gerar Eventos</button>
+            </div>
+        </div>
+    </div>
+    <div id="toast-container"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/admin.js"></script>
+</body>
+</html>
