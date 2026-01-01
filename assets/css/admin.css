@@ -854,3 +854,82 @@ td:last-child {
     transform: none !important; /* Remove transforms que podem bugar o centro */
     position: relative !important;
 }
+
+/* --- CORREÇÃO AGRESSIVA PARA MOBILE --- */
+@media (max-width: 768px) {
+    /* 1. Reset de largura global para evitar quebra lateral */
+    html, body {
+        overflow-x: hidden !important;
+        position: relative;
+        width: 100%;
+    }
+
+    /* 2. Força o card a ficar dentro da tela */
+    .admin-card {
+        width: auto !important;
+        margin: 10px !important;
+        padding: 15px !important;
+        display: block !important;
+        overflow: hidden !important; /* Corta o que sobrar */
+    }
+
+    /* 3. PADRONIZAÇÃO DO BOTÃO "+" (Alinhamento Perfeito) */
+    /* Garante que o container do Cargo não empurre a tela */
+    .row-fields {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    /* Alinha o select e o botão "+" na mesma linha horizontalmente */
+    div[style*="display: flex"] {
+        display: flex !important;
+        flex-direction: row !important; /* Força ficar lado a lado */
+        align-items: center !important;
+        width: 100% !important;
+        gap: 8px !important;
+    }
+
+    #membroCargoSelect {
+        flex: 1 !important; /* Ocupa o espaço que sobrar */
+        min-width: 0 !important; /* Impede o select de vazar */
+    }
+
+    .btn-inline-add {
+        flex-shrink: 0 !important; /* Impede o botão de esmagar */
+        height: 42px !important; /* Mesma altura do select */
+        width: 45px !important;
+        padding: 0 !important;
+    }
+
+    /* 4. TABELA DE MEMBROS (O principal culpado pelo vazamento) */
+    /* Em vez de tentar espremer a tabela, vamos isolar a rolagem dela */
+    #listaLideranca, #listaPreview {
+        width: 100% !important;
+        display: block !important;
+        overflow-x: auto !important; /* Rolagem apenas na tabela */
+        overflow-y: hidden !important;
+        -webkit-overflow-scrolling: touch;
+        margin-top: 10px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+    }
+
+    .tags-table {
+        width: 100% !important;
+        min-width: 450px !important; /* Garante que a tabela não fique esmagada ao rolar */
+    }
+
+    /* 5. CENTRALIZAÇÃO DO LOGIN */
+    #loginOverlay {
+        padding: 20px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+    }
+    
+    .login-box {
+        width: 100% !important;
+        max-width: 320px !important;
+        margin: 0 !important;
+    }
+}
