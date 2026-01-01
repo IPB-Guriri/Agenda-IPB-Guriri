@@ -60,24 +60,52 @@ function iniciarAdmin() {
 }
 
 // ============================================
-// 2. SISTEMA DE LOGIN
+// 2. SISTEMA DE LOGIN (RESTAURADO E CORRIGIDO)
 // ============================================
 function verificarAcesso() {
     const input = document.getElementById("senhaInput");
     const msg = document.getElementById("msgErro");
     const overlay = document.getElementById("loginOverlay");
+    
+    // Certifique-se de que a senha é EXATAMENTE esta (respeitando maiúsculas)
     const senhaCorreta = "Presbiteriana2023"; 
 
     if (input.value === senhaCorreta) {
         sessionStorage.setItem("adminLogado", "sim");
         overlay.style.display = "none";
+        // Dispara o toast de sucesso que criamos
+        if (typeof showToast === "function") showToast("Acesso concedido!", "success");
     } else {
-        msg.style.display = "block";
-        input.style.border = "1px solid red";
+        if (msg) msg.style.display = "block";
+        input.style.border = "2px solid #e74c3c";
         input.value = "";
         input.focus();
+        if (typeof showToast === "function") showToast("Senha incorreta!", "error");
     }
 }
+
+// Atualização da inicialização para capturar o "Enter" corretamente
+document.addEventListener("DOMContentLoaded", () => {
+    const overlay = document.getElementById("loginOverlay");
+    const campoSenha = document.getElementById("senhaInput");
+
+    // Verifica se já estava logado nesta sessão
+    if (sessionStorage.getItem("adminLogado") === "sim") {
+        if (overlay) overlay.style.display = "none";
+    }
+
+    // Escuta o teclado no campo de senha
+    if (campoSenha) {
+        campoSenha.addEventListener("keydown", (e) => {
+            if (e.key === "Enter") {
+                e.preventDefault(); // Impede o recarregamento da página
+                verificarAcesso();
+            }
+        });
+    }
+    
+    iniciarAdmin();
+});
 
 // ============================================
 // 3. ABAS E MODAIS
@@ -434,4 +462,5 @@ document.addEventListener("DOMContentLoaded", () => {
     const campoSenha = document.getElementById("senhaInput");
     if (campoSenha) campoSenha.addEventListener("keypress", (e) => { if (e.key === "Enter") verificarAcesso(); });
     iniciarAdmin();
+
 });
