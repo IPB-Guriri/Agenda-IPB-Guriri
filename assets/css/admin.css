@@ -1,5 +1,17 @@
 /* =========================================
-   1. CARD PRINCIPAL E ESTRUTURA
+   0. VARIÁVEIS E RESET BÁSICO
+   ========================================= */
+:root {
+    --primary: #074528;      /* Verde Principal */
+    --primary-hover: #0b5c36;
+    --card-bg: #ffffff;
+    --border-color: #e1e4e8;
+    --bg-light: #f8f9fa;
+    --input-height: 45px;    /* Altura padronizada para inputs e botões */
+}
+
+/* =========================================
+   1. ESTRUTURA E CARD PRINCIPAL
    ========================================= */
 .admin-card {
     background: var(--card-bg); 
@@ -7,8 +19,9 @@
     padding: 30px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.05); 
     margin-bottom: 30px;
-    border: 1px solid #e1e4e8; 
+    border: 1px solid var(--border-color); 
     border-top: 4px solid var(--primary);
+    box-sizing: border-box;
 }
 
 .card-header { 
@@ -20,79 +33,105 @@
     padding-bottom: 10px; 
 }
 
-/* =========================================
-   2. LISTA DE EVENTOS (PREVIEW) - NOVO DESIGN
-   ========================================= */
-
-/* Bloco que agrupa o mês inteiro */
-.month-block {
-    margin-bottom: 25px; /* Espaço entre os meses */
-}
-
-/* Cabeçalho do Mês (EMPHASIS AQUI) */
-.month-header {
-    background-color: #e8f5e9; /* Verde bem clarinho */
-    color: var(--primary);
-    font-size: 1.1rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 1px;
+/* Barra de Ações (Abas + Botões) */
+.admin-actions-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
     padding: 12px 20px;
-    border-radius: 8px;
-    border-left: 5px solid var(--primary); /* Tarja verde na esquerda */
-    margin-bottom: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
-}
-
-/* Item da lista (Evento individual) */
-.event-preview-item {
-    display: flex; 
-    justify-content: space-between; /* Texto na esquerda, botões na direita */
-    align-items: center; /* Centraliza verticalmente */
-    
-    padding: 15px 20px; /* Mais preenchimento para padronizar altura */
-    background-color: white;
-    border: 1px solid #eee; /* Borda completa suave */
-    border-left: 4px solid transparent; /* Prepara para hover */
-    border-radius: 8px;
-    margin-bottom: 8px; 
-    transition: all 0.2s ease;
-}
-
-.event-preview-item:hover {
-    border-left-color: var(--primary);
-    transform: translateX(3px);
+    border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 25px;
+    border: 1px solid #eee;
 }
 
-/* Informações do texto */
-.event-preview-info { 
-    display: flex; 
-    flex-direction: column; 
-    gap: 5px; 
+#acoesAgenda {
+    display: flex;
+    gap: 12px;
+    align-items: center;
 }
 
-.event-preview-info strong { 
-    font-size: 1rem; 
-    color: #333;
+/* =========================================
+   2. FORMULÁRIOS E INPUTS
+   ========================================= */
+.form-group { margin-bottom: 20px; }
+.form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--primary); }
+
+.row-fields { display: flex; gap: 20px; } 
+.row-fields .form-group { flex: 1; }
+.btn-row { display: flex; gap: 10px; margin-top: 20px; }
+
+/* Padronização de Altura e Box Model */
+.admin-card input:not([type="color"]), /* Exclui o input de cor dessa regra de altura */
+.admin-card select, 
+.admin-card textarea,
+.tag-form-row input, 
+.btn-create-tag,
+.btn-inline-add,
+.btn-add-fix {
+    height: var(--input-height) !important;
+    line-height: normal;
+    padding: 0 12px !important;
+    box-sizing: border-box !important;
+    border-radius: 8px;
+    border: 1px solid #ccc;
 }
 
-.event-preview-date { 
-    font-size: 0.85rem; 
-    color: #666; 
+/* Ajuste para alinhar Select + Botão de Adicionar */
+.form-group div[style*="display: flex"] {
+    display: flex !important;
+    gap: 10px !important;
+    align-items: center !important;
+}
+
+/* =========================================
+   3. BOTÕES E ABAS
+   ========================================= */
+/* Abas */
+.tab-controls {
+    display: flex;
+    background: #f1f3f5;
+    padding: 5px;
+    border-radius: 10px;
+    gap: 5px;
+}
+
+.btn-tab {
+    border: none;
+    padding: 8px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #666;
+    background: transparent;
+    transition: all 0.3s;
+}
+
+.btn-tab.active {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 8px rgba(7, 69, 40, 0.2);
+}
+
+/* Botões Secundários da Barra */
+.admin-actions-bar .btn-secondary {
+    width: auto !important;
+    white-space: nowrap;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    height: 40px !important;
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: center;
+    margin: 0;
 }
 
-/* Grupo de botões (Editar/Excluir) */
-.event-actions-group { 
-    display: flex; 
-    gap: 10px; 
-    flex-shrink: 0; /* Impede que os botões esmaguem */
-}
+/* Botão Salvar */
+#btnSalvar { transition: all 0.3s ease; }
+#btnSalvar:disabled { cursor: not-allowed; opacity: 0.8; }
 
-/* Botões Pequenos (Quadrados perfeitos) */
+/* Botões de Ícone Pequenos (Editar/Excluir - Geral) */
 .btn-icon-small {
     width: 38px;
     height: 38px;
@@ -107,1013 +146,361 @@
 }
 
 .btn-edit-icon { background-color: #e3f2fd; color: #1976d2; }
+.btn-edit-icon:hover { background-color: #bbdefb; transform: translateY(-2px); }
+
 .btn-delete-icon { background-color: #ffebee; color: #c62828; }
-.btn-icon-small:hover { transform: translateY(-2px); filter: brightness(0.95); }
+.btn-delete-icon:hover { background-color: #ef9a9a; color: #b71c1c; transform: translateY(-2px); }
 
-/* =========================================
-   3. FORMULÁRIOS
-   ========================================= */
-.form-group { margin-bottom: 20px; }
-.form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--primary); }
-.row-fields { display: flex; gap: 20px; } 
-.row-fields .form-group { flex: 1; }
-.btn-row { display: flex; gap: 10px; margin-top: 20px; }
+/* Botão Fix e Inline */
+.btn-add-fix { width: auto !important; min-width: 120px; white-space: nowrap; }
+.btn-inline-add { width: 45px !important; padding: 0 !important; font-size: 1.2rem; display: flex; justify-content: center; align-items: center; }
 
-/* =========================================
-   4. RECORRÊNCIA E DATA
-   ========================================= */
-.recurrence-type-selector { display: flex; gap: 15px; margin-bottom: 20px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-.rec-type-label { 
-    display: flex; align-items: center; gap: 8px; cursor: pointer; 
-    font-weight: 600; color: #555; padding: 8px 15px; border-radius: 20px; transition: all 0.2s; 
+/* Botão Criar Tag (Verde Grande) */
+.btn-create-tag { 
+    background: var(--primary); color: white; border: none; padding: 0 25px !important; font-weight: bold; cursor: pointer; display: flex; align-items: center; justify-content: center;
 }
-.rec-type-label:has(input:checked) { background: #e8f5e9; color: var(--primary); border: 1px solid var(--primary); }
-.rec-options-group { display: none; background: #f8f9fa; padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #eee; }
+
+/* =========================================
+   4. TABELA DE TAGS/SOCIEDADES (Otimizada)
+   ========================================= */
+.tag-form-row { display: flex; gap: 10px; align-items: center; margin-bottom: 20px; }
+
+.tags-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 20px; 
+    table-layout: fixed; /* Fixa largura para respeitar alinhamentos */
+}
+
+/* Cabeçalhos */
+.tags-table th { 
+    text-align: left; 
+    color: #888; /* Cinza suave (Print 2) */
+    font-size: 0.75rem; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    letter-spacing: 1px;
+    padding: 15px 20px; 
+    border-bottom: 2px solid #f0f0f0; 
+}
+
+/* Células */
+.tags-table td { 
+    padding: 15px 20px; 
+    border-bottom: 1px solid #f5f5f5; 
+    vertical-align: middle; 
+    color: #333;
+    font-weight: 600;
+}
+
+/* COLUNA 1: NOME (Esquerda) */
+.tags-table th:nth-child(1),
+.tags-table td:nth-child(1) {
+    text-align: left;
+    width: auto;
+}
+
+/* COLUNA 2: COR (Centralizada, Largura Fixa) */
+.tags-table th:nth-child(2),
+.tags-table td:nth-child(2) {
+    width: 100px;
+    text-align: center;
+}
+
+/* COLUNA 3: AÇÕES (Centralizada, Largura Fixa) */
+.tags-table th:last-child,
+.tags-table td:last-child {
+    width: 100px;
+    text-align: center;
+}
+
+/* Input de Cor (Estilo Tag Arredondada) */
+.tags-table input[type="color"] {
+    -webkit-appearance: none;
+    margin: 0 auto; /* Centraliza horizontalmente */
+    display: block; 
+    width: 40px !important;
+    height: 30px !important;
+    border-radius: 6px;
+    border: none;
+    padding: 0 !important;
+    background: none;
+    cursor: pointer;
+}
+.tags-table input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
+.tags-table input[type="color"]::-webkit-color-swatch { border: none; border-radius: 6px; }
+
+/* Botão de Lixeira da Tabela (Centralizado) */
+.btn-delete-tag-table {
+    margin: 0 auto; /* Centraliza horizontalmente */
+    display: inline-flex; /* Garante ícone no meio do botão */
+    align-items: center;
+    justify-content: center;
+    
+    background-color: #ffebee;
+    color: #c62828;
+    width: 38px;
+    height: 38px;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 1rem;
+}
+.btn-delete-tag-table:hover {
+    background-color: #ef9a9a; 
+    color: #b71c1c;
+    transform: scale(1.05);
+}
+
+/* =========================================
+   5. LISTA DE EVENTOS (AGENDA)
+   ========================================= */
+.month-block { margin-bottom: 25px; }
+
+.month-header {
+    background-color: #e8f5e9;
+    color: var(--primary);
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border-left: 5px solid var(--primary);
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+}
+
+.event-preview-item {
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    padding: 15px 20px; 
+    background-color: white;
+    border: 1px solid #eee; 
+    border-left: 4px solid transparent; 
+    border-radius: 8px;
+    margin-bottom: 8px; 
+    transition: all 0.2s ease;
+}
+.event-preview-item:hover {
+    border-left-color: var(--primary);
+    transform: translateX(3px);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.event-preview-info { display: flex; flex-direction: column; gap: 5px; }
+.event-preview-info strong { font-size: 1rem; color: #333; }
+.event-preview-date { font-size: 0.85rem; color: #666; display: flex; align-items: center; gap: 8px; }
+.event-actions-group { display: flex; gap: 10px; flex-shrink: 0; }
+
+/* =========================================
+   6. RECORRÊNCIA E MEMBROS
+   ========================================= */
+/* Recorrência */
+.recurrence-type-selector { display: flex; gap: 10px; background: var(--bg-light); padding: 10px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px; }
+
+.rec-type-label { 
+    flex: 1; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; 
+    padding: 10px; border-radius: 8px; border: 2px solid transparent; background: white; font-weight: 600; transition: all 0.2s; 
+}
+.rec-type-label:has(input:checked) { border-color: var(--primary); background: #e8f5e9; color: var(--primary); }
+.rec-type-label input { accent-color: var(--primary); margin: 0; width: auto !important; height: auto !important; }
+
+.rec-options-group { display: none; background: var(--bg-light); padding: 15px; border-radius: 8px; margin-bottom: 15px; border: 1px solid #eee; }
 .rec-options-group.active { display: block; }
 
 .inline-selects { display: flex; flex-direction: column; gap: 15px !important; margin-top: 10px; }
-.inline-selects select { width: 100%; height: 45px; margin-bottom: 0; }
+.inline-selects select { width: 100%; margin-bottom: 0; }
 
-/* Grid Dias da Semana (Tamanho Reduzido/Corrigido) */
+/* Grid Dias da Semana */
 .day-grid { 
-    display: grid; 
-    grid-template-columns: repeat(7, 1fr); 
-    gap: 5px; 
-    background: #f8f9fa; padding: 10px; 
-    border-radius: 8px; border: 1px solid #eee; 
+    display: grid; grid-template-columns: repeat(7, 1fr); gap: 5px; 
+    background: var(--bg-light); padding: 10px; border-radius: 8px; border: 1px solid #eee; 
 }
 .day-btn { 
-    height: 40px; /* Altura fixa */
-    border: 1px solid #ddd; background: white; cursor: pointer; 
-    border-radius: 6px; font-weight: 600; color: #555; display: flex; 
-    align-items: center; justify-content: center; transition: all 0.2s; 
-    font-size: 0.9rem;
+    height: 40px; border: 1px solid #ddd; background: white; cursor: pointer; 
+    border-radius: 6px; font-weight: 600; color: #555; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 0.9rem;
 }
 .day-btn:hover { background: #e2e6ea; }
 .day-btn.selected { background: var(--primary); color: white; border-color: var(--primary); }
 
-/* =========================================
-   5. GESTÃO DE TAGS
-   ========================================= */
-/* Garante que a linha do formulário alinhe os itens corretamente */
-.tag-form-row {
-    display: flex;
-    gap: 10px;
-    align-items: center; /* Alinha o input e o botão pelo centro */
-    margin-bottom: 20px;
-}
-.btn-create-tag { height: 45px; background: var(--primary); color: white; border: none; border-radius: 8px; padding: 0 25px; font-weight: bold; cursor: pointer; }
-.tags-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-.tags-table th { text-align: left; color: #666; font-size: 0.85rem; padding: 10px; border-bottom: 2px solid #eee; }
-.tags-table td { padding: 10px; border-bottom: 1px solid #f1f1f1; vertical-align: middle; }
-
-.btn-delete-tag-table {
-    background-color: #ffebee; color: #c62828; border: none;
-    width: 35px; height: 35px; border-radius: 8px;
-    cursor: pointer; display: inline-flex; align-items: center; justify-content: center;
-    transition: all 0.2s ease; font-size: 0.9rem;
-}
-.btn-delete-tag-table:hover { background-color: #ef9a9a; color: #b71c1c; transform: translateY(-2px); }
-
-/* Correção de Inputs de Cor */
-input[type="color"] { -webkit-appearance: none; border: none; width: 45px; height: 45px; cursor: pointer; background: none; padding: 0; }
-input[type="color"]::-webkit-color-swatch-wrapper { padding: 0; }
-input[type="color"]::-webkit-color-swatch { border: 2px solid #ddd; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+/* Membro Cell */
+.membro-info-cell { display: flex; flex-direction: column; gap: 2px; }
+.membro-tel-small { font-size: 0.75rem; color: #27ae60; font-weight: 500; }
+.acoes-lideranca { display: flex; justify-content: flex-end; gap: 8px; align-items: center; }
 
 /* =========================================
-   6. TELA DE LOGIN (BLOQUEIO)
+   7. LOGIN E TOASTS
    ========================================= */
 #loginOverlay {
-    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background-color: #074528; z-index: 99999;
-    display: flex; justify-content: center; align-items: center;
+    position: fixed; inset: 0; width: 100%; height: 100%;
+    background-color: var(--primary); z-index: 99999;
+    display: flex; justify-content: center; align-items: center; padding: 20px; box-sizing: border-box;
 }
+
 .login-box {
-    background: white; padding: 40px; border-radius: 15px;
-    text-align: center; width: 90%; max-width: 400px;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    background: white; padding: 40px; border-radius: 15px; text-align: center; width: 100%; max-width: 350px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5); position: relative; margin: auto;
 }
-.login-box h2 { color: #074528; margin-bottom: 20px; }
-.login-box input { margin-bottom: 15px; }
+.login-box h2 { color: var(--primary); margin-bottom: 20px; }
+.login-box input { margin-bottom: 15px; width: 100% !important; }
 .login-btn {
-    background-color: #074528; color: white; border: none; padding: 12px;
-    width: 100%; border-radius: 8px; font-size: 1rem; font-weight: bold;
-    cursor: pointer; transition: background 0.2s;
+    background-color: var(--primary); color: white; border: none; padding: 12px;
+    width: 100%; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background 0.2s;
 }
-.login-btn:hover { background-color: #0b5c36; }
+.login-btn:hover { background-color: var(--primary-hover); }
 
-.tab-controls {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 0;
-}
-
-.btn-tab {
-    background: #e1e4e8;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 8px 8px 0 0;
-    cursor: pointer;
-    font-weight: 600;
-    color: #666;
-    transition: all 0.3s;
-}
-
-.btn-tab.active {
-    background: var(--primary);
-    color: white;
-}
-
-.admin-actions-bar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center; /* Centraliza verticalmente */
-    background: #fff;
-    padding: 12px 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    margin-bottom: 25px;
-    border: 1px solid #eee;
-}
-
-.tab-controls {
-    display: flex;
-    background: #f1f3f5;
-    padding: 5px;
-    border-radius: 10px;
-    gap: 5px;
-}
-
-.btn-tab {
-    border: none;
-    padding: 8px 20px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    color: #666;
-    background: transparent;
-    transition: all 0.3s;
-}
-
-/* Corrigindo conflito: Apenas botões com classe active de abas mudam */
-.btn-tab.active {
-    background: var(--primary);
-    color: white;
-    box-shadow: 0 4px 8px rgba(7, 69, 40, 0.2);
-}
-
-/* --- CORREÇÃO DO BOTÃO RECORRÊNCIA (RADIO) --- */
-.recurrence-type-selector {
-    display: flex;
-    gap: 10px;
-    background: #f8f9fa;
-    padding: 10px;
-    border-radius: 12px;
-    border: 1px solid #eee;
-}
-
-.rec-type-label {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    cursor: pointer;
-    padding: 10px;
-    border-radius: 8px;
-    border: 2px solid transparent;
-    background: white;
-    font-weight: 600;
-    transition: all 0.2s;
-}
-
-/* Quando o input radio dentro dele está checado */
-.rec-type-label:has(input:checked) {
-    border-color: var(--primary);
-    background: #e8f5e9;
-    color: var(--primary);
-}
-
-.rec-type-label input {
-    accent-color: var(--primary);
-}
-
-/* Força o botão a ter tamanho baseado apenas no texto interno */
-.btn-add-fix {
-    width: auto !important;
-    min-width: 120px;
-    padding: 0 20px !important;
-    height: 40px !important; /* Altura exata para alinhar com o input */
-    display: inline-flex !important;
-    align-items: center;
-    justify-content: center;
-    white-space: nowrap;
-    margin: 0;
-}
-
-/* --- BARRA DE ABAS E BOTÕES MELHORADA --- */
-.admin-actions-bar {
-    display: flex;
-    justify-content: space-between; /* Mantém abas na esquerda e botões na direita */
-    align-items: center;
-    background: #fff;
-    padding: 12px 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    margin-bottom: 25px;
-    border: 1px solid #eee;
-}
-
-/* Container dos botões da direita (Tags e Recorrência) */
-#acoesAgenda {
-    display: flex;
-    gap: 12px; /* Adiciona o espaço exato entre os botões de Sociedade e Recorrência */
-}
-
-/* Ajuste fino nos botões secundários para não ficarem "altos" demais na barra */
-.admin-actions-bar .btn-secondary {
-    padding: 8px 16px; /* Reduz um pouco o enchimento interno */
-    font-size: 0.85rem; /* Letra levemente menor para caber melhor */
-    width: auto;       /* Garante que não ocupem 100% */
-    margin: 0;         /* Remove margens residuais */
-}
-
-/* Estilo das Abas (Lado Esquerdo) */
-.tab-controls {
-    display: flex;
-    background: #f1f3f5;
-    padding: 5px;
-    border-radius: 10px;
-    gap: 5px;
-}
-
-.btn-tab {
-    border: none;
-    padding: 8px 18px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    color: #666;
-    background: transparent;
-    transition: all 0.3s;
-}
-
-.btn-tab.active {
-    background: var(--primary);
-    color: white;
-    box-shadow: 0 4px 8px rgba(7, 69, 40, 0.2);
-}
-
-/* Padroniza a altura de todos os campos de formulário no painel */
-.admin-card input, 
-.admin-card select, 
-.admin-card textarea {
-    height: 42px !important;
-    box-sizing: border-box !important;
-}
-
-/* Container dos botões da direita (Tags e Recorrência) */
-#acoesAgenda {
-    display: flex;
-    gap: 12px; /* Espaçamento entre os botões da direita */
-    align-items: center;
-}
-
-/* Ajuste nos botões da barra para não ocuparem largura total */
-.admin-actions-bar .btn-secondary {
-    width: auto !important;
-    white-space: nowrap;
-    padding: 8px 16px;
-    font-size: 0.85rem;
-    height: 40px; /* Altura fixa para os botões da barra */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Estilo das Abas (Lado Esquerdo) */
-.tab-controls {
-    display: flex;
-    background: #f1f3f5;
-    padding: 5px;
-    border-radius: 10px;
-    gap: 5px;
-}
-
-.btn-tab {
-    border: none;
-    padding: 8px 18px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    color: #666;
-    background: transparent;
-    transition: all 0.3s;
-}
-
-.btn-tab.active {
-    background: var(--primary);
-    color: white;
-    box-shadow: 0 4px 8px rgba(7, 69, 40, 0.2);
-}
-
-#btnSalvar {
-    transition: all 0.3s ease;
-}
-
-#btnSalvar:disabled {
-    cursor: not-allowed;
-    opacity: 0.8;
-}
-
-/* --- SISTEMA DE NOTIFICAÇÕES (TOAST) --- */
-#toast-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 10000;
-}
-
+/* Toast */
+#toast-container { position: fixed; bottom: 20px; right: 20px; z-index: 10000; }
 .toast {
-    background: #ffffff;
-    color: #333;
-    padding: 16px 24px;
-    border-radius: 8px;
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-    border-left: 6px solid #ccc;
-    font-weight: 600;
-    min-width: 300px;
+    background: #fff; color: #333; padding: 16px 24px; border-radius: 8px; margin-top: 10px;
+    display: flex; align-items: center; gap: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border-left: 6px solid #ccc; font-weight: 600; min-width: 300px;
     animation: toastIn 0.5s ease, toastOut 0.5s 2.5s forwards;
 }
-
 .toast.success { border-left-color: #27ae60; }
 .toast.error { border-left-color: #e74c3c; }
-
 .toast i { font-size: 1.2rem; }
 .toast.success i { color: #27ae60; }
 .toast.error i { color: #e74c3c; }
 
-@keyframes toastIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
-
-@keyframes toastOut {
-    from { opacity: 1; transform: translateX(0); }
-    to { opacity: 0; transform: translateX(100%); }
-}
-
-/* Ajuste do botão de salvar para feedback */
-#btnSalvar { transition: all 0.3s ease; }
-#btnSalvar:disabled { opacity: 0.7; cursor: not-allowed; }
-
-.membro-info-cell {
-    display: flex;
-    flex-direction: column;
-}
-
-.membro-tel-small {
-    font-size: 0.7rem;
-    color: #27ae60;
-    margin-top: 2px;
-}
-
-.btn-edit-icon {
-    margin-right: 8px;
-    background: #f1f3f5;
-    border: none;
-    padding: 5px 8px;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-/* Container de Informações do Membro na Tabela */
-.membro-info-cell {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-}
-
-.membro-tel-small {
-    font-size: 0.75rem;
-    color: #27ae60;
-    font-weight: 500;
-}
-
-/* Sistema de Alertas (Toast) */
-#toast-container {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    z-index: 10000;
-}
-
-.toast {
-    background: #fff;
-    color: #333;
-    padding: 15px 20px;
-    border-radius: 8px;
-    margin-top: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    border-left: 5px solid #ccc;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    animation: slideIn 0.5s ease forwards;
-}
-
-.toast.success { border-left-color: #27ae60; }
-.toast.error { border-left-color: #e74c3c; }
-
-@keyframes slideIn {
-    from { transform: translateX(100%); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
-}
-
-/* Garante que a coluna de ações não quebre e alinhe os botões horizontalmente */
-td:last-child {
-    white-space: nowrap;
-    width: 100px;
-}
-
-.acoes-lideranca {
-    display: flex;
-    justify-content: flex-end;
-    gap: 8px; /* Espaço entre o lápis e a lixeira */
-    align-items: center;
-}
-
-.btn-icon-small {
-    width: 32px;
-    height: 32px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s;
-}
-
-/* Cores específicas para os botões */
-.btn-edit-icon {
-    background-color: #e3f2fd;
-    color: #1976d2;
-}
-
-.btn-edit-icon:hover {
-    background-color: #bbdefb;
-}
-
-.btn-delete-tag-table {
-    background-color: #ffebee;
-    color: #c62828;
-    margin: 0 !important; /* Remove margens residuais */
-}
-
-/* --- CORREÇÕES EXCLUSIVAS PARA MOBILE --- */
-@media (max-width: 768px) {
-    
-    /* 1. Impede que o card principal estoure a largura */
-    .admin-card {
-        padding: 15px;
-        margin: 10px;
-        width: calc(100% - 20px) !important;
-        box-sizing: border-box;
-        overflow-x: hidden;
-    }
-
-    /* 2. Ajusta as linhas com múltiplos campos (Ano/Mês, Sociedade/Cargo) */
-    .row-fields {
-        display: flex;
-        flex-direction: column !important; /* Empilha um embaixo do outro no celular */
-        gap: 10px;
-    }
-
-    /* 3. Torna as tabelas roláveis lateralmente para não quebrar o layout */
-    .admin-card {
-        overflow-x: auto; /* Permite deslizar a tabela se ela for maior que a tela */
-    }
-
-    table.tags-table {
-        display: block;
-        width: 100%;
-        overflow-x: auto;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    /* 4. Ajusta os botões de ação para não ficarem muito colados */
-    .acoes-lideranca {
-        display: flex;
-        justify-content: flex-end;
-        min-width: 80px;
-    }
-
-    /* 5. Ajusta o botão "Salvar" para ocupar a largura total no mobile */
-    .btn-row .btn-add, 
-    .btn-row .btn-cancel {
-        width: 100% !important;
-        margin: 5px 0;
-    }
-
-    /* 6. Ajusta os inputs para não passarem da borda */
-    input, select, textarea {
-        width: 100% !important;
-        max-width: 100% !important;
-        box-sizing: border-box !important;
-    }
-}
-
-/* --- CORREÇÃO DE CENTRALIZAÇÃO DO LOGIN --- */
-#loginOverlay {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    padding: 20px;
-    box-sizing: border-box;
-}
-
-.login-box {
-    margin: auto !important; /* Força o navegador a calcular o centro */
-    position: relative; /* Remove possíveis conflitos de posicionamento */
-}
-
-/* --- AJUSTE DA BARRA DE AÇÕES (MOBILE) --- */
-@media (max-width: 768px) {
-    .admin-actions-bar {
-        flex-direction: column !important; /* Empilha abas em cima e botões embaixo */
-        gap: 15px;
-        padding: 15px !important;
-        align-items: stretch !important;
-        width: calc(100% - 20px) !important;
-        margin-left: 10px;
-        margin-right: 10px;
-        box-sizing: border-box;
-    }
-
-    #acoesAgenda {
-        justify-content: space-between; /* Distribui Sociedades e Recorrência na largura total */
-        width: 100%;
-    }
-
-    #acoesAgenda .btn-secondary {
-        flex: 1; /* Faz os botões dividirem o espaço igualmente */
-        font-size: 0.75rem !important; /* Diminui a letra para caber em telas pequenas */
-        padding: 8px 4px !important;
-    }
-
-    .tab-controls {
-        width: 100%;
-        justify-content: space-around;
-    }
-
-    .btn-tab {
-        flex: 1;
-        text-align: center;
-        padding: 8px 5px !important;
-    }
-}
-
-/* --- ESTABILIZAÇÃO DE TABELAS --- */
-@media (max-width: 768px) {
-    .admin-card {
-        overflow: hidden !important; /* Garante que o card não cresça para os lados */
-    }
-
-    /* Container específico para a tabela poder deslizar */
-    #listaLideranca, #listaPreview {
-        width: 100%;
-        overflow-x: auto !important;
-        display: block;
-        -webkit-overflow-scrolling: touch;
-    }
-
-    .tags-table {
-        min-width: 500px; /* Força um tamanho mínimo para a tabela ser legível ao deslizar */
-    }
-}
+@keyframes toastIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+@keyframes toastOut { from { opacity: 1; transform: translateX(0); } to { opacity: 0; transform: translateX(100%); } }
 
 /* =========================================
-   CORREÇÕES DE ALINHAMENTO E MOBILE
+   8. MOBILE RESPONSIVO (UNIFICADO)
    ========================================= */
-
-/* 1. Padronização de Alturas (Geral) */
-.tag-form-row input, 
-.tag-form-row .btn-create-tag,
-.admin-card input, 
-.admin-card select,
-.btn-add-fix {
-    height: 45px !important; /* Força a mesma altura para todos */
-    line-height: 45px;
-    padding-top: 0 !important;
-    padding-bottom: 0 !important;
-    box-sizing: border-box !important;
-}
-
-/* 2. Ajuste do Botão "+" específico */
-.btn-create-tag {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.2rem; /* Deixa o sinal de + em destaque */
-    min-width: 50px;
-}
-
-/* 3. Ajustes Mobile (Abaixo de 768px) */
 @media (max-width: 768px) {
-    
-    /* Faz a barra de ações (Agenda/Liderança) empilhar */
+    html, body {
+        overflow-x: hidden !important;
+        width: 100% !important;
+        position: relative;
+    }
+
+    .admin-card {
+        margin: 10px !important;
+        width: auto !important;
+        max-width: calc(100vw - 20px) !important;
+        padding: 15px !important;
+        display: block !important;
+        overflow: hidden !important;
+    }
+
     .admin-actions-bar {
         flex-direction: column !important;
         align-items: stretch !important;
         gap: 15px !important;
         padding: 10px !important;
         width: 100% !important;
-        margin-left: 0 !important;
-        margin-right: 0 !important;
+        margin: 0 0 20px 0 !important;
+        box-sizing: border-box;
     }
 
-    /* Coloca os botões (Sociedades/Recorrência) abaixo das abas */
     #acoesAgenda {
-        flex-direction: row !important; /* Mantém os dois botões um do lado do outro */
+        flex-direction: row !important;
         width: 100%;
         gap: 8px;
+        justify-content: space-between;
     }
 
     #acoesAgenda .btn-secondary {
-        flex: 1; /* Divide o espaço igualmente */
+        flex: 1;
         font-size: 0.75rem !important;
-        height: 40px !important;
-        white-space: normal !important; /* Permite quebrar linha no texto do botão se necessário */
+        white-space: normal !important;
         text-align: center;
+        height: 40px !important;
     }
 
-    /* Ajusta o formulário de Tags/Membros para não vazar */
-    .tag-form-row {
-        display: flex;
+    .tab-controls {
         width: 100%;
-        gap: 5px;
-    }
-
-    .tag-form-row input {
-        flex: 1; /* Ocupa o máximo de espaço */
-        min-width: 0; /* Impede o input de empurrar a tela */
-    }
-
-    /* Ajuste da Tabela para evitar barra lateral no site todo */
-    .admin-card {
-        padding: 15px !important;
-        overflow-x: hidden !important; /* Corta o que sobrar do card */
-    }
-
-    .tags-table, #listaLideranca, #listaPreview {
-        display: block;
-        width: 100%;
-        overflow-x: auto !important; /* A barra de rolagem fica SÓ na tabela */
-        -webkit-overflow-scrolling: touch;
-        white-space: nowrap;
-    }
-
-    /* Centralização Real do Login no Mobile */
-    #loginOverlay {
-        padding: 15px;
+        justify-content: space-around;
     }
     
-    .login-box {
-        width: 100%;
-        max-width: 320px;
-        margin: auto !important;
+    .btn-tab {
+        flex: 1;
+        text-align: center;
+        padding: 8px 5px !important;
     }
-}
 
-/* Correção para o botão de sociedades que às vezes herda larguras estranhas */
-.btn-add-fix {
-    width: auto !important;
-    padding: 0 15px !important;
-}
+    .row-fields {
+        flex-direction: column !important;
+        gap: 10px;
+    }
 
-/* Padronização absoluta para evitar o botão "+" maior que o select */
-.admin-card select, 
-.admin-card input,
-.btn-inline-add, /* Botão "+" */
-.btn-add-fix {
-    height: 42px !important; /* Altura exata da sua barra de digitar */
-    padding: 0 12px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    box-sizing: border-box !important;
-}
+    .row-fields .form-group div[style*="display: flex"] {
+        display: grid !important; 
+        grid-template-columns: 1fr 50px; 
+        gap: 8px !important;
+        width: 100% !important;
+    }
+    
+    #membroCargoSelect { width: 100% !important; min-width: 0 !important; }
 
-/* Garante que o container do cargo não quebre a linha no mobile */
-.form-group div[style*="display: flex"] {
-    display: flex !important;
-    gap: 10px !important;
-    align-items: center !important;
-}
+    .btn-inline-add {
+        width: 100% !important;
+        height: var(--input-height) !important;
+        border-radius: 8px !important;
+        flex-shrink: 0 !important;
+        margin: 0 !important;
+    }
 
-@media (max-width: 768px) {
-    /* Impede o card de ser empurrado pela tabela */
-    .admin-card {
+    .admin-card input, 
+    .admin-card select, 
+    .admin-card textarea {
+        width: 100% !important;
         max-width: 100% !important;
-        overflow-x: hidden !important;
-        padding: 15px !important;
     }
 
-    /* Cria a rolagem interna específica para a lista de membros e eventos */
+    .btn-row .btn-add, 
+    .btn-row .btn-cancel {
+        width: 100% !important;
+        margin: 5px 0;
+    }
+
+    /* Tabelas com Rolagem Horizontal */
     #listaLideranca, 
     #listaPreview, 
     .tags-table {
-        display: block !important;
-        width: 100% !important;
-        overflow-x: auto !important; /* Permite deslizar a tabela para o lado */
-        white-space: nowrap !important; /* Impede os nomes de quebrarem linha estranho */
-        -webkit-overflow-scrolling: touch;
-    }
-
-    /* Garante que os botões de ação (lápis e lixeira) apareçam no final da rolagem */
-    .acoes-lideranca, .event-actions-group {
-        min-width: 85px !important;
-    }
-}
-
-#loginOverlay {
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    position: fixed !important;
-    inset: 0 !important; /* Top, Bottom, Left, Right = 0 */
-}
-
-.login-box {
-    margin: 0 20px !important; /* Margem lateral no mobile */
-    transform: none !important; /* Remove transforms que podem bugar o centro */
-    position: relative !important;
-}
-
-/* --- CORREÇÃO AGRESSIVA PARA MOBILE --- */
-@media (max-width: 768px) {
-    /* 1. Reset de largura global para evitar quebra lateral */
-    html, body {
-        overflow-x: hidden !important;
-        position: relative;
-        width: 100%;
-    }
-
-    /* 2. Força o card a ficar dentro da tela */
-    .admin-card {
-        width: auto !important;
-        margin: 10px !important;
-        padding: 15px !important;
-        display: block !important;
-        overflow: hidden !important; /* Corta o que sobrar */
-    }
-
-    /* 3. PADRONIZAÇÃO DO BOTÃO "+" (Alinhamento Perfeito) */
-    /* Garante que o container do Cargo não empurre a tela */
-    .row-fields {
-        display: flex !important;
-        flex-direction: column !important;
-    }
-
-    /* Alinha o select e o botão "+" na mesma linha horizontalmente */
-    div[style*="display: flex"] {
-        display: flex !important;
-        flex-direction: row !important; /* Força ficar lado a lado */
-        align-items: center !important;
-        width: 100% !important;
-        gap: 8px !important;
-    }
-
-    #membroCargoSelect {
-        flex: 1 !important; /* Ocupa o espaço que sobrar */
-        min-width: 0 !important; /* Impede o select de vazar */
-    }
-
-    .btn-inline-add {
-        flex-shrink: 0 !important; /* Impede o botão de esmagar */
-        height: 42px !important; /* Mesma altura do select */
-        width: 45px !important;
-        padding: 0 !important;
-    }
-
-    /* 4. TABELA DE MEMBROS (O principal culpado pelo vazamento) */
-    /* Em vez de tentar espremer a tabela, vamos isolar a rolagem dela */
-    #listaLideranca, #listaPreview {
-        width: 100% !important;
-        display: block !important;
-        overflow-x: auto !important; /* Rolagem apenas na tabela */
-        overflow-y: hidden !important;
-        -webkit-overflow-scrolling: touch;
-        margin-top: 10px;
-        border: 1px solid #eee;
-        border-radius: 8px;
-    }
-
-    .tags-table {
-        width: 100% !important;
-        min-width: 450px !important; /* Garante que a tabela não fique esmagada ao rolar */
-    }
-
-    /* 5. CENTRALIZAÇÃO DO LOGIN */
-    #loginOverlay {
-        padding: 20px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-    }
-    
-    .login-box {
-        width: 100% !important;
-        max-width: 320px !important;
-        margin: 0 !important;
-    }
-}
-
-/* --- RESOLUÇÃO FINAL PARA MOBILE (SEM VAZAMENTOS) --- */
-@media (max-width: 768px) {
-    /* 1. Trava o site para não balançar lateralmente */
-    html, body {
-        overflow-x: hidden !important;
-        width: 100% !important;
-        position: relative;
-    }
-
-    /* 2. Ajuste dos Cards para não estourarem a borda */
-    .admin-card {
-        margin: 10px !important;
-        width: auto !important;
-        max-width: calc(100vw - 20px) !important;
-        padding: 15px !important;
-        box-sizing: border-box !important;
-        overflow: hidden !important;
-    }
-
-    /* 3. Correção dos Eventos (Lápis e Lixeira bugados) */
-    .event-preview-item {
-        flex-direction: column !important; /* Empilha texto em cima e botões embaixo */
-        align-items: flex-start !important;
-        gap: 12px;
-        padding: 15px !important;
-    }
-
-    .event-actions-group {
-        width: 100%;
-        justify-content: flex-end; /* Joga os botões para a direita na linha de baixo */
-        border-top: 1px solid #f0f0f0;
-        padding-top: 10px;
-    }
-
-    /* 4. Correção do Botão "+" e Alinhamento do Cargo */
-    .row-fields {
-        flex-direction: column !important;
-    }
-
-    /* Container do Select + Botão "+" */
-    div[style*="display: flex"] {
-        display: flex !important;
-        width: 100% !important;
-        gap: 8px !important;
-    }
-
-    #membroCargoSelect {
-        flex: 1 !important;
-        min-width: 0 !important; /* Essencial para não empurrar a tela */
-    }
-
-    .btn-inline-add {
-        height: 42px !important; /* Força igualdade com o select */
-        flex-shrink: 0 !important;
-    }
-
-    /* 5. Tabelas de Membros (Barra Lateral Interna) */
-    /* Isso permite ver tudo sem quebrar o design do site */
-    #listaLideranca, .tags-table {
         display: block !important;
         width: 100% !important;
         overflow-x: auto !important; 
         -webkit-overflow-scrolling: touch;
         white-space: nowrap !important;
+        padding-bottom: 10px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+        margin-top: 10px;
+        /* No mobile a largura fixa pode ser ignorada para evitar bugs visuais se for muito estreito */
+        table-layout: auto; 
     }
-
-    /* Garante que os botões de ação na tabela fiquem visíveis ao rolar */
-    .acoes-lideranca {
-        display: flex !important;
-        gap: 10px !important;
-        min-width: 90px !important;
-    }
-}
-
-/* =========================================
-   MOBILE E RESPONSIVIDADE (POLIDO)
-   ========================================= */
-@media (max-width: 768px) {
     
-    /* 1. TRAVAMENTO GERAL DA TELA */
-    html, body {
-        overflow-x: hidden; /* Impede a página de dançar para os lados */
-        width: 100%;
-        position: relative;
+    table { min-width: 500px; }
+
+    .acoes-lideranca {
+        min-width: 90px !important;
+        justify-content: flex-end;
     }
 
-    /* 2. CARD PRINCIPAL (AJUSTE FINO) */
-    .admin-card {
-        margin: 10px !important;
-        width: auto !important; /* Deixa o card fluir */
-        padding: 15px !important;
-        box-sizing: border-box; /* O padding não aumenta a largura */
-    }
-
-    /* 3. INPUTS E BOTÃO "+" (CORREÇÃO DE DESIGN) */
-    /* Coloca o Select e o Botão na mesma linha, bonitinhos */
-    .row-fields .form-group div[style*="display: flex"] {
-        display: grid !important; /* Grid é mais estável que Flex aqui */
-        grid-template-columns: 1fr 50px; /* Select ocupa tudo, botão 50px */
-        gap: 8px;
-        width: 100%;
-    }
-
-    /* Força altura igual para Select, Input e Botão */
-    .admin-card select,
-    .admin-card input,
-    .btn-inline-add {
-        height: 45px !important;
-        font-size: 14px; /* Evita zoom automático no iPhone */
-    }
-
-    .btn-inline-add {
-        width: 100% !important; /* Ocupa os 50px do grid */
-        border-radius: 8px !important; /* Arredondado igual ao input */
-        padding: 0 !important;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    /* 4. TABELAS (MEMBROS E PREVIEW) - ROLAGEM INTERNA */
-    /* A mágica para não estourar a tela */
-    #listaLideranca, 
-    #listaPreview, 
-    .tags-table {
-        display: block; /* Necessário para rolar */
-        width: 100%;
-        overflow-x: auto; /* Cria barra de rolagem SÓ na tabela */
-        -webkit-overflow-scrolling: touch; /* Rolagem suave no celular */
-        white-space: nowrap; /* Mantém os dados na mesma linha */
-        padding-bottom: 10px; /* Espaço para a barra de rolagem não colar */
-    }
-
-    /* Ajuste para a tabela ocupar 100% visualmente sem bordas estranhas */
-    table {
-        min-width: 600px; /* Garante que a tabela tenha tamanho para ser lida */
-    }
-
-    /* 5. LISTA DE EVENTOS (PREVIEW) - CORREÇÃO DE BOTÕES */
     .event-preview-item {
-        display: flex;
-        flex-direction: column; /* Texto em cima, botões embaixo */
+        flex-direction: column !important;
         align-items: flex-start !important;
-        padding: 15px;
-        gap: 10px;
-        height: auto !important; /* Deixa a altura crescer conforme o texto */
+        padding: 15px !important;
+        gap: 12px;
+        height: auto !important;
     }
-
+    
     .event-preview-info {
         width: 100%;
-        white-space: normal; /* Permite que o texto do evento quebre linha */
+        white-space: normal;
     }
 
     .event-actions-group {
         width: 100%;
-        display: flex;
-        justify-content: flex-end; /* Botões alinhados à direita */
-        gap: 10px;
-        margin-top: 5px;
-        border-top: 1px solid #f0f0f0; /* Linha sutil separando */
+        justify-content: flex-end;
+        border-top: 1px solid #f0f0f0;
         padding-top: 10px;
-    }
-
-    /* 6. LOGIN CENTRALIZADO (FIXO) */
-    #loginOverlay {
-        position: fixed !important;
-        inset: 0; /* Cola nos 4 cantos da tela */
-        padding: 20px;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        z-index: 99999;
-        background-color: #074528; /* Garante fundo verde */
-    }
-
-    .login-box {
-        width: 100% !important;
-        max-width: 350px !important;
-        margin: 0 !important;
-        transform: none !important;
+        margin-top: 5px;
     }
 }
-
