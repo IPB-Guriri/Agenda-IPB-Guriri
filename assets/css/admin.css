@@ -696,3 +696,102 @@ td:last-child {
         min-width: 500px; /* Força um tamanho mínimo para a tabela ser legível ao deslizar */
     }
 }
+
+/* =========================================
+   CORREÇÕES DE ALINHAMENTO E MOBILE
+   ========================================= */
+
+/* 1. Padronização de Alturas (Geral) */
+.tag-form-row input, 
+.tag-form-row .btn-create-tag,
+.admin-card input, 
+.admin-card select,
+.btn-add-fix {
+    height: 45px !important; /* Força a mesma altura para todos */
+    line-height: 45px;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* 2. Ajuste do Botão "+" específico */
+.btn-create-tag {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem; /* Deixa o sinal de + em destaque */
+    min-width: 50px;
+}
+
+/* 3. Ajustes Mobile (Abaixo de 768px) */
+@media (max-width: 768px) {
+    
+    /* Faz a barra de ações (Agenda/Liderança) empilhar */
+    .admin-actions-bar {
+        flex-direction: column !important;
+        align-items: stretch !important;
+        gap: 15px !important;
+        padding: 10px !important;
+        width: 100% !important;
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+
+    /* Coloca os botões (Sociedades/Recorrência) abaixo das abas */
+    #acoesAgenda {
+        flex-direction: row !important; /* Mantém os dois botões um do lado do outro */
+        width: 100%;
+        gap: 8px;
+    }
+
+    #acoesAgenda .btn-secondary {
+        flex: 1; /* Divide o espaço igualmente */
+        font-size: 0.75rem !important;
+        height: 40px !important;
+        white-space: normal !important; /* Permite quebrar linha no texto do botão se necessário */
+        text-align: center;
+    }
+
+    /* Ajusta o formulário de Tags/Membros para não vazar */
+    .tag-form-row {
+        display: flex;
+        width: 100%;
+        gap: 5px;
+    }
+
+    .tag-form-row input {
+        flex: 1; /* Ocupa o máximo de espaço */
+        min-width: 0; /* Impede o input de empurrar a tela */
+    }
+
+    /* Ajuste da Tabela para evitar barra lateral no site todo */
+    .admin-card {
+        padding: 15px !important;
+        overflow-x: hidden !important; /* Corta o que sobrar do card */
+    }
+
+    .tags-table, #listaLideranca, #listaPreview {
+        display: block;
+        width: 100%;
+        overflow-x: auto !important; /* A barra de rolagem fica SÓ na tabela */
+        -webkit-overflow-scrolling: touch;
+        white-space: nowrap;
+    }
+
+    /* Centralização Real do Login no Mobile */
+    #loginOverlay {
+        padding: 15px;
+    }
+    
+    .login-box {
+        width: 100%;
+        max-width: 320px;
+        margin: auto !important;
+    }
+}
+
+/* Correção para o botão de sociedades que às vezes herda larguras estranhas */
+.btn-add-fix {
+    width: auto !important;
+    padding: 0 15px !important;
+}
