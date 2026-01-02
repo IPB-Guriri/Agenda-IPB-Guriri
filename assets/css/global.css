@@ -65,9 +65,9 @@ header p {
 .install-btn {
   position: fixed;
   bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%); /* Centraliza */
-  background-color: #0044ff; /* Cor da Igreja - MUDE AQUI */
+  right: 20px; /* Aqui é a mágica: 20px da direita */
+  
+  background-color: #0044ff; /* Mantenha a cor da sua identidade visual */
   color: white;
   border: none;
   padding: 12px 24px;
@@ -80,11 +80,14 @@ header p {
   display: flex;
   align-items: center;
   gap: 8px;
-  transition: transform 0.2s;
+  
+  /* Removemos o transform e o left que centralizavam antes */
+  transform: none; 
+  left: auto; 
 }
 
 .install-btn:active {
-  transform: translateX(-50%) scale(0.95); /* Efeito de clique */
+  transform: scale(0.95); /* Efeito de clique */
 }
 
 /* Estilo do Modal do iPhone */
@@ -120,3 +123,4 @@ header p {
     font-size: 16px;
     cursor: pointer;
 }
+
