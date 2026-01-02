@@ -1,0 +1,143 @@
+/* Configurações de Cores e Fundo */
+:root {
+    --verde-ipb: #074528;
+    --verde-whatsapp: #25d366;
+    --branco: #ffffff;
+}
+
+body {
+    background-color: #f4f7f6; /* Fundo levemente cinza para destacar os cards */
+}
+
+/* Cabeçalho com Fundo Verde (Estilo Portal) */
+.membros-header {
+    background-color: var(--verde-ipb);
+    color: var(--branco);
+    padding: 40px 20px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+.membros-header h1 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    margin-top: 10px;
+}
+
+/* Botão Voltar (Hub) */
+.btn-voltar-hub {
+    position: absolute; top: 20px; left: 20px;
+    text-decoration: none; color: white; background: rgba(255,255,255,0.15);
+    padding: 8px 20px; border-radius: 30px; font-size: 0.9rem; font-weight: 600;
+    display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,0.2);
+    transition: all 0.3s;
+}
+.btn-voltar-hub:hover { background: rgba(255,255,255,0.3); transform: translateX(-3px); }
+
+/* --- ESTILO DO ACORDEÃO (SOCIEDADES) --- */
+.accordion-item {
+    background: transparent;
+    margin-bottom: 15px;
+    border: none;
+}
+
+.accordion-header {
+    width: 100%;
+    padding: 18px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--verde-ipb); /* Fundo Verde */
+    color: var(--branco); /* Letra Branca */
+    border-radius: 12px;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 4px 12px rgba(7, 69, 40, 0.2);
+    transition: transform 0.2s, background-color 0.2s;
+}
+
+.accordion-header:hover {
+    background-color: #0a5a35;
+    transform: translateY(-2px);
+}
+
+.accordion-header h2 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.accordion-icon {
+    font-size: 1rem;
+    transition: transform 0.3s;
+}
+
+.accordion-item.active .accordion-icon {
+    transform: rotate(180deg);
+}
+
+/* Painel de Conteúdo */
+.accordion-content {
+    background-color: var(--branco);
+    margin: -10px 10px 0 10px; /* Sobreposição leve para efeito visual */
+    border-radius: 0 0 12px 12px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.accordion-item.active .accordion-content {
+    max-height: 2000px;
+    padding-top: 20px;
+}
+
+/* --- LISTA DE MEMBROS --- */
+.membros-lista-vertical {
+    padding: 10px 20px 20px 20px;
+}
+
+.membro-row-simple {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 0;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.membro-row-simple:last-child { border-bottom: none; }
+
+.membro-nome-simple {
+    font-weight: 700;
+    color: #2d3748;
+    font-size: 1.1rem;
+    display: block;
+}
+
+.membro-cargo-enfase {
+    font-size: 0.85rem;
+    color: var(--verde-ipb); /* Cargo em Verde */
+    text-transform: uppercase;
+    font-weight: 800;
+    letter-spacing: 0.8px;
+    margin-top: 4px;
+    display: block;
+}
+
+.btn-whatsapp-minimal {
+    width: 42px;
+    height: 42px;
+    background-color: var(--verde-whatsapp);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 1.4rem;
+    box-shadow: 0 4px 10px rgba(37, 211, 102, 0.3);
+}
+

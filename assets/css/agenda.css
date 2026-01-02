@@ -1,0 +1,166 @@
+/* =========================================
+   1. HEADER ESPECÍFICO DA AGENDA
+   ========================================= */
+header {
+    background: linear-gradient(135deg, #074528 0%, #002e1a 100%);
+}
+
+/* =========================================
+   2. HUB / MENU INICIAL (RESTAURAÇÃO)
+   ========================================= */
+.hub-container {
+    display: flex; 
+    gap: 30px; 
+    justify-content: center; 
+    flex-wrap: wrap; 
+    margin-top: 40px;
+    padding: 20px;
+}
+
+.hub-card {
+    background: white; 
+    padding: 30px; 
+    border-radius: 16px; 
+    width: 300px; /* Largura fixa para os cards */
+    text-align: center; 
+    text-decoration: none; 
+    color: #333;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+    transition: all 0.3s ease;
+    border: 1px solid #f0f0f0; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}
+
+.hub-card:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1); 
+    border-color: var(--primary); 
+}
+
+.hub-card h3 { 
+    color: var(--primary); 
+    margin: 15px 0 10px; 
+    font-size: 1.3rem; 
+    font-weight: 700;
+}
+
+.hub-card p { 
+    font-size: 0.95rem; 
+    color: #666; 
+    line-height: 1.5;
+}
+
+/* =========================================
+   3. FILTROS
+   ========================================= */
+.filters-container {
+    max-width: 1400px; margin: -25px auto 40px; padding: 0 20px;
+    display: flex; flex-direction: column; gap: 15px; align-items: center;
+}
+.filter-group {
+    display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;
+    background: white; padding: 8px; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+.filter-label {
+    display: flex; align-items: center; padding: 0 15px; font-weight: 700;
+    font-size: 0.8rem; color: #888; text-transform: uppercase; letter-spacing: 1px;
+}
+.filter-btn {
+    border: none; background: transparent; padding: 8px 20px; border-radius: 30px;
+    cursor: pointer; font-family: var(--font-stack); font-weight: 600; color: #555; transition: all 0.3s ease;
+}
+.filter-btn:hover { background: #f0f2f5; }
+.filter-btn.active { background: var(--primary); color: white; box-shadow: 0 4px 10px rgba(7, 69, 40, 0.3); }
+
+/* =========================================
+   4. GRID E LAYOUT
+   ========================================= */
+.grid-container {
+    display: grid; grid-template-columns: repeat(1, 1fr); gap: 30px;
+    max-width: 1400px; margin: 0 auto; padding: 0 20px 80px; align-items: stretch;
+}
+@media (min-width: 768px) { .grid-container { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1100px) { .grid-container { grid-template-columns: repeat(3, 1fr); } }
+@media (min-width: 1400px) { .grid-container { grid-template-columns: repeat(4, 1fr); } }
+
+/* =========================================
+   5. CARD DO MÊS
+   ========================================= */
+.month-card {
+    background: var(--card-bg); border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.06);
+    overflow: hidden; display: flex; flex-direction: column; height: 100%;
+    border: 1px solid rgba(0,0,0,0.03); transform: none !important; transition: none;
+}
+.month-card:hover { box-shadow: 0 15px 35px rgba(0,0,0,0.08); }
+.month-title {
+    background-color: var(--primary); color: white; padding: 15px;
+    text-align: center; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; font-size: 1rem;
+}
+.events-list { list-style: none; padding: 20px; margin: 0; display: flex; flex-direction: column; gap: 18px; flex-grow: 1; }
+
+/* =========================================
+   6. ITEM DE EVENTO
+   ========================================= */
+.event-item {
+    display: flex; align-items: center; gap: 15px; cursor: pointer;
+    padding: 12px; border-radius: 8px; border-bottom: 1px solid #f0f0f0;
+    border-left: 3px solid transparent; transition: all 0.2s ease;
+}
+.event-item:last-child { border-bottom: none; }
+.event-item:hover {
+    background-color: #f8fcf9; border-left-color: var(--primary);
+    transform: translateX(5px); box-shadow: 0 2px 8px rgba(0,0,0,0.03); opacity: 1;
+}
+.event-date-box {
+    width: 65px; min-width: 65px; height: 60px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 800; font-size: 1.1rem; flex-shrink: 0; line-height: 1; text-align: center; border: 2px solid transparent;
+}
+.event-details { display: flex; flex-direction: column; gap: 4px; width: 100%; }
+.event-name { font-weight: 700; font-size: 0.95rem; color: #2d3436; line-height: 1.2; }
+.event-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.event-time { font-size: 0.75rem; color: #888; display: flex; align-items: center; gap: 4px; }
+.tag-badge { padding: 3px 8px; border-radius: 6px; color: white; font-weight: 700; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* =========================================
+   7. MODAL DETALHES
+   ========================================= */
+.modal-overlay {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(4px); z-index: 9999;
+    display: flex; justify-content: center; align-items: center;
+    opacity: 0; visibility: hidden; transition: all 0.2s ease-in-out;
+}
+.modal-overlay.active { opacity: 1; visibility: visible; }
+.modal-content {
+    background: #fff; width: 90%; max-width: 400px; border-radius: 16px;
+    overflow: hidden; box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    transform: translateY(20px); transition: transform 0.3s ease-out;
+}
+.modal-overlay.active .modal-content { transform: translateY(0); }
+.modal-header {
+    background-color: #e67e22; padding: 20px 25px; display: flex;
+    justify-content: space-between; align-items: flex-start; color: white;
+}
+.modal-header h2 { margin: 0; font-size: 1.3rem; font-weight: 800; line-height: 1.2; padding-right: 15px; text-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+.close-btn {
+    background: rgba(255, 255, 255, 0.25); border: none; color: white;
+    width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: background 0.2s; flex-shrink: 0;
+}
+.close-btn:hover { background: rgba(255, 255, 255, 0.5); }
+.modal-body { padding: 30px 25px; display: flex; flex-direction: column; gap: 20px; }
+.info-row { display: flex; align-items: flex-start; gap: 15px; }
+.icon-area { width: 24px; text-align: center; padding-top: 3px; }
+.icon-area i { font-size: 1.1rem; color: #333; }
+.text-area { display: flex; flex-direction: column; }
+.label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; color: #333; letter-spacing: 0.5px; margin-bottom: 2px; }
+.value { font-size: 1rem; font-weight: 500; color: #555; }
+.desc-box { background: #f9f9f9; padding: 15px; border-radius: 8px; font-size: 0.9rem; color: #444; border-left: 4px solid #ccc; }
+.tag-footer { margin-top: 10px; }
+.tag-pill-large {
+    display: inline-block; padding: 10px 30px; background-color: #e67e22; color: white;
+    font-weight: 800; border-radius: 50px; text-transform: uppercase; font-size: 0.85rem; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
