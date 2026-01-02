@@ -60,3 +60,63 @@ header p {
     font-weight: 300; 
     font-size: 1.1rem; 
 }
+
+/* Estilo do Botão Flutuante */
+.install-btn {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%); /* Centraliza */
+  background-color: #0044ff; /* Cor da Igreja - MUDE AQUI */
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: bold;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+  z-index: 1000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s;
+}
+
+.install-btn:active {
+  transform: translateX(-50%) scale(0.95); /* Efeito de clique */
+}
+
+/* Estilo do Modal do iPhone */
+.ios-modal {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.7); /* Fundo escuro transparente */
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ios-content {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 350px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.ios-content h3 { margin-top: 0; color: #333; }
+.ios-content ol { text-align: left; padding-left: 20px; margin: 15px 0; }
+.ios-content li { margin-bottom: 10px; color: #555; }
+.ios-content button {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
