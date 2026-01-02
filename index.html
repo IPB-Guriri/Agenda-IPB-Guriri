@@ -49,9 +49,26 @@
 
     </div>
 
+    <button id="btn-install-app" class="install-btn" style="display: none;">
+    <span class="icon">📲</span> Baixar App da Igreja
+</button>
+
+<div id="ios-install-modal" class="ios-modal" style="display: none;">
+    <div class="ios-content">
+    <h3>Instalar no iPhone</h3>
+    <p>A Apple não permite instalação automática. Siga os passos:</p>
+    <ol>
+        <li>Toque no botão <strong>Compartilhar</strong> <span style="font-size:20px">⎋</span> na barra abaixo.</li>
+        <li>Role para cima e selecione <strong>"Adicionar à Tela de Início"</strong> (ou "Add to Home Screen").</li>
+        <li>Toque em <strong>Adicionar</strong> no canto superior.</li>
+    </ol>
+    <button onclick="closeIosModal()">Entendi</button>
+    </div>
+</div>
+
     <footer style="text-align: center; margin-top: 50px; color: #999; font-size: 0.8rem;">
         &copy; 2026 Igreja Presbiteriana do Brasil - Guriri
     </footer>
-
+    <script src="assets/js/manifest.js"></script>
 </body>
 </html>
