@@ -1,0 +1,604 @@
+/* =========================================
+1. HEADER ESPECÍFICO DA AGENDA
+=========================================
+Sobrescreve o header padrão do global.css para a página de agenda.
+Usa gradiente diagonal em tons de verde escuro.
+========================================= */
+
+header {
+/* Gradiente diagonal do verde institucional para verde muito escuro */
+    background: linear-gradient(135deg, #074528 0%, #002e1a 100%);
+    /* 135deg = diagonal da esquerda superior para direita inferior */
+    /* #074528 = verde IPB primário, #002e1a = verde quase preto */
+}
+
+
+/* =========================================
+2. HUB / MENU INICIAL (RESTAURAÇÃO)
+=========================================
+Cards clicáveis para navegação entre diferentes seções.
+Layout flexível que se adapta a diferentes tamanhos de tela.
+========================================= */
+
+/* Container principal do hub */
+.hub-container {
+/* Layout flexbox responsivo */
+    display: flex;              /* Flexbox para organizar cards */
+    gap: 30px;                  /* Espaço de 30px entre cada card */
+    justify-content: center;    /* Centraliza cards horizontalmente */
+    flex-wrap: wrap;            /* Permite quebra de linha em telas pequenas */
+    
+/* Espaçamentos */
+    margin-top: 40px;  /* Espaço acima do hub */
+    padding: 20px;     /* Espaçamento interno */
+}
+
+
+/* Card individual do hub */
+.hub-card {
+/* Cores e formato */
+    background: white;       /* Fundo branco */
+    border-radius: 16px;     /* Cantos arredondados */
+    border: 1px solid #f0f0f0;  /* Borda cinza muito clara */
+    
+/* Espaçamento e dimensões */
+    padding: 30px;    /* Espaçamento interno generoso */
+    width: 300px;     /* Largura fixa para uniformidade */
+    
+/* Alinhamento interno */
+    text-align: center;       /* Centraliza texto */
+    display: flex;            /* Flexbox para organizar conteúdo */
+    flex-direction: column;   /* Empilha conteúdo verticalmente */
+    align-items: center;      /* Centraliza horizontalmente */
+    
+/* Remove estilo padrão de link */
+    text-decoration: none;  /* Remove sublinhado */
+    color: #333;            /* Cor de texto padrão */
+    
+/* Efeitos visuais */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);  /* Sombra suave */
+    transition: all 0.3s ease;                  /* Animação suave de 0.3s */
+}
+
+
+/* Efeito hover no card do hub */
+.hub-card:hover { 
+    transform: translateY(-5px);                  /* Move 5px para cima */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);      /* Sombra mais forte */
+    border-color: var(--primary);                 /* Borda muda para verde primário */
+}
+
+
+/* Título do card do hub (h3) */
+.hub-card h3 { 
+    color: var(--primary);  /* Verde institucional */
+    margin: 15px 0 10px;    /* 15px acima, 10px abaixo */
+    font-size: 1.3rem;      /* Tamanho grande */
+    font-weight: 700;       /* Negrito forte */
+}
+
+
+/* Descrição do card do hub (p) */
+.hub-card p { 
+    font-size: 0.95rem;  /* Levemente menor que o padrão */
+    color: #666;         /* Cinza médio */
+    line-height: 1.5;    /* Espaçamento entre linhas */
+}
+
+
+/* =========================================
+3. FILTROS
+=========================================
+Sistema de filtros para categorias e tags de eventos.
+Botões interativos com estado ativo/inativo.
+========================================= */
+
+/* Container principal dos filtros */
+.filters-container {
+/* Dimensionamento */
+    max-width: 1400px;  /* Largura máxima igual ao grid */
+    
+/* Espaçamentos */
+    margin: -25px auto 40px;  /* Margem negativa no topo para sobrepor header */
+    padding: 0 20px;          /* Padding lateral */
+    
+/* Layout */
+    display: flex;             /* Flexbox */
+    flex-direction: column;    /* Empilha verticalmente */
+    gap: 15px;                 /* Espaço entre grupos de filtro */
+    align-items: center;       /* Centraliza horizontalmente */
+}
+
+/* Grupo de filtros (container dos botões) */
+.filter-group {
+/* Layout flexível */
+    display: flex;         /* Flexbox */
+    flex-wrap: wrap;       /* Permite quebra de linha */
+    gap: 10px;             /* Espaço entre botões */
+    justify-content: center;  /* Centraliza botões */
+    
+/* Aparência */
+    background: white;     /* Fundo branco */
+    padding: 8px;          /* Espaçamento interno */
+    border-radius: 50px;   /* Bordas muito arredondadas (formato pill) */
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);  /* Sombra suave */
+}
+
+/* Label/rótulo do grupo de filtro */
+.filter-label {
+/* Layout */
+    display: flex;        /* Flexbox */
+    align-items: center;  /* Centraliza verticalmente */
+    padding: 0 15px;      /* Padding horizontal */
+    
+/* Tipografia */
+    font-weight: 700;              /* Negrito forte */
+    font-size: 0.8rem;             /* Texto pequeno */
+    color: #888;                   /* Cinza médio */
+    text-transform: uppercase;     /* MAIÚSCULAS */
+    letter-spacing: 1px;           /* Espaçamento entre letras */
+}
+
+/* Botão de filtro individual */
+.filter-btn {
+/* Remove estilos padrão */
+    border: none;              /* Sem borda */
+    background: transparent;   /* Fundo transparente por padrão */
+    
+/* Espaçamento e formato */
+    padding: 8px 20px;      /* Padding interno */
+    border-radius: 30px;    /* Bordas arredondadas */
+    
+/* Tipografia */
+    font-family: var(--font-stack);  /* Usa fonte do tema */
+    font-weight: 600;                /* Semi-negrito */
+    color: #555;                     /* Cinza médio-escuro */
+    
+/* Interação */
+    cursor: pointer;              /* Cursor de mão */
+    transition: all 0.3s ease;    /* Animação suave */
+}
+
+/* Efeito hover no botão de filtro */
+.filter-btn:hover { 
+    background: #f0f2f5;  /* Fundo cinza claro ao passar mouse */
+}
+
+/* Estado ativo do botão de filtro */
+.filter-btn.active { 
+    background: var(--primary);                 /* Fundo verde primário */
+    color: white;                               /* Texto branco */
+    box-shadow: 0 4px 10px rgba(7, 69, 40, 0.3);  /* Sombra verde */
+}
+
+
+/* =========================================
+4. GRID E LAYOUT RESPONSIVO
+=========================================
+Sistema de grid que se adapta ao tamanho da tela.
+1 coluna (mobile) → 2 colunas (tablet) → 3 colunas (desktop) → 4 colunas (telas grandes).
+========================================= */
+
+/* Container do grid de cards mensais */
+.grid-container {
+/* Layout grid */
+    display: grid;                         /* CSS Grid */
+    grid-template-columns: repeat(1, 1fr);  /* 1 coluna por padrão (mobile) */
+    gap: 30px;                             /* Espaço de 30px entre cards */
+    
+/* Dimensionamento */
+    max-width: 1400px;  /* Largura máxima */
+    
+/* Espaçamentos */
+    margin: 0 auto;        /* Centraliza horizontalmente */
+    padding: 0 20px 80px;  /* Padding lateral e 80px embaixo */
+    
+/* Alinhamento */
+    align-items: stretch;  /* Estica cards para terem mesma altura */
+}
+
+/* Responsivo: 2 colunas a partir de 768px (tablets) */
+@media (min-width: 768px) { 
+    .grid-container { 
+        grid-template-columns: repeat(2, 1fr);  /* 2 colunas de tamanho igual */
+    } 
+}
+
+/* Responsivo: 3 colunas a partir de 1100px (desktops) */
+@media (min-width: 1100px) { 
+    .grid-container { 
+        grid-template-columns: repeat(3, 1fr);  /* 3 colunas de tamanho igual */
+    } 
+}
+
+/* Responsivo: 4 colunas a partir de 1400px (telas grandes) */
+@media (min-width: 1400px) { 
+    .grid-container { 
+        grid-template-columns: repeat(4, 1fr);  /* 4 colunas de tamanho igual */
+    } 
+}
+
+
+/* =========================================
+5. CARD DO MÊS
+=========================================
+Card que representa um mês completo com seus eventos.
+Estrutura: título do mês + lista de eventos.
+========================================= */
+
+/* Container principal do card mensal */
+.month-card {
+/* Cores e formato */
+    background: var(--card-bg);  /* Fundo branco (variável) */
+    border-radius: 16px;         /* Cantos arredondados */
+    border: 1px solid rgba(0,0,0,0.03);  /* Borda sutil */
+    
+/* Layout interno */
+    display: flex;             /* Flexbox */
+    flex-direction: column;    /* Empilha conteúdo verticalmente */
+    height: 100%;              /* Altura completa do grid cell */
+    overflow: hidden;          /* Esconde conteúdo que excede bordas */
+    
+/* Efeitos visuais */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.06);  /* Sombra suave */
+    
+/* Remove animações indesejadas */
+    transform: none !important;  /* Força remoção de transforms */
+    transition: none;            /* Remove transições */
+}
+
+/* Efeito hover no card mensal */
+.month-card:hover { 
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);  /* Sombra mais pronunciada */
+}
+
+/* Título do mês no card */
+.month-title {
+/* Cores */
+    background-color: var(--primary);  /* Fundo verde institucional */
+    color: white;                      /* Texto branco */
+    
+/* Espaçamento */
+    padding: 15px;  /* Padding em todos os lados */
+    
+/* Tipografia */
+    text-align: center;         /* Centraliza texto */
+    font-weight: 800;           /* Extra negrito */
+    text-transform: uppercase;  /* MAIÚSCULAS */
+    letter-spacing: 1px;        /* Espaçamento entre letras */
+    font-size: 1rem;            /* Tamanho padrão */
+}
+
+/* Lista de eventos dentro do card */
+.events-list { 
+/* Remove estilos padrão de lista */
+    list-style: none;  /* Remove bullets */
+    padding: 20px;     /* Padding interno */
+    margin: 0;         /* Remove margem */
+    
+/* Layout */
+    display: flex;             /* Flexbox */
+    flex-direction: column;    /* Empilha eventos verticalmente */
+    gap: 18px;                 /* Espaço de 18px entre eventos */
+    flex-grow: 1;              /* Ocupa espaço disponível (empurra conteúdo para cima) */
+}
+
+
+/* =========================================
+6. ITEM DE EVENTO
+=========================================
+Cada evento individual dentro do card mensal.
+Estrutura: data + nome + horário + tag de categoria.
+========================================= */
+
+/* Container do item de evento */
+.event-item {
+/* Layout */
+    display: flex;        /* Flexbox */
+    align-items: center;  /* Centraliza verticalmente */
+    gap: 15px;            /* Espaço entre data e detalhes */
+    
+/* Espaçamento e formato */
+    padding: 12px;         /* Padding interno */
+    border-radius: 8px;    /* Cantos levemente arredondados */
+    
+/* Bordas */
+    border-bottom: 1px solid #f0f0f0;    /* Linha separadora embaixo */
+    border-left: 3px solid transparent;  /* Borda esquerda transparente (muda no hover) */
+    
+/* Interação */
+    cursor: pointer;              /* Cursor de mão */
+    transition: all 0.2s ease;    /* Animação rápida */
+}
+
+/* Remove borda do último evento */
+.event-item:last-child { 
+    border-bottom: none;  /* Último evento não precisa de linha embaixo */
+}
+
+/* Efeito hover no item de evento */
+.event-item:hover {
+    background-color: #f8fcf9;           /* Fundo verde muito claro */
+    border-left-color: var(--primary);   /* Borda esquerda verde */
+    transform: translateX(5px);          /* Move 5px para direita */
+    box-shadow: 0 2px 8px rgba(0,0,0,0.03);  /* Sombra sutil */
+    opacity: 1;                          /* Garante opacidade total */
+}
+
+/* Caixa da data do evento */
+.event-date-box {
+/* Dimensões fixas (quadrado) */
+    width: 65px;      /* Largura fixa */
+    min-width: 65px;  /* Largura mínima (não encolhe) */
+    height: 60px;     /* Altura fixa */
+    
+/* Formato */
+    border-radius: 12px;              /* Cantos arredondados */
+    border: 2px solid transparent;    /* Borda transparente */
+    
+/* Layout interno (centraliza número) */
+    display: flex;            /* Flexbox */
+    align-items: center;      /* Centraliza verticalmente */
+    justify-content: center;  /* Centraliza horizontalmente */
+    
+/* Tipografia */
+    font-weight: 800;    /* Extra negrito */
+    font-size: 1.1rem;   /* Tamanho grande */
+    line-height: 1;      /* Altura da linha compacta */
+    text-align: center;  /* Centraliza texto */
+    
+/* Comportamento */
+    flex-shrink: 0;  /* Não encolhe (mantém tamanho fixo) */
+}
+
+/* Detalhes do evento (nome, horário, tag) */
+.event-details { 
+    display: flex;             /* Flexbox */
+    flex-direction: column;    /* Empilha verticalmente */
+    gap: 4px;                  /* Pequeno espaço entre linhas */
+    width: 100%;               /* Ocupa largura restante */
+}
+
+/* Nome do evento */
+.event-name { 
+    font-weight: 700;      /* Negrito forte */
+    font-size: 0.95rem;    /* Levemente menor que padrão */
+    color: #2d3436;        /* Cinza escuro */
+    line-height: 1.2;      /* Altura da linha compacta */
+}
+
+/* Container de metadados (horário e tag) */
+.event-meta { 
+    display: flex;        /* Flexbox em linha */
+    align-items: center;  /* Centraliza verticalmente */
+    gap: 8px;             /* Espaço entre horário e tag */
+    flex-wrap: wrap;      /* Permite quebra de linha se necessário */
+}
+
+/* Horário do evento */
+.event-time { 
+    font-size: 0.75rem;   /* Texto pequeno */
+    color: #888;          /* Cinza médio */
+    display: flex;        /* Flexbox para ícone + texto */
+    align-items: center;  /* Centraliza verticalmente */
+    gap: 4px;             /* Espaço entre ícone e texto */
+}
+
+/* Badge/tag de categoria do evento */
+.tag-badge { 
+/* Espaçamento e formato */
+    padding: 3px 8px;     /* Padding compacto */
+    border-radius: 6px;   /* Cantos levemente arredondados */
+    
+/* Tipografia */
+    color: white;                   /* Texto branco */
+    font-weight: 700;               /* Negrito forte */
+    font-size: 0.65rem;             /* Texto muito pequeno */
+    text-transform: uppercase;      /* MAIÚSCULAS */
+    letter-spacing: 0.5px;          /* Espaçamento entre letras */
+}
+
+
+/* =========================================
+7. MODAL DE DETALHES DO EVENTO
+=========================================
+Janela pop-up que exibe informações completas do evento.
+Aparece ao clicar em um evento.
+========================================= */
+
+/* Overlay do modal (fundo escuro) */
+.modal-overlay {
+/* Cobre toda a tela */
+    position: fixed;  /* Fixo na viewport */
+    top: 0;           /* Alinha ao topo */
+    left: 0;          /* Alinha à esquerda */
+    width: 100%;      /* Largura total */
+    height: 100%;     /* Altura total */
+    
+/* Fundo escurecido com desfoque */
+    background: rgba(0, 0, 0, 0.6);  /* Preto 60% opaco */
+    backdrop-filter: blur(4px);       /* Desfoca conteúdo atrás */
+    
+/* Camadas e layout */
+    z-index: 9999;              /* Camada muito alta */
+    display: flex;              /* Flexbox */
+    justify-content: center;    /* Centraliza horizontalmente */
+    align-items: center;        /* Centraliza verticalmente */
+    
+/* Estado inicial (invisível) */
+    opacity: 0;           /* Transparente */
+    visibility: hidden;   /* Escondido */
+    
+/* Animação */
+    transition: all 0.2s ease-in-out;  /* Transição suave */
+}
+
+/* Modal ativo (visível) */
+.modal-overlay.active { 
+    opacity: 1;          /* Totalmente opaco */
+    visibility: visible;  /* Visível */
+}
+
+/* Caixa de conteúdo do modal */
+.modal-content {
+/* Cores e formato */
+    background: #fff;      /* Fundo branco */
+    border-radius: 16px;   /* Cantos arredondados */
+    overflow: hidden;      /* Esconde conteúdo que excede bordas */
+    
+/* Dimensões */
+    width: 90%;         /* 90% da largura em telas pequenas */
+    max-width: 400px;   /* Máximo 400px em telas grandes */
+    
+/* Efeitos visuais */
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);  /* Sombra forte */
+    
+/* Animação de entrada */
+    transform: translateY(20px);        /* Começa 20px abaixo */
+    transition: transform 0.3s ease-out;  /* Anima movimento */
+}
+
+/* Quando modal está ativo - anima conteúdo para posição final */
+.modal-overlay.active .modal-content { 
+    transform: translateY(0);  /* Move para posição normal */
+}
+
+/* Cabeçalho do modal */
+.modal-header {
+/* Cores */
+    background-color: #e67e22;  /* Laranja (cor de destaque) */
+    color: white;               /* Texto branco */
+    
+/* Layout */
+    padding: 20px 25px;          /* Padding interno */
+    display: flex;               /* Flexbox */
+    justify-content: space-between;  /* Título à esquerda, botão à direita */
+    align-items: flex-start;     /* Alinha ao topo */
+}
+
+/* Título do modal (h2) */
+.modal-header h2 { 
+    margin: 0;              /* Remove margem */
+    font-size: 1.3rem;      /* Tamanho grande */
+    font-weight: 800;       /* Extra negrito */
+    line-height: 1.2;       /* Altura da linha compacta */
+    padding-right: 15px;    /* Espaço à direita para botão fechar */
+    text-shadow: 0 2px 4px rgba(0,0,0,0.1);  /* Sombra sutil no texto */
+}
+
+/* Botão de fechar o modal */
+.close-btn {
+/* Cores e formato */
+    background: rgba(255, 255, 255, 0.25);  /* Branco semi-transparente */
+    border: none;                           /* Sem borda */
+    color: white;                           /* Ícone branco */
+    border-radius: 50%;                     /* Formato circular */
+    
+/* Dimensões */
+    width: 30px;   /* Largura fixa */
+    height: 30px;  /* Altura fixa (círculo perfeito) */
+    
+/* Layout interno */
+    display: flex;            /* Flexbox */
+    align-items: center;      /* Centraliza verticalmente */
+    justify-content: center;  /* Centraliza horizontalmente */
+    
+/* Comportamento */
+    cursor: pointer;                /* Cursor de mão */
+    flex-shrink: 0;                 /* Não encolhe */
+    transition: background 0.2s;    /* Anima mudança de fundo */
+}
+
+/* Efeito hover no botão fechar */
+.close-btn:hover { 
+    background: rgba(255, 255, 255, 0.5);  /* Aumenta opacidade ao passar mouse */
+}
+
+/* Corpo do modal (informações do evento) */
+.modal-body { 
+    padding: 30px 25px;      /* Padding interno generoso */
+    display: flex;           /* Flexbox */
+    flex-direction: column;  /* Empilha conteúdo verticalmente */
+    gap: 20px;               /* Espaço de 20px entre linhas */
+}
+
+/* Linha de informação (ícone + texto) */
+.info-row { 
+    display: flex;          /* Flexbox */
+    align-items: flex-start;  /* Alinha ao topo */
+    gap: 15px;              /* Espaço entre ícone e texto */
+}
+
+/* Área do ícone */
+.icon-area { 
+    width: 24px;        /* Largura fixa */
+    text-align: center;  /* Centraliza ícone */
+    padding-top: 3px;   /* Pequeno ajuste de alinhamento */
+}
+
+/* Ícone dentro da área */
+.icon-area i { 
+    font-size: 1.1rem;  /* Tamanho do ícone */
+    color: #333;        /* Cor escura */
+}
+
+/* Área de texto (label + valor) */
+.text-area { 
+    display: flex;             /* Flexbox */
+    flex-direction: column;    /* Empilha label e valor */
+}
+
+/* Label do campo */
+.label { 
+    font-size: 0.7rem;             /* Texto muito pequeno */
+    font-weight: 800;              /* Extra negrito */
+    text-transform: uppercase;     /* MAIÚSCULAS */
+    color: #333;                   /* Cor escura */
+    letter-spacing: 0.5px;         /* Espaçamento entre letras */
+    margin-bottom: 2px;            /* Pequeno espaço abaixo */
+}
+
+/* Valor do campo */
+.value { 
+    font-size: 1rem;      /* Tamanho padrão */
+    font-weight: 500;     /* Peso médio */
+    color: #555;          /* Cinza médio */
+}
+
+/* Caixa de descrição do evento */
+.desc-box { 
+    background: #f9f9f9;              /* Fundo cinza muito claro */
+    padding: 15px;                    /* Padding interno */
+    border-radius: 8px;               /* Cantos arredondados */
+    font-size: 0.9rem;                /* Texto levemente menor */
+    color: #444;                      /* Cinza médio-escuro */
+    border-left: 4px solid #ccc;      /* Borda esquerda cinza */
+}
+
+/* Rodapé com tag */
+.tag-footer { 
+    margin-top: 10px;  /* Espaço acima */
+}
+
+/* Tag grande no rodapé do modal */
+.tag-pill-large {
+/* Display */
+    display: inline-block;  /* Inline mas permite padding */
+    
+/* Espaçamento e formato */
+    padding: 10px 30px;      /* Padding generoso */
+    border-radius: 50px;     /* Bordas muito arredondadas (formato pill) */
+    
+/* Cores */
+    background-color: #e67e22;  /* Laranja (mesma cor do header) */
+    color: white;               /* Texto branco */
+    
+/* Tipografia */
+    font-weight: 800;           /* Extra negrito */
+    text-transform: uppercase;  /* MAIÚSCULAS */
+    font-size: 0.85rem;         /* Texto levemente menor */
+    letter-spacing: 0.5px;      /* Espaçamento entre letras */
+    
+/* Efeito visual */
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);  /* Sombra suave */
+}

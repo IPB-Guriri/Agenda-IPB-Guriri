@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <!-- CONFIGURAÇÕES DO CABEÇALHO -->
+    <meta charset="UTF-8"> <!-- Define a codificação de caracteres para suportar acentuação -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Torna o site responsivo em dispositivos móveis -->
+    <title>Liderança - IPB Guriri</title>
+    
+    <!-- IMPORTAÇÃO DE FONTES E ÍCONES -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+
+    <!-- ARQUIVOS CSS CUSTOMIZADOS -->
+    <link rel="stylesheet" href="../css/global.css"> <!-- Estilos globais -->
+    <link rel="stylesheet" href="../css/membros.css"> <!-- Estilos específicos da página de membros -->
+</head>
+<body>
+
+
+    <!-- ========================================
+    CABEÇALHO DA PÁGINA
+    ======================================== -->
+    <header class="membros-header">
+        <!-- Navegação para voltar à página principal -->
+        <nav aria-label="Navegação secundária">
+            <a href="../../index.html" class="btn-voltar-hub" aria-label="Voltar para página inicial">
+                <i class="fas fa-arrow-left" aria-hidden="true"></i> Voltar
+            </a>
+        </nav>
+        <img src="../img/logo.png" alt="Logo IPB" class="logo">
+        <h1>Liderança e Membros</h1>
+        <p>Igreja Presbiteriana do Brasil - Guriri</p>
+    </header>
+
+
+    <!-- ========================================
+    CONTEÚDO PRINCIPAL
+    ======================================== -->
+    <main class="container">
+        <!-- 
+            LISTA DE MEMBROS EM FORMATO ACCORDION
+            - Accordion é um componente que permite expandir/retrair seções
+            - Cada sociedade será uma seção com seus membros
+            - O conteúdo é preenchido dinamicamente via JavaScript
+        -->
+        <section id="lista-membros-accordion" class="accordion-container" aria-label="Lista de liderança por sociedade">
+            <!-- Mensagem de carregamento (substituída quando os dados chegam) -->
+            <p style="text-align: center; padding: 40px; color: #666;" role="status" aria-live="polite">Carregando liderança...</p>
+        </section>
+    </main>
+
+
+    <!-- ========================================
+    SCRIPTS JAVASCRIPT
+    ======================================== -->
+    <!-- Firebase SDK - Biblioteca para conexão com banco de dados -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    
+    <!-- Scripts customizados da aplicação -->
+    <script src="../js/config.js"></script> <!-- Configurações do Firebase -->
+    <script src="../js/membros.js"></script> <!-- Lógica da página de membros (carrega e exibe liderança) -->
+</body>
+</html>
