@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Louvor - Acesso Restrito</title>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../css/louvor/afinador_louvor.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.min.js"></script>
+    <script src="https://unpkg.com/ml5@0.12.2/dist/ml5.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.js"></script>
+    
+    <link rel="stylesheet" href="../../css/louvor/menu_louvor.css">
+    <link rel="stylesheet" href="../../css/louvor/repertorio_louvor.css">
+</head>
+<body>
+
+    <section id="login-screen">
+        <div class="login-box">
+            <div class="login-header">
+                <i class="fas fa-church"></i>
+                <h2>Área do Louvor</h2>
+                <p>Presbiteriana</p>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password-input" placeholder="Digite a senha de acesso" aria-label="Senha de acesso">
+                <button id="login-btn" aria-label="Entrar">
+                    <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+            <p id="error-msg" class="hidden">Senha incorreta. Tente novamente.</p>
+        </div>
+    </section>
+
+    <div id="dashboard-container" style="display: none;">
+        
+        <button class="mobile-toggle" id="mobile-toggle" aria-label="Abrir menu">
+            <i class="fas fa-bars"></i>
+        </button>
+
+        <nav class="sidebar" id="sidebar">
+            <div class="logo-content">
+                <i class="fas fa-music logo-icon"></i>
+                <span class="logo-text">Worship Team</span>
+            </div>
+
+            <ul class="nav-list">
+                <li class="nav-item">
+                    <a href="#" class="nav-link active" id="link-overview" data-target="section-overview">
+                        <i class="fas fa-home"></i> 
+                        <span>Visão Geral</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" id="link-repertoire" data-target="section-repertoire">
+                        <i class="fas fa-list-ol"></i> 
+                        <span>Repertório</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" data-target="section-escalas">
+                        <i class="fas fa-calendar-alt"></i> 
+                        <span>Escalas</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-users"></i> 
+                        <span>Membros</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-tasks"></i> 
+                        <span>Funções</span>
+                    </a>
+                </li>
+                <li class="nav-item" style="margin-top: 20px; border-top: 1px solid rgba(255,255,255,0.05); padding-top:10px;">
+                    <a href="#" class="nav-link" id="link-settings" data-target="section-settings">
+                        <i class="fas fa-cog"></i> 
+                        <span>Configurações</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link" id="link-tuner" data-target="section-tuner">
+                    <i class="fas fa-microphone-lines"></i> 
+                    <span>Afinador</span>
+                    </a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="user-profile">
+                    <div class="avatar">IP</div>
+                    <div class="user-info">
+                        <p class="user-name">Ministro</p>
+                        <p class="user-role">Logado</p>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <main class="main-content">
+            
+            <section id="section-overview" class="view-section active-section">
+                <header class="header animate-entry">
+                    <h1>Painel Administrativo</h1>
+                    <p>Bem-vindo à área exclusiva da equipe.</p>
+                </header>
+                
+                <div class="card animate-entry" style="animation-delay: 0.1s;">
+                    <h3><i class="fas fa-info-circle accent-icon"></i> Próximo Ensaio</h3>
+                    <p>Quinta-feira às 19:30h - Tragam os fones in-ear.</p>
+                </div>
+
+                <div class="card animate-entry" style="animation-delay: 0.2s;">
+                    <h3><i class="fas fa-music accent-icon"></i> Domingo (Ceia)</h3>
+                    <p>Repertório atualizado. Clique abaixo para ver.</p>
+                    <button class="btn-action">Acessar Setlist</button>
+                </div>
+            </section>
+
+            <section id="section-repertoire" class="view-section hidden-section">
+                <header class="header animate-entry">
+                    <h1>Repertório de Louvores</h1>
+                    <p>Gerencie as músicas, cifras e áudios da equipe.</p>
+                </header>
+
+                <div class="toolbar animate-entry" style="animation-delay: 0.1s;">
+                    <div class="search-container">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="search-song" placeholder="Buscar música, artista ou tom...">
+                    </div>
+                    <button id="btn-open-modal" class="btn-primary-glow">
+                        <i class="fas fa-plus"></i> Nova Música
+                    </button>
+                </div>
+
+                <div id="song-list" class="song-list animate-entry" style="animation-delay: 0.2s;">
+                    </div>
+            </section>
+
+            <section id="section-settings" class="view-section hidden-section">
+                <header class="header animate-entry">
+                    <h1>Configurações do Sistema</h1>
+                    <p>Gerencie integrações e preferências.</p>
+                </header>
+
+                <div class="card animate-entry" style="animation-delay: 0.1s;">
+                    <h3><i class="fas fa-broadcast-tower accent-icon"></i> Integração Holyrics</h3>
+                    <p style="color:var(--text-muted); font-size:14px; margin-bottom:15px;">
+                        Configure a conexão com o PC do Holyrics. O Token é obrigatório.
+                    </p>
+                    
+                    <div class="form-grid-row" style="display: flex; gap: 15px; flex-wrap: wrap;">
+                        <div class="input-wrapper" style="flex: 2; min-width: 200px;">
+                            <label style="display:block; margin-bottom:5px; color:#94a3b8; font-size:12px; font-weight:600;">IP DO SERVIDOR (IPV4)</label>
+                            <input type="text" id="setting-holyrics-ip" class="input-glass" placeholder="Ex: 192.168.0.15">
+                        </div>
+                        <div class="input-wrapper" style="flex: 1; min-width: 100px;">
+                            <label style="display:block; margin-bottom:5px; color:#94a3b8; font-size:12px; font-weight:600;">PORTA</label>
+                            <input type="text" id="setting-holyrics-port" class="input-glass" placeholder="Ex: 8091">
+                        </div>
+                    </div>
+
+                    <div class="form-grid-row" style="margin-top: 15px;">
+                        <div class="input-wrapper" style="width: 100%;">
+                            <label style="display:block; margin-bottom:5px; color:#94a3b8; font-size:12px; font-weight:600;">TOKEN DE ACESSO</label>
+                            <input type="text" id="setting-holyrics-token" class="input-glass" placeholder="Cole o token gerado aqui...">
+                        </div>
+                    </div>
+                    
+                    <button id="btn-save-settings" class="btn-primary-glow" style="margin-top:15px;">
+                        <i class="fas fa-save"></i> Salvar Configurações
+                    </button>
+                </div>
+            </section>
+            <section id="section-tuner" class="view-section hidden-section">
+                <header class="header animate-entry">
+                    <h1>Afinador Digital</h1>
+                    <p>Use o microfone para afinar instrumentos ou voz.</p>
+                </header>
+
+                <div class="tuner-container animate-entry" style="animation-delay: 0.1s;">
+                    <div class="tuner-display">
+                        <div class="note-name" id="tuner-note">--</div>
+                        <div class="frequency-text"><span id="tuner-freq">0</span> Hz</div>
+                    </div>
+                    
+                    <div class="gauge-wrapper">
+                        <div class="gauge-arc"></div>
+                        <div class="gauge-needle" id="tuner-needle"></div>
+                        <div class="gauge-labels">
+                            <span>b</span>
+                            <span class="center-mark">●</span>
+                            <span>#</span>
+                        </div>
+                    </div>
+
+                    <div class="tuner-controls">
+                        <button id="btn-start-tuner" class="btn-primary-glow">
+                            <i class="fas fa-power-off"></i> Ligar Afinador
+                        </button>
+                    </div>
+                    
+                    <p class="tuner-status" id="tuner-status">Microfone desligado</p>
+                </div>
+            </section>
+
+
+        </main>
+    </div>
+
+    <div id="modal-add-song" class="modal-overlay hidden">
+        <div class="modal-content glass-modal">
+            <div class="modal-header">
+                <h3 id="modal-title"><i class="fas fa-music"></i> Nova Música</h3>
+                <button id="btn-close-modal" class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            
+            <div class="modal-body">
+                
+                <div id="section-api-search" class="search-bar-integrated">
+                    <select id="api-search-source">
+                        <option value="lrclib">LRCLIB (Rápido)</option>
+                        <option value="vagalume">Vagalume (Brasil)</option>
+                        <option value="holyrics">Holyrics (Local)</option>
+                    </select>
+
+                    <button id="btn-holyrics-help" type="button" class="btn-icon-help hidden" title="Como configurar?">
+                        <i class="fas fa-question-circle"></i>
+                    </button>
+
+                    <div style="position: relative; flex: 1;">
+                        <i class="fas fa-globe search-icon-modal"></i>
+                        <input type="text" id="api-search-input" placeholder="Buscar dados online..." autocomplete="off">
+                    </div>
+                </div>
+                
+                <hr class="separator" id="sep-api">
+
+                <form id="form-save-song">
+                    <input type="hidden" id="edit-song-id">
+
+                    <div id="group-info">
+                        <div class="form-grid-row">
+                            <div class="input-wrapper">
+                                <label>Título</label>
+                                <input type="text" id="input-title" placeholder="Nome da canção" required>
+                            </div>
+                            <div class="input-wrapper">
+                                <label>Artista</label>
+                                <input type="text" id="input-artist" placeholder="Cantor ou Banda" required>
+                            </div>
+                        </div>
+                        <div class="form-grid-row small-gap">
+                            <div class="input-wrapper">
+                                <label>Tom</label>
+                                <input type="text" id="input-key" placeholder="Ex: G" class="text-center">
+                            </div>
+                            <div class="input-wrapper">
+                                <label>BPM</label>
+                                <input type="text" id="input-bpm" placeholder="Ex: 72" class="text-center">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="group-audio" class="group-section">
+                        <div class="section-label"><i class="fas fa-headphones"></i> Configuração de Áudio</div>
+                        <div class="audio-split-section">
+                            <div class="audio-left">
+                                <label><i class="fab fa-youtube"></i> Link de Referência</label>
+                                <input type="text" id="input-link" placeholder="Cole o link do YouTube/Spotify">
+                            </div>
+                            <div class="audio-right">
+                                <label><i class="fas fa-microphone-lines"></i> Arquivos de Vozes</label>
+                                <div class="upload-zone" id="upload-zone">
+                                    <input type="file" id="file-upload-input" multiple style="display: none;">
+                                    <button type="button" id="btn-add-voice" class="btn-upload-trigger">
+                                        <i class="fas fa-cloud-upload-alt"></i> Adicionar
+                                    </button>
+                                </div>
+                                <ul id="voices-list" class="voices-list"></ul>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="group-cifra" class="group-section">
+                        <div class="section-label"><i class="fas fa-guitar"></i> Editor de Cifra</div>
+                        <div class="input-wrapper full-width">
+                            <textarea id="input-cifra" placeholder="Cole a cifra aqui..." rows="12"></textarea>
+                        </div>
+                    </div>
+                    
+                    <button type="submit" class="btn-save-modal" id="btn-save-form">
+                        <i class="fas fa-save"></i> Salvar Alterações
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="modal-help-holyrics" class="modal-overlay hidden" style="z-index: 1100;">
+        <div class="modal-content glass-modal" style="max-width: 500px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-broadcast-tower"></i> Configurar Holyrics</h3>
+                <button class="close-modal" onclick="document.getElementById('modal-help-holyrics').classList.add('hidden')"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body" style="color: #e2e8f0; font-size: 14px; line-height: 1.6;">
+                <p><strong>Passo 1: Gerar o Token</strong></p>
+                <ol style="margin-left: 20px; margin-bottom: 15px;">
+                    <li>No Holyrics, vá em <strong>Configurações > API Server</strong>.</li>
+                    <li>Clique no botão <strong>Gerenciar Permissões</strong>.</li>
+                    <li>Clique no ícone de <strong>+</strong> para criar um novo acesso.</li>
+                    <li>Copie o código gerado (Esse é o seu Token).</li>
+                </ol>
+
+                <p><strong>Passo 2: Pegar o IP</strong></p>
+                <ol style="margin-left: 20px; margin-bottom: 15px;">
+                    <li>No Windows, abra o menu Iniciar e digite <code>cmd</code>.</li>
+                    <li>Na tela preta, digite <code>ipconfig</code> e dê Enter.</li>
+                    <li>Anote o número do <strong>Endereço IPv4</strong> (Ex: 192.168.0.x).</li>
+                </ol>
+
+                <div style="background: rgba(59, 130, 246, 0.1); padding: 15px; border-radius: 8px; border-left: 4px solid #3b82f6;">
+                    <i class="fas fa-info-circle"></i> <strong>Finalizar:</strong> Vá na aba <strong>Configurações</strong> deste site e cole o IP, a Porta (8091) e o Token que você copiou.
+                </div>
+            </div>
+            <div class="modal-footer" style="margin-top: 20px; text-align: right;">
+                <button class="btn-save-modal" onclick="document.getElementById('modal-help-holyrics').classList.add('hidden')">Entendi</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/louvor/menu_louvor.js"></script>
+    <script src="../../js/louvor/repertorio_louvor.js"></script>
+    <script src="../../js/louvor/configuracao_louvor.js"></script>
+    <script src="../../js/louvor/afinador_louvor.js"></script>
+</body>
+</html>

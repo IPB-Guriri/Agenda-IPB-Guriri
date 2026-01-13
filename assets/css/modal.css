@@ -1,0 +1,135 @@
+/* ========================================
+MODAL ESTILO ADMIN (FORMULÁRIOS)
+========================================
+Sistema de modal (janela pop-up) para exibir formulários administrativos.
+O modal cobre toda a tela com uma camada escura e exibe o conteúdo centralizado.
+======================================== */
+
+/* ========================================
+CAMADA DE FUNDO DO MODAL (OVERLAY)
+======================================== */
+
+.modal-overlay {
+/* Posicionamento fixo cobrindo toda a viewport */
+    position: fixed;  /* Fica fixo na tela mesmo com scroll */
+    top: 0;           /* Alinha ao topo */
+    left: 0;          /* Alinha à esquerda */
+    width: 100%;      /* Largura total da tela */
+    height: 100%;     /* Altura total da tela */
+    
+/* Efeitos visuais de fundo */
+    background: rgba(0, 0, 0, 0.6);  /* Fundo preto semi-transparente (60% de opacidade) */
+    backdrop-filter: blur(3px);       /* Aplica desfoque de 3px no conteúdo atrás do modal */
+    
+/* Layout e visibilidade */
+    display: none;              /* Escondido por padrão */
+    justify-content: center;    /* Centraliza horizontalmente o conteúdo */
+    align-items: center;        /* Centraliza verticalmente o conteúdo */
+    z-index: 1000;              /* Camada muito alta para ficar sobre todos os outros elementos */
+}
+
+/* Quando o modal está ativo/visível */
+.modal-overlay.active { 
+    display: flex;  /* Muda para flex para mostrar o modal centralizado */
+}
+
+
+/* ========================================
+CONTEÚDO DO MODAL (CAIXA BRANCA)
+======================================== */
+
+.modal-content {
+/* Estilo visual da caixa */
+    background: white;           /* Fundo branco */
+    padding: 30px;               /* Espaçamento interno de 30px em todos os lados */
+    border-radius: 16px;         /* Cantos arredondados (16px de raio) */
+    
+/* Dimensionamento */
+    width: 90%;                  /* Ocupa 90% da largura em telas pequenas */
+    max-width: 600px;            /* Largura máxima de 600px em telas grandes */
+    
+/* Efeitos e posicionamento */
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);  /* Sombra pronunciada para destaque */
+    position: relative;          /* Permite posicionamento de elementos filhos */
+    
+/* Scroll interno se conteúdo for muito grande */
+    max-height: 90vh;            /* Altura máxima de 90% da altura da tela */
+    overflow-y: auto;            /* Adiciona scroll vertical se necessário */
+}
+
+
+/* ========================================
+CABEÇALHO DO MODAL
+======================================== */
+
+.modal-header { 
+/* Layout flexbox para organizar título e botão de fechar */
+    display: flex;                   /* Usa flexbox */
+    justify-content: space-between;  /* Espaça título à esquerda e botão à direita */
+    align-items: center;             /* Alinha verticalmente ao centro */
+    
+/* Espaçamentos e separador visual */
+    margin-bottom: 20px;             /* Espaço abaixo do header */
+    border-bottom: 1px solid #eee;   /* Linha separadora cinza clara */
+    padding-bottom: 15px;            /* Espaço interno abaixo antes da linha */
+}
+
+/* Título do modal (h2) */
+.modal-header h2 { 
+    margin: 0;                 /* Remove margens padrão do h2 */
+    color: var(--primary);     /* Usa cor primária do tema */
+    font-size: 1.5rem;         /* Tamanho de fonte 1.5x o tamanho base (geralmente 24px) */
+}
+
+
+/* ========================================
+BOTÃO DE FECHAR MODAL
+======================================== */
+
+.btn-close-modal { 
+/* Remove estilos padrão de botão */
+    background: none;     /* Sem fundo */
+    border: none;         /* Sem borda */
+    
+/* Aparência do ícone X */
+    font-size: 1.5rem;    /* Tamanho grande para o X (geralmente 24px) */
+    cursor: pointer;      /* Mostra cursor de mão ao passar o mouse */
+    color: #999;          /* Cor cinza neutra */
+}
+
+/* Efeito hover - muda cor ao passar o mouse */
+.btn-close-modal:hover { 
+    color: #c62828;  /* Vermelho indicando ação de fechar/excluir */
+}
+
+
+/* ========================================
+CLASSES UTILITÁRIAS PARA DETALHES
+========================================
+Classes reutilizáveis para exibir informações formatadas em linhas.
+Útil para mostrar dados de forma organizada em formulários admin.
+======================================== */
+
+/* Container de cada linha de detalhe */
+.detalhe-linha { 
+    margin-bottom: 15px;                /* Espaço entre cada linha */
+    border-bottom: 1px solid #f0f0f0;   /* Linha separadora muito sutil */
+    padding-bottom: 10px;               /* Espaço interno abaixo do conteúdo */
+}
+
+/* Label/rótulo do campo (ex: "Nome:", "Email:") */
+.detalhe-label { 
+    display: block;              /* Ocupa linha inteira (bloco) */
+    font-size: 0.8rem;           /* Texto pequeno (geralmente 12.8px) */
+    color: #888;                 /* Cinza médio */
+    text-transform: uppercase;   /* Transforma texto em MAIÚSCULAS */
+    font-weight: bold;           /* Negrito */
+    margin-bottom: 3px;          /* Pequeno espaço entre label e texto */
+}
+
+/* Texto do valor do campo */
+.detalhe-texto { 
+    font-size: 1.1rem;    /* Levemente maior que o texto base (geralmente 17.6px) */
+    font-weight: 500;     /* Peso médio (semi-negrito) */
+    color: #333;          /* Preto quase puro para boa legibilidade */
+}

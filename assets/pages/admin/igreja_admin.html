@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Membros - IPB Guriri</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/admin/Igreja_admin.css">
+</head>
+<body>
+
+    <div id="globalLoader">
+        <div class="loader-spinner"></div>
+    </div>
+
+    <header class="admin-header">
+        <div class="header-content">
+            <a href="./menu_admin.html" class="btn-voltar"><i class="fas fa-arrow-left"></i> Voltar</a>
+            <h1>Painel Administrativo</h1>
+            <div class="status-badge">Membros</div>
+        </div>
+    </header>
+
+    <main class="container">
+        <nav class="nav-tabs">
+            <button class="tab-btn" onclick="window.location.href='agenda_admin.html'">
+                <i class="far fa-calendar-alt"></i> Agenda
+            </button>
+            <button class="tab-btn active">
+                <i class="fas fa-users"></i> Membros
+            </button>
+            <button class="tab-btn" onclick="window.location.href='config_admin.html'">
+                <i class="fas fa-palette"></i> Configurações
+            </button>
+        </nav>
+
+        <section id="secaoMembros">
+            <div class="main-actions">
+                <div class="left-actions">
+                    <button class="btn-primary" onclick="abrirModalMembro()">
+                        <i class="fas fa-user-plus"></i> Novo Membro
+                    </button>
+                </div>
+                <div class="right-actions search-box">
+                    <input type="text" id="buscaMembro" class="form-control" placeholder="Buscar por nome..." onkeyup="filtrarMembros()">
+                    <i class="fas fa-search"></i>
+                </div>
+            </div>
+
+            <div class="admin-card">
+                <table class="clean-table members-table">
+                    <thead>
+                        <tr>
+                            <th>Nome</th>
+                            <th>Sociedade</th>
+                            <th>Sala EBD</th>
+                            <th>Cargos/Funções</th>
+                            <th style="text-align: right;">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody id="listaMembros"></tbody>
+                </table>
+                <div id="emptyState" style="display:none; text-align:center; padding: 50px; color: #94a3b8;">
+                    <i class="fas fa-users-slash" style="font-size: 2.5rem; margin-bottom: 15px; color: #cbd5e1;"></i>
+                    <p style="font-weight: 500;">Nenhum membro encontrado.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="modalMembro" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="tituloModalMembro">Novo Membro</h3>
+                <span class="close" onclick="fecharModalMembro()">&times;</span>
+            </div>
+            
+            <div class="modal-body">
+                <form id="formMembro" onsubmit="event.preventDefault(); salvarMembro();">
+                    
+                    <div class="form-group">
+                        <label>Nome Completo</label>
+                        <input type="text" id="memNome" class="form-control" placeholder="Ex: João da Silva" required>
+                    </div>
+
+                    <div class="row-fields">
+                        <div class="form-group">
+                            <label>Sociedade Interna</label>
+                            <div class="input-row">
+                                <select id="selectSociedade" class="form-control">
+                                    <option value="Nenhuma">Nenhuma</option>
+                                </select>
+                                <button type="button" class="btn-plus-shortcut" onclick="abrirModalGerenciarSociedades()" title="Gerenciar Sociedades">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Sala EBD</label>
+                            <div class="input-row">
+                                <select id="selectSala" class="form-control">
+                                    <option value="Nenhuma">Nenhuma</option>
+                                </select>
+                                <button type="button" class="btn-plus-shortcut" onclick="abrirModalGerenciarSalas()" title="Gerenciar Salas">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cargos e Funções</label>
+                        <div class="input-row" style="position: relative;">
+                            
+                            <div class="autocomplete-wrapper" style="flex:1;">
+                                <input type="text" id="inputBuscaCargo" class="form-control" placeholder="Digite para buscar um cargo..." autocomplete="off">
+                                <div id="listaSugestoesCargos" class="autocomplete-list"></div>
+                            </div>
+
+                            <button type="button" class="btn-plus-shortcut" onclick="abrirModalGerenciarCargos()" title="Gerenciar Lista de Cargos">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        </div>
+                        <div id="containerCargos" class="tags-container"></div>
+                    </div>
+
+                    <div class="modal-footer-action">
+                        <button type="submit" class="btn-primary full-width-btn">
+                            <i class="fas fa-save"></i> Salvar Membro
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalGerenciarSociedades" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Gerenciar Sociedades</h3>
+                <span class="close" onclick="fecharModaisGerenciamento()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="input-group-color">
+                    <input type="text" id="tagSocNome" class="form-control" placeholder="NOVA SOCIEDADE" style="flex: 1;">
+                    <div class="color-wrapper" title="Alterar Cor">
+                        <input type="color" id="tagSocCor" value="#074528" oninput="atualizarPreviewCor(this.value, 'previewSoc')">
+                        <div id="previewSoc" class="color-preview"></div>
+                        <i class="fas fa-palette color-icon"></i>
+                    </div>
+                    <button class="btn-primary" id="btnSalvarSociedade" onclick="salvarTagSociedade()">Criar</button>
+                </div>
+                <div class="table-scroll">
+                    <table class="clean-table">
+                        <tbody id="listaSociedadesGerenciar"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalGerenciarSalas" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Gerenciar Salas EBD</h3>
+                <span class="close" onclick="fecharModaisGerenciamento()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="input-row" style="margin-bottom: 20px;">
+                    <input type="text" id="tagSalaNome" class="form-control" placeholder="NOME DA SALA">
+                    <button class="btn-primary" id="btnSalvarSala" onclick="salvarTagSala()">Criar</button>
+                </div>
+                <div class="table-scroll">
+                    <table class="clean-table">
+                        <tbody id="listaSalasGerenciar"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalGerenciarCargos" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Gerenciar Cargos</h3>
+                <span class="close" onclick="fecharModaisGerenciamento()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="input-row" style="margin-bottom: 20px;">
+                    <input type="text" id="tagCargoNome" class="form-control" placeholder="NOME DO CARGO">
+                    <button class="btn-primary" id="btnSalvarCargo" onclick="salvarTagCargo()">Criar</button>
+                </div>
+                <div class="table-scroll">
+                    <table class="clean-table">
+                        <tbody id="listaCargosGerenciar"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="modalExclusao" class="modal-overlay">
+        <div class="modal-content modal-confirm-wrapper">
+            <div class="modal-icon-danger">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3 class="modal-title" id="tituloExclusao">Tem Certeza?</h3>
+            <p id="textoExclusao" class="modal-desc">Essa ação é irreversível.</p>
+            <div class="modal-actions-row">
+                <button class="btn-outline-cancel" onclick="fecharModalExclusao()">Cancelar</button>
+                <button id="btnConfirmarExclusao" class="btn-solid-danger">Sim, Excluir</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="../../js/config.js"></script>
+    <script src="../../js/admin/Igreja_admin.js"></script>
+</body>
+</html>

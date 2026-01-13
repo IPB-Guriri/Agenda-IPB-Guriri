@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super Admin | GestorPro</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    
+    <link rel="stylesheet" href="../css/superadmin.css">
+</head>
+<body>
+
+    <div id="loginOverlay" class="overlay-full">
+        <div class="login-box">
+            <div class="icon-brand"><i class="fas fa-shield-alt"></i></div>
+            <h2>Acesso Mestre</h2>
+            <p>Painel de Controle Central</p>
+            <form onsubmit="event.preventDefault(); tentarLogin();">
+                <input type="password" id="senhaMestre" placeholder="Senha de Acesso" autofocus>
+                <button type="submit">Entrar <i class="fas fa-arrow-right"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <div class="app-wrapper">
+        
+        <aside class="sidebar">
+            <div class="logo-area">
+                <i class="fas fa-layer-group"></i>
+                <span>Gestor<strong>Pro</strong></span>
+            </div>
+
+            <nav class="nav-menu">
+                <button class="nav-btn active" onclick="mudarTela('entidades')">
+                    <i class="fas fa-church"></i> Igrejas / Entidades
+                </button>
+                <button class="nav-btn" onclick="mudarTela('usuarios')">
+                    <i class="fas fa-users-cog"></i> Admins Globais
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button class="nav-btn danger" onclick="location.reload()">
+                    <i class="fas fa-sign-out-alt"></i> Sair
+                </button>
+            </div>
+        </aside>
+
+        <main class="content-area">
+            
+            <section id="tela-entidades" class="view-active">
+                <header class="top-bar">
+                    <div class="titles">
+                        <h1>Gerenciar Entidades</h1>
+                        <p>Controle de clientes e bancos de dados.</p>
+                    </div>
+                    <button class="btn-primary" onclick="abrirModal()">
+                        <i class="fas fa-plus"></i> Nova Entidade
+                    </button>
+                </header>
+
+                <div id="gridCards" class="grid-container">
+                    <div class="loader"><i class="fas fa-circle-notch fa-spin"></i> Carregando dados...</div>
+                </div>
+            </section>
+
+            <section id="tela-usuarios" style="display: none;">
+                <header class="top-bar">
+                    <div class="titles">
+                        <h1>Administradores</h1>
+                        <p>Gestão de acesso ao Super Admin.</p>
+                    </div>
+                </header>
+                <div class="empty-placeholder">
+                    <i class="fas fa-user-lock"></i>
+                    <p>Módulo de gestão de admins globais em desenvolvimento.</p>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <div id="modalForm" class="overlay-modal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3 id="modalTitulo">Nova Entidade</h3>
+                <span class="close-btn" onclick="fecharModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form onsubmit="event.preventDefault(); salvarEntidade();">
+                    
+                    <div class="input-group">
+                        <label>Nome da Igreja/Empresa</label>
+                        <input type="text" id="inpNome" placeholder="Ex: IPB Central" required>
+                    </div>
+
+                    <div class="row">
+                        <div class="input-group">
+                            <label>ID Único (Slug)</label>
+                            <input type="text" id="inpSlug" placeholder="ipb_central" required>
+                        </div>
+                        <div class="input-group">
+                            <label>Cidade / UF</label>
+                            <input type="text" id="inpCidade" placeholder="Vitória - ES">
+                        </div>
+                    </div>
+
+                    <div class="divider">Configuração Inicial</div>
+
+                    <div class="row">
+                        <div class="input-group">
+                            <label>Senha Admin</label>
+                            <input type="text" id="inpSenha" value="123456">
+                        </div>
+                        <div class="input-group">
+                            <label>Cor do Tema</label>
+                            <input type="color" id="inpCor" value="#074528" style="height: 42px; cursor: pointer;">
+                        </div>
+                    </div>
+
+                    <div class="modal-actions">
+                        <button type="button" class="btn-cancel" onclick="fecharModal()">Cancelar</button>
+                        <button type="submit" class="btn-save" id="btnSalvar">Salvar Dados</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/superadmin.js"></script>
+</body>
+</html>
