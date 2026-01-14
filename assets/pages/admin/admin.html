@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Admin - IPB Guriri</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body>
+
+    <div id="globalLoader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">A CARREGAR SISTEMA...</div>
+    </div>
+
+    <aside id="loginOverlay" role="dialog">
+        <article class="login-box">
+            <img src="../img/logo.png" alt="Logo" class="login-logo">
+            <h2>Área Restrita</h2>
+            <form class="loginEspaco" onsubmit="event.preventDefault(); verificarAcesso();">
+                <div class="input-box">
+                    <input type="password" class="senhaInput" id="senhaInput" placeholder="Senha de acesso" required>
+                    
+                    <span class="material-symbols-outlined" id="btn-senha" onclick="mostrarSenha()">
+                        visibility
+                    </span>
+                </div>
+                <button type="submit" class="btn-primary">ENTRAR</button>
+            </form>
+            <p id="msgErro" style="display:none; color:red; margin-top:10px;">Senha incorreta!</p>
+            <a href="../../index.html" class="back-link">Voltar ao Início</a>
+        </article>
+    </aside>
+
+    <header class="admin-header" id="dinamicHeader">
+        <div class="header-content">
+            <a href="../../index.html" class="btn-voltar"><i class="fas fa-arrow-left"></i> Voltar ao Menu</a>
+            <h1>Painel Administrativo</h1>
+            <div class="status-badge" id="statusMsg">A ligar...</div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <nav class="nav-tabs">
+            <button class="tab-btn active" id="tabAgenda" onclick="trocarAba('agenda')">
+                <i class="far fa-calendar-alt"></i> Agenda
+            </button>
+            <button class="tab-btn" id="tabLideranca" onclick="trocarAba('lideranca')">
+                <i class="fas fa-users"></i> Liderança
+            </button>
+            <button class="tab-btn" id="tabConfig" onclick="trocarAba('config')">
+                <i class="fas fa-palette"></i> Configurações
+            </button>
+        </nav>
+
+        <section id="secaoAgenda">
+            <div class="actions-toolbar">
+                <button class="btn-secondary" onclick="abrirModalTags()"><i class="fas fa-tags"></i> Gerir
+                    Sociedades</button>
+                <button class="btn-secondary" onclick="abrirModalRecorrencia()"><i class="fas fa-sync"></i> Criar
+                    Recorrência</button>
+            </div>
+
+            <article class="admin-card form-card">
+                <div class="card-header">
+                    <h3>Adicionar Evento</h3>
+                </div>
+                <form id="formEvento" onsubmit="event.preventDefault(); processarEvento();">
+                    <div class="row-fields">
+                        <div class="form-group small-col"><label>Ano</label><select id="inputAno"
+                                class="form-control"></select></div>
+                        <div class="form-group">
+                            <label>Mês</label>
+                            <select id="inputMes" class="form-control">
+                                <option value="Janeiro">Janeiro</option>
+                                <option value="Fevereiro">Fevereiro</option>
+                                <option value="Março">Março</option>
+                                <option value="Abril">Abril</option>
+                                <option value="Maio">Maio</option>
+                                <option value="Junho">Junho</option>
+                                <option value="Julho">Julho</option>
+                                <option value="Agosto">Agosto</option>
+                                <option value="Setembro">Setembro</option>
+                                <option value="Outubro">Outubro</option>
+                                <option value="Novembro">Novembro</option>
+                                <option value="Dezembro">Dezembro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group"><label>Selecione os Dias:</label>
+                        <div class="day-grid" id="dayGrid"></div>
+                    </div>
+                    <div class="form-group"><label>Nome do Evento</label><input type="text" id="inputNome"
+                            class="form-control" required></div>
+                    <div class="row-fields">
+                        <div class="form-group"><label>Horário</label><input type="time" id="inputHorario"
+                                class="form-control"></div>
+                        <div class="form-group"><label>Sociedade</label>
+                            <div class="input-group">
+                                <select id="inputTag" class="form-control"></select>
+                                <button type="button" class="btn-square" onclick="abrirModalTags()"><i
+                                        class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">Salvar Evento</button>
+                </form>
+            </article>
+
+            <div class="admin-toolbar">
+                <div class="toolbar-label">
+                    <i class="fas fa-calendar-check" style="color: var(--adm-primary)"></i>
+                    Gerir Eventos de:
+                </div>
+                <div class="select-wrapper">
+                    <select id="filtroAnoAdmin" class="select-modern" onchange="mudarAnoAdmin(this.value)">
+                    </select>
+                </div>
+            </div>
+            <div id="listaPreview"></div>
+        </section>
+
+        <section id="secaoLideranca" style="display: none;">
+            <article class="admin-card form-card">
+                <div class="card-header">
+                    <h3>Cadastrar Liderança</h3>
+                </div>
+                <form onsubmit="event.preventDefault(); salvarMembro();">
+                    <div class="form-group"><label>Nome Completo</label><input type="text" id="membroNome"
+                            class="form-control" required></div>
+                    <div class="row-fields">
+                        <div class="form-group">
+                            <label>Sociedade</label>
+                            <div class="input-group">
+                                <select id="membroSociedade" class="form-control" required></select>
+                                <button type="button" class="btn-square" onclick="abrirModalTags()"><i
+                                        class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Cargo / Função</label>
+                            <div class="input-group">
+                                <select id="membroCargoSelect" class="form-control" required></select>
+                                <button type="button" class="btn-square" onclick="abrirModalCargos()"><i
+                                        class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary" onclick="salvarMembro()">Salvar na Liderança</button>
+                </form>
+            </article>
+            <article class="admin-card">
+                <div class="table-responsive">
+                    <table class="clean-table">
+                        <thead>
+                            <tr>
+                                <th>Nome</th>
+                                <th>Sociedade</th>
+                                <th>Cargo</th>
+                                <th class="text-right">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="listaLideranca"></tbody>
+                    </table>
+                </div>
+            </article>
+        </section>
+
+        <section id="secaoConfig" style="display: none;">
+            <article class="admin-card form-card">
+                <div class="card-header flex-header">
+                    <h3>Identidade Visual</h3>
+                    <div class="year-selector"><small>Editando ano:</small><select id="cfgAnoInterno"
+                            onchange="mudarAnoAdmin(this.value)"></select></div>
+                </div>
+
+                <div class="row-fields">
+                    <div class="form-group"><label>Nome da Entidade</label><input type="text" id="cfgEntidadeTab"
+                            class="form-control"></div>
+                    <div class="form-group"><label>Tema do Ano</label><input type="text" id="cfgTemaTab"
+                            class="form-control"></div>
+                </div>
+                <div class="form-group full-width"><label>Versículo Chave</label><textarea id="cfgVersiculoTab"
+                        class="form-control" rows="2"></textarea></div>
+
+                <div class="palette-header">
+                    <h4 class="section-title">Paleta de Cores</h4>
+                    <button class="btn-restore" onclick="restaurarCoresPadrao()">
+                        <i class="fas fa-undo"></i> Restaurar
+                        Padrão</button>
+                </div>
+
+                <div class="palette-columns">
+                    
+                    <div class="palette-col">
+                        <h5><i class="fas fa-layer-group"></i> Cores de Estrutura</h5>
+                        <div class="palette-desc">
+                            Definem a identidade visual macro. O cabeçalho guia o usuário e o fundo garante o contraste.
+                        </div>
+
+                        <div class="color-card" style="margin-bottom: 20px;">
+                            <label>1. Primária (Marca/Cabeçalho)</label>
+                            <input type="color" id="cfgCorPrimaria" class="color-picker-large" value="#074528">
+                        </div>
+
+                        <div class="color-card">
+                            <label>2. Secundária (Fundo da Tela)</label>
+                            <input type="color" id="cfgCorSecundaria" class="color-picker-large" value="#f4f7f6">
+                        </div>
+                    </div>
+
+                    <div class="palette-col">
+                        <h5><i class="fas fa-mouse-pointer"></i> Elementos Interativos</h5>
+                        <div class="palette-desc">
+                            Cores de leitura e interação. Devem ter alto contraste para facilitar a usabilidade.
+                        </div>
+
+                        <div class="palette-grid-small">
+
+                            <div class="color-card">
+                                <label>3. Detalhes (Ícones)</label>
+                                <input type="color" id="cfgCorTerciaria" class="color-picker-large" value="#888888">
+                            </div>
+                        
+                            <div class="color-card">
+                                <label>4. Títulos (H1-H3)</label>
+                                <input type="color" id="cfgCorTitulos" class="color-picker-large" value="#333333">
+                            </div>
+
+                            <div class="color-card">
+                                <label>5. Subtítulos</label>
+                                <input type="color" id="cfgCorSubtitulos" class="color-picker-large" value="#64748b">
+                            </div>
+
+                            <div class="color-card">
+                                <label>6. Botões (Call to Action)</label>
+                                <input type="color" id="cfgCorBotoes" class="color-picker-large" value="#074528">
+                            </div>
+
+
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group" style="margin-top:25px;"><label>URL da Logo</label><input type="text"
+                        id="cfgLogoTab" class="form-control"></div>
+                <div class="form-actions right"><button onclick="salvarConfigTab()" class="btn-primary"><i
+                            class="fas fa-save"></i> Salvar Tema</button></div>
+            </article>
+        </section>
+    </main>
+
+    <dialog id="modalEdicaoEvento" class="modal-overlay">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3>Editar Evento</h3><span class="close" onclick="fecharModais()">&times;</span>
+            </div>
+            <div class="modal-body" id="corpoEdicaoEvento"></div>
+        </div>
+    </dialog>
+
+    <dialog id="modalEdicaoMembro" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Editar Membro</h3><span class="close" onclick="fecharModais()">&times;</span>
+            </div>
+            <div class="modal-body" id="corpoEdicaoMembro"></div>
+        </div>
+    </dialog>
+
+    <dialog id="modalExclusao" class="modal-overlay modal-danger">
+        <div class="modal-content">
+            <div class="modal-body text-center">
+                <i class="fas fa-exclamation-triangle delete-icon-large"></i>
+                <h3>Tem a certeza?</h3>
+                <p>Esta ação apagará o item permanentemente e não pode ser desfeita.</p>
+                <div class="modal-actions-center">
+                    <button class="btn-outline" onclick="fecharModais()">Cancelar</button>
+                    <button class="btn-danger" id="btnConfirmarExclusao">Sim, Excluir</button>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="modalTags" class="modal-overlay">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h3>Sociedades</h3>
+                <span class="close" onclick="fecharModais()">&times;</span>
+            </div>
+
+            <div class="modal-body">
+                
+                <form class="flex-form" onsubmit="event.preventDefault(); criarTagNoModal();">
+                    <input type="text" id="newTagName" placeholder="Nome da Sociedade" class="form-control" required>
+                    <button type="submit" class="btn-primary">Criar</button>
+                </form>
+
+                <div class="table-scroll">
+                    <table class="clean-table">
+                        <tbody id="listaTagsEditaveis">
+                            </tbody>
+                    </table>
+                </div>
+                
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="modalCargos" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Cargos</h3><span class="close" onclick="fecharModais()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form class="flex-form" onsubmit="event.preventDefault(); criarCargoNoModal();">
+                    <input type="text" id="newCargoName" placeholder="Novo Cargo" class="form-control" required>
+                    <button type="submit" class="btn-primary">Adicionar</button>
+                </form>
+                <div class="table-scroll">
+                    <table class="clean-table">
+                        <tbody id="listaCargosEditaveis"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="modalRecorrencia" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Gerar Recorrência</h3>
+                <span class="close" onclick="fecharModais()">&times;</span>
+            </div>
+            
+            <div class="modal-body">
+                <form id="formRecorrencia" onsubmit="event.preventDefault(); gerarEventosRecorrentes();">
+                    
+                    <div class="form-group">
+                        <label>Nome do Evento</label>
+                        <input type="text" id="recNome" class="form-control" placeholder="Ex: Ensaio do Coral" required>
+                    </div>
+
+                    <div class="row-fields">
+                        <div class="form-group">
+                            <label>Horário</label>
+                            <input type="time" id="recHorario" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Sociedade</label>
+                            <select id="recTag" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="recurrence-box-modern">
+                        <label class="section-label">Tipo de Repetição</label>
+                        
+                        <div class="toggle-switch-container">
+                            <label class="toggle-option">
+                                <input type="radio" name="recType" value="semanal" checked onclick="toggleRecMode()">
+                                <span>Semanal</span>
+                            </label>
+                            <label class="toggle-option">
+                                <input type="radio" name="recType" value="mensal" onclick="toggleRecMode()">
+                                <span>Mensal</span>
+                            </label>
+                        </div>
+
+                        <div id="optSemanal" class="week-selector-modern">
+                            <p class="helper-text">Selecione os dias:</p>
+                            <div class="days-flex">
+                                <label class="day-circle"><input type="checkbox" value="0"><span>D</span></label>
+                                <label class="day-circle"><input type="checkbox" value="1"><span>S</span></label>
+                                <label class="day-circle"><input type="checkbox" value="2"><span>T</span></label>
+                                <label class="day-circle"><input type="checkbox" value="3"><span>Q</span></label>
+                                <label class="day-circle"><input type="checkbox" value="4"><span>Q</span></label>
+                                <label class="day-circle"><input type="checkbox" value="5"><span>S</span></label>
+                                <label class="day-circle"><input type="checkbox" value="6"><span>S</span></label>
+                            </div>
+                        </div>
+
+                        <div id="optMensal" style="display:none;" class="monthly-config">
+                            <p class="helper-text">Regra de repetição:</p>
+                            <div class="row-fields">
+                                <select id="recMensalOrdem" class="form-control">
+                                    <option value="1">Todo 1º</option>
+                                    <option value="2">Todo 2º</option>
+                                    <option value="3">Todo 3º</option>
+                                    <option value="4">Todo 4º</option>
+                                    <option value="5">Todo Último</option>
+                                </select>
+                                <select id="recMensalDia" class="form-control">
+                                    <option value="0">Domingo</option>
+                                    <option value="1">Segunda</option>
+                                    <option value="2">Terça</option>
+                                    <option value="3">Quarta</option>
+                                    <option value="4">Quinta</option>
+                                    <option value="5">Sexta</option>
+                                    <option value="6">Sábado</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 20px;">
+                        <label>Período de Duração</label>
+                        <div class="row-fields" id="duracao">
+                            <div class="form-group small-col">
+                                <input type="number" id="recAno" class="form-control" placeholder="Ano">
+                            </div>
+                            <div class="form-group">
+                                <select id="recMesInicio" class="form-control">
+                                    <option value="0">Janeiro</option>
+                                    <option value="1">Fevereiro</option>
+                                    <option value="2">Março</option>
+                                    <option value="3">Abril</option>
+                                    <option value="4">Maio</option>
+                                    <option value="5">Junho</option>
+                                    <option value="6">Julho</option>
+                                    <option value="7">Agosto</option>
+                                    <option value="8">Setembro</option>
+                                    <option value="9">Outubro</option>
+                                    <option value="10">Novembro</option>
+                                    <option value="11">Dezembro</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="ate">
+                                Até
+                            </div>
+                            <div class="form-group">
+                                <select id="recMesFim" class="form-control">
+                                    <option value="0">Janeiro</option>
+                                    <option value="1">Fevereiro</option>
+                                    <option value="2">Março</option>
+                                    <option value="3">Abril</option>
+                                    <option value="4">Maio</option>
+                                    <option value="5">Junho</option>
+                                    <option value="6">Julho</option>
+                                    <option value="7">Agosto</option>
+                                    <option value="8">Setembro</option>
+                                    <option value="9">Outubro</option>
+                                    <option value="10">Novembro</option>
+                                    <option value="11" selected>Dezembro</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary full-width" style="margin-top:20px;">
+                        <i class="fas fa-magic"></i> Gerar Eventos
+                    </button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
+    <div id="toast-container"></div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="../js/config.js"></script>
+    <script src="../js/admin.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Agenda - IPB Guriri</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" />
+
+    <link rel="stylesheet" href="../../css/admin/agenda_admin.css">
+</head>
+
+<body>
+
+<body>
+
+    <div id="globalLoader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">CARREGANDO SISTEMA...</div>
+    </div>
+
+    <header class="admin-header" id="dinamicHeader">
+        <div class="header-content">
+            <a href="javascript:void(0)" onclick="voltarParaMenu()" class="btn-voltar">
+                <i class="fas fa-arrow-left"></i> Voltar
+            </a>
+            <h1 id="title">Painel Administrativo</h1>
+            <div class="status-badge">Configurações</div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <nav class="nav-tabs">
+            <button class="tab-btn active" >
+                <i class="far fa-calendar-alt"></i> Agenda
+            </button>
+            <button class="tab-btn" onclick="window.location.href='/igreja_admin.html'">
+                <i class="fas fa-users"></i> Igreja
+            </button>
+            <button class="tab-btn" onclick="window.location.href='config_admin.html'">
+                <i class="fas fa-palette"></i> Configurações
+            </button>
+        </nav>
+
+        <section id="secaoAgenda">
+            <div class="actions-toolbar main-actions">
+                <div class="left-actions">
+                    <button class="btn-primary" onclick="abrirModalEvento()"><i class="fas fa-plus-circle"></i> Novo Evento</button>
+                </div>
+                <div class="right-actions">
+                    <button class="btn-secondary" onclick="abrirModalTags()"><i class="fas fa-tags"></i> Sociedades</button>
+                    <button class="btn-secondary" onclick="abrirModalRecorrencia()"><i class="fas fa-sync"></i> Recorrência</button>
+                </div>
+            </div>
+
+            <div class="admin-toolbar">
+                <div class="toolbar-label">
+                    <i class="fas fa-calendar-check" style="color: var(--adm-primary)"></i>
+                    Visualizando Ano:
+                </div>
+                <div class="select-wrapper">
+                    <select id="filtroAnoAdmin" class="select-modern" onchange="mudarAnoAdmin(this.value)">
+                    </select>
+                </div>
+            </div>
+
+            <div id="listaPreview"></div>
+        </section>
+
+    </main>
+
+    <dialog id="modalEvento" class="modal-overlay">
+        <div class="modal-content large">
+            <div class="modal-header">
+                <h3 id="modalEventoTitulo">Novo Evento</h3>
+                <span class="close" onclick="fecharModais()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="formModalEvento" onsubmit="event.preventDefault(); salvarDadosEvento();">
+                    
+                    <div class="row-fields">
+                        <div class="form-group small-col">
+                            <label>Ano</label>
+                            <select id="evtAno" class="form-control"></select>
+                        </div>
+                        <div class="form-group">
+                            <label>Mês</label>
+                            <select id="evtMes" class="form-control">
+                                <option value="Janeiro">Janeiro</option>
+                                <option value="Fevereiro">Fevereiro</option>
+                                <option value="Março">Março</option>
+                                <option value="Abril">Abril</option>
+                                <option value="Maio">Maio</option>
+                                <option value="Junho">Junho</option>
+                                <option value="Julho">Julho</option>
+                                <option value="Agosto">Agosto</option>
+                                <option value="Setembro">Setembro</option>
+                                <option value="Outubro">Outubro</option>
+                                <option value="Novembro">Novembro</option>
+                                <option value="Dezembro">Dezembro</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Selecione os Dias:</label>
+                        <div class="day-grid" id="dayGridModal"></div>
+                        <input type="hidden" id="evtDiasHidden"> </div>
+
+                    <div class="form-group">
+                        <label>Nome do Evento</label>
+                        <input type="text" id="evtNome" class="form-control" placeholder="Ex: Culto de Doutrina" required>
+                    </div>
+
+                    <div class="row-fields">
+                        <div class="form-group">
+                            <label>Horário</label>
+                            <input type="time" id="evtHorario" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Sociedade / Tag</label>
+                            
+                            <div class="input-row">
+                                <select id="evtTag" class="form-control"></select>
+                                
+                                <button type="button" class="btn-plus-shortcut" onclick="abrirModalTags()" title="Gerenciar Sociedades">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Descrição / Detalhes</label>
+                        <textarea id="evtDescricao" class="form-control" rows="3" placeholder="Informações adicionais sobre o evento..."></textarea>
+                    </div>
+
+                    <div class="modal-footer-action">
+                        <button type="submit" class="btn-primary full-width-btn">
+                            <i class="fas fa-save"></i> Salvar Evento
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="modalTags" class="modal-overlay">
+        <div class="modal-content">
+            
+            <div class="modal-header">
+                <h3>GERIR SOCIEDADES</h3>
+                <span class="close" onclick="fecharModalTags()">&times;</span>
+            </div>
+
+            <div class="modal-body">
+                
+                <div class="input-group-color">
+                    <input type="text" id="newTagName" class="form-control" placeholder="NOVA SOCIEDADE" style="flex: 1;">
+                    
+                    <div class="color-wrapper" title="Alterar Cor da Sociedade">
+                        <input type="color" id="newTagColor" value="#074528" oninput="atualizarPreviewCor(this.value)">
+                        
+                        <div id="colorPreviewBox" class="color-preview"></div>
+                        
+                        <i class="fas fa-palette color-icon"></i>
+                    </div>
+
+                    <button class="btn-primary" onclick="criarTagNoModal()">
+                        Criar
+                    </button>
+                </div>
+
+                <div class="table-scroll">
+                    <table class="clean-table">
+                        <tbody id="listaTagsEditaveis">
+                            </tbody>
+                    </table>
+                </div>
+
+            </div>
+        </div>
+    </dialog>
+
+    <dialog id="modalRecorrencia" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Gerar Recorrência</h3>
+                <span class="close" onclick="fecharModais()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="formRecorrencia" onsubmit="gerarEventosRecorrentes(event)">
+                    <div class="form-group">
+                        <label>Nome do Evento</label>
+                        <input type="text" id="recNome" class="form-control" placeholder="Ex: Ensaio do Coral" required>
+                    </div>
+                    
+                    <div class="row-fields">
+                        <div class="form-group">
+                            <label>Horário</label>
+                            <input type="time" id="recHorario" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label>Sociedade</label>
+                            <select id="recTag" class="form-control"></select>
+                        </div>
+                    </div>
+                    
+                    <div class="recurrence-box-modern">
+                        <label class="section-label">Tipo de Repetição</label>
+                        
+                        <div class="toggle-switch-container">
+                            <label class="toggle-option">
+                                <input type="radio" name="recType" value="semanal" checked onclick="toggleRecMode()">
+                                <span>Semanal</span>
+                            </label>
+                            <label class="toggle-option">
+                                <input type="radio" name="recType" value="mensal" onclick="toggleRecMode()">
+                                <span>Mensal</span>
+                            </label>
+                        </div>
+
+                        <div id="optSemanal" class="week-selector-modern">
+                            <span class="helper-text">Selecione os dias da semana:</span>
+                            <div class="days-flex">
+                                <label class="day-circle"><input type="checkbox" value="0"><span>D</span></label>
+                                <label class="day-circle"><input type="checkbox" value="1"><span>S</span></label>
+                                <label class="day-circle"><input type="checkbox" value="2"><span>T</span></label>
+                                <label class="day-circle"><input type="checkbox" value="3"><span>Q</span></label>
+                                <label class="day-circle"><input type="checkbox" value="4"><span>Q</span></label>
+                                <label class="day-circle"><input type="checkbox" value="5"><span>S</span></label>
+                                <label class="day-circle"><input type="checkbox" value="6"><span>S</span></label>
+                            </div>
+                        </div>
+
+                        <div id="optMensal" style="display:none;" class="monthly-config">
+                            <span class="helper-text">Regra de repetição mensal:</span>
+                            <div class="row-fields">
+                                <select id="recMensalOrdem" class="form-control">
+                                    <option value="1">Todo 1º</option>
+                                    <option value="2">Todo 2º</option>
+                                    <option value="3">Todo 3º</option>
+                                    <option value="4">Todo 4º</option>
+                                    <option value="5">Todo Último</option>
+                                </select>
+                                <select id="recMensalDia" class="form-control">
+                                    <option value="0">Domingo</option>
+                                    <option value="1">Segunda-feira</option>
+                                    <option value="2">Terça-feira</option>
+                                    <option value="3">Quarta-feira</option>
+                                    <option value="4">Quinta-feira</option>
+                                    <option value="5">Sexta-feira</option>
+                                    <option value="6">Sábado</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-top: 25px;">
+                        <label>Duração (Período)</label>
+                        <div class="row-fields" id="duracao">
+                            <div class="form-group small-col" style="flex: 0 0 100px;">
+                                <input type="number" id="recAno" class="form-control" placeholder="Ano">
+                            </div>
+                            <div class="form-group">
+                                <select id="recMesInicio" class="form-control">
+                                    <option value="0">Janeiro</option><option value="1">Fevereiro</option><option value="2">Março</option>
+                                    <option value="3">Abril</option><option value="4">Maio</option><option value="5">Junho</option>
+                                    <option value="6">Julho</option><option value="7">Agosto</option><option value="8">Setembro</option>
+                                    <option value="9">Outubro</option><option value="10">Novembro</option><option value="11">Dezembro</option>
+                                </select>
+                            </div>
+                            <div class="form-group" id="ate">
+                                <label>Até</label>
+                            </div>
+                            <div class="form-group">
+                                <select id="recMesFim" class="form-control">
+                                    <option value="0">Janeiro</option><option value="1">Fevereiro</option><option value="2">Março</option>
+                                    <option value="3">Abril</option><option value="4">Maio</option><option value="5">Junho</option>
+                                    <option value="6">Julho</option><option value="7">Agosto</option><option value="8">Setembro</option>
+                                    <option value="9">Outubro</option><option value="10">Novembro</option><option value="11" selected>Dezembro</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary full-width-btn">
+                        <i class="fas fa-magic"></i> Gerar Recorrência
+                    </button>
+                </form>
+            </div>
+        </div>
+    </dialog>
+
+    <div id="toast-container"></div>
+    <dialog id="modalExclusao" class="modal-overlay">
+        <div class="modal-content modal-confirm-wrapper">
+            
+            <div class="modal-icon-danger">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+
+            <h3 class="modal-title">Tem a certeza?</h3>
+            
+            <p id="textoExclusao" class="modal-desc">
+                Essa ação é irreversível.
+            </p>
+
+            <div class="modal-actions-row">
+                <button class="btn-outline-cancel" onclick="fecharModalExclusao()">
+                    Cancelar
+                </button>
+                <button id="btnConfirmarExclusao" class="btn-solid-danger">
+                    Sim, Excluir
+                </button>
+            </div>
+
+        </div>
+    </dialog>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="../../js/config.js"></script>
+    <script src="../../js/admin/agenda_admin.js"></script>
+    
+</body>
+</html>

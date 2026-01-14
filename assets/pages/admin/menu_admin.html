@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hub Central - IPB Guriri</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../../css/admin/menu_admin.css">
+</head>
+<body>
+
+    <div id="toast-container"></div>
+
+    <div id="loginOverlay" class="overlay-full" style="display: flex;">
+        <div class="login-box">
+            <div class="login-icon"><i class="fas fa-lock"></i></div>
+            <h2>Área Restrita</h2>
+            <p>Identifique-se para acessar.</p>
+            
+            <form onsubmit="event.preventDefault(); fazerLogin()">
+                <input type="email" id="emailInput" placeholder="E-mail de Acesso" required>
+                <input type="password" id="senhaInput" placeholder="Senha" required>
+                
+                <button type="submit" id="btnLogin">
+                    ACESSAR PAINEL <i class="fas fa-arrow-right"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <div id="globalLoader">
+        <div class="loader-spinner"></div>
+        <div class="loader-text">CARREGANDO SISTEMA...</div>
+    </div>
+
+    <a href="../../../index.html" class="btn-header btn-voltar">
+        <i class="fas fa-arrow-left"></i> <span>Voltar</span>
+    </a>
+
+    <button onclick="fazerLogout()" class="btn-header btn-sair" title="Sair do Sistema">
+        <span>Sair</span> <i class="fas fa-sign-out-alt"></i>
+    </button>
+
+    <main class="menu-wrapper">
+        
+        <header class="menu-header">
+            <img src="../../img/logo.png" alt="Logo" class="menu-logo" id="imgLogoMenu">
+            
+            <h1 id="lblTituloMenu">BEM-VINDO</h1>
+            <p id="lblSubtituloMenu">Painel Administrativo</p>
+        </header>
+
+        <div class="menu-grid">
+            
+            <a href="javascript:void(0)" onclick="navegarPara('agenda_admin.html')" class="menu-card">
+                <div class="card-icon"><i class="fas fa-calendar-alt"></i></div>
+                <div class="card-content">
+                    <h3>Agenda</h3>
+                    <p>Eventos e programações oficiais.</p>
+                </div>
+            </a>
+
+            <a href="javascript:void(0)" onclick="navegarPara('igreja_admin.html')" class="menu-card">
+                <div class="card-icon"><i class="fas fa-users"></i></div>
+                <div class="card-content">
+                    <h3>Igreja</h3>
+                    <p>EBD, Membros e Liderança.</p>
+                </div>
+            </a>
+
+            <a href="javascript:void(0)" onclick="navegarPara('config_admin.html')" class="menu-card">
+                <div class="card-icon"><i class="fas fa-cogs"></i></div>
+                <div class="card-content">
+                    <h3>Configurações</h3>
+                    <p>Nome, Temas e Cores</p>
+                </div>
+            </a>
+
+        </div>
+
+        <footer class="menu-footer">
+            <p>Igreja Presbiteriana do Brasil &copy; <span id="lblAnoFooter">2026</span></p>
+        </footer>
+
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    
+    <script src="../../js/config.js"></script> 
+    <script src="../../js/admin/menu_admin.js"></script> 
+
+</body>
+</html>
