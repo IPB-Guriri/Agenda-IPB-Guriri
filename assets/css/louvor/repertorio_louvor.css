@@ -1,0 +1,945 @@
+/* --- REPERTORIO_LOUVOR.CSS (VERSÃO FINAL COMPLETA) --- */
+
+:root {
+    /* Cores do Tema Glass & Neon */
+    --primary-gradient: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%); /* Azul para Roxo */
+    --glass-bg: rgba(30, 41, 59, 0.6); /* Fundo translúcido */
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --neon-glow: 0 0 15px rgba(59, 130, 246, 0.3);
+    
+    --text-highlight: #e2e8f0;
+    --text-muted: #94a3b8;
+    
+    /* Cores de Ação */
+    --danger: #ef4444;  /* Vermelho para excluir */
+    --warning: #f59e0b; /* Amarelo/Laranja para editar */
+    --bg-active: #334155;
+    --accent: #3b82f6;
+}
+
+/* --- 1. CONTROLE DE VISIBILIDADE DAS TELAS --- */
+.hidden-section {
+    display: none !important;
+}
+
+.view-section.active-section {
+    display: block;
+    animation: fadeInSection 0.5s ease;
+}
+
+@keyframes fadeInSection {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- 2. BARRA DE FERRAMENTAS --- */
+.toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+}
+
+.search-container {
+    flex-grow: 1;
+    position: relative;
+    max-width: 500px;
+}
+
+.search-container input {
+    width: 100%;
+    background: var(--bg-sidebar); /* Caso não reconheça var, use #1e293b */
+    background-color: #1e293b;
+    border: 2px solid transparent;
+    padding: 15px 15px 15px 50px;
+    border-radius: 50px;
+    color: white;
+    font-size: 15px;
+    transition: 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.search-container input:focus {
+    background: #1e293b;
+    border-color: #3b82f6;
+    box-shadow: var(--neon-glow);
+    outline: none;
+}
+
+.search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 18px;
+}
+
+.btn-primary-glow {
+    background: var(--primary-gradient);
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn-primary-glow:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(139, 92, 246, 0.5);
+}
+
+/* --- 3. LISTA DE MÚSICAS (CARDS) --- */
+.song-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.song-item {
+    background: var(--glass-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--glass-border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+}
+
+.song-item::before {
+    content: '';
+    position: absolute; left: 0; top: 0; bottom: 0; width: 4px;
+    background: var(--primary-gradient); opacity: 0; transition: 0.3s;
+}
+
+.song-item:hover {
+    transform: translateY(-2px);
+    background: rgba(30, 41, 59, 0.8);
+    border-color: rgba(255,255,255,0.15);
+}
+
+.song-item.open::before { opacity: 1; }
+.song-item.open {
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    border-color: rgba(59, 130, 246, 0.3);
+}
+
+.song-header {
+    padding: 20px 25px;
+    display: flex; justify-content: space-between; align-items: center; cursor: pointer;
+}
+
+.song-info h4 { font-size: 18px; font-weight: 600; color: white; margin-bottom: 5px; }
+.song-info p { font-size: 14px; color: var(--text-muted); display: flex; align-items: center; gap: 8px; }
+
+.song-meta { display: flex; gap: 10px; align-items: center; }
+.badge-group { display: flex; gap: 8px; }
+
+.badge {
+    padding: 6px 12px; border-radius: 8px;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.5px; text-transform: uppercase;
+}
+.badge-key { background: rgba(16, 185, 129, 0.15); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.2); }
+.badge-bpm { background: rgba(244, 63, 94, 0.15); color: #fb7185; border: 1px solid rgba(244, 63, 94, 0.2); }
+
+.chevron-btn {
+    width: 35px; height: 35px; border-radius: 50%; background: rgba(255,255,255,0.05);
+    display: grid; place-items: center; color: var(--text-muted); transition: 0.3s;
+}
+.song-item.open .chevron-btn { background: var(--accent); color: white; transform: rotate(180deg); }
+
+/* --- 4. DETALHES E ABAS --- */
+.song-details {
+    max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out;
+    background: rgba(15, 23, 42, 0.5);
+}
+.song-item.open .song-details { max-height: 1500px; border-top: 1px solid var(--glass-border); }
+
+.action-bar {
+    display: flex; justify-content: flex-end; gap: 10px;
+    padding: 10px 20px; background: rgba(0,0,0,0.2);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.btn-icon {
+    background: none; border: none; cursor: pointer; font-size: 14px;
+    padding: 8px 12px; border-radius: 6px; display: flex; align-items: center; gap: 6px;
+    transition: 0.2s; font-weight: 500;
+}
+.btn-edit { color: var(--warning); border: 1px solid rgba(245, 158, 11, 0.2); }
+.btn-edit:hover { background: rgba(245, 158, 11, 0.1); }
+.btn-delete { color: var(--danger); border: 1px solid rgba(239, 68, 68, 0.2); }
+.btn-delete:hover { background: rgba(239, 68, 68, 0.1); }
+
+.tabs-header {
+    display: flex; padding: 0 20px; gap: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.2);
+}
+.tab-btn {
+    background: none; border: none; padding: 15px 5px; color: var(--text-muted);
+    cursor: pointer; font-size: 14px; font-weight: 500; position: relative; transition: 0.3s;
+}
+.tab-btn:hover { color: white; }
+.tab-btn.active { color: #60a5fa; }
+.tab-btn.active::after {
+    content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 3px;
+    background: var(--primary-gradient); border-radius: 3px 3px 0 0;
+    box-shadow: 0 -2px 10px rgba(59, 130, 246, 0.5);
+}
+
+.tab-content { position:relative; padding: 30px; display: none; opacity: 0; animation: fadeIn 0.3s forwards; }
+@keyframes fadeIn { to { opacity: 1; } }
+.tab-content.active { display: block; }
+
+.cifra-container {
+    font-family: 'Courier New', monospace; font-size: 15px; line-height: 1.8;
+    color: #cbd5e1; white-space: pre-wrap; background: #0f172a;
+    padding: 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: inset 0 2px 10px rgba(0,0,0,0.5);
+}
+.cifra-container strong { color: #3b82f6; }
+
+.audio-placeholder {
+    background: rgba(255,255,255,0.02); border-radius: 10px;
+    border: 1px dashed rgba(255,255,255,0.1); padding: 15px; text-align: center;
+}
+
+/* --- 5. MODAL ESTILIZADO (GLASS) --- */
+.modal-overlay {
+    position: fixed; top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(5px);
+    z-index: 2000;
+    display: flex; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none;
+    transition: 0.3s;
+}
+.modal-overlay:not(.hidden) { opacity: 1; pointer-events: all; }
+
+.modal-content.glass-modal {
+    background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    border-radius: 20px;
+    padding: 30px;
+    width: 95%; max-width: 700px;
+    transform: translateY(20px); transition: 0.3s;
+}
+.modal-overlay:not(.hidden) .modal-content { transform: translateY(0); }
+
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.modal-header h3 {
+    background: var(--primary-gradient); -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent; font-weight: 700;
+}
+.close-modal { background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
+
+/* Labels e Inputs do Modal */
+.modal-body label {
+    display: block; font-size: 12px; color: var(--text-muted);
+    margin-bottom: 5px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.modal-body input[type="text"], .modal-body textarea {
+    width: 100%; background: #0f172a; border: 1px solid #334155;
+    color: white; padding: 12px 15px; border-radius: 8px; font-size: 14px;
+    transition: all 0.3s ease; outline: none;
+}
+.modal-body input:focus, .modal-body textarea:focus {
+    border-color: #3b82f6; box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2); background: #151e2e;
+}
+
+/* Busca Integrada Modal */
+.search-bar-integrated { position: relative; display: flex; gap: 10px; margin-bottom: 15px;}
+.search-icon-modal { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+.search-bar-integrated input { padding-left: 40px; border-radius: 50px; }
+.btn-search-modal {
+    background: var(--bg-active); color: white; border: 1px solid rgba(255,255,255,0.1);
+    padding: 0 20px; border-radius: 50px; cursor: pointer; transition: 0.2s;
+}
+.btn-search-modal:hover { background: var(--accent); border-color: var(--accent); }
+
+/* Grid do Form */
+.form-grid-row { display: flex; gap: 20px; margin-bottom: 15px; }
+.form-grid-row.small-gap { gap: 10px; }
+.input-wrapper { flex: 1; }
+.text-center { text-align: center; }
+.full-width { margin-top: 15px; }
+
+/* Audio Split */
+.audio-split-section {
+    display: flex; gap: 20px; background: rgba(0,0,0,0.2);
+    padding: 15px; border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1); margin-bottom: 15px;
+}
+.audio-left, .audio-right { flex: 1; display: flex; flex-direction: column; }
+
+/* Upload Zone */
+.upload-zone {
+    flex-grow: 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    border: 2px dashed #334155; border-radius: 8px; padding: 10px;
+    transition: 0.2s; background: rgba(255,255,255,0.02);
+}
+.upload-zone:hover { border-color: var(--accent); background: rgba(59, 130, 246, 0.05); }
+.btn-upload-trigger {
+    background: #334155; color: white; border: none; padding: 6px 12px;
+    border-radius: 6px; font-size: 12px; cursor: pointer; margin-bottom: 5px;
+}
+.btn-upload-trigger:hover { background: var(--accent); }
+.upload-hint { font-size: 10px; color: var(--text-muted); }
+
+/* Lista de Vozes */
+.voices-list { list-style: none; margin-top: 8px; max-height: 80px; overflow-y: auto; }
+.voice-item {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; background: rgba(255,255,255,0.05); padding: 4px 8px;
+    border-radius: 4px; margin-bottom: 4px;
+}
+.voice-remove { color: var(--danger); cursor: pointer; margin-left: 8px; }
+
+.btn-save-modal {
+    width: 100%; padding: 15px; margin-top: 10px; border-radius: 8px; border: none;
+    background: var(--primary-gradient); color: white; font-weight: 600; font-size: 16px;
+    cursor: pointer; box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4); transition: 0.2s;
+}
+.btn-save-modal:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(139, 92, 246, 0.6); }
+
+.separator { border: 0; border-top: 1px solid rgba(255,255,255,0.1); margin: 15px 0; }
+
+@media (max-width: 768px) {
+    .audio-split-section { flex-direction: column; }
+    .form-grid-row { flex-direction: column; gap: 10px; }
+    
+}
+
+/* Botões Contextuais dentro das Abas */
+.context-edit-btn {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: rgba(245, 158, 11, 0.15);
+    color: #fbbf24;
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+    display: flex; align-items: center; gap: 5px;
+}
+.context-edit-btn:hover {
+    background: rgba(245, 158, 11, 0.3);
+    transform: scale(1.05);
+}
+
+.cifra-container {
+    font-family: 'Courier New', 'Lucida Console', monospace; /* Fonte monoespaçada robusta */
+    font-size: 16px; /* Aumentei o tamanho */
+    line-height: 1.6;
+    font-weight: 500;
+    color: #ffffff; /* Branco puro para contraste máximo */
+    background: #0b1120; /* Fundo mais escuro que o painel para destacar */
+    padding: 25px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: inset 0 2px 15px rgba(0,0,0,0.8);
+    white-space: pre-wrap;
+    overflow-x: auto;
+}
+
+/* Destaque sutil para acordes (se tiver regex no futuro, usaremos cores aqui) */
+.cifra-container strong { color: #60a5fa; }
+
+/* --- CONTROLE DE GRUPOS DO MODAL --- */
+.group-section {
+    margin-bottom: 15px;
+    animation: fadeIn 0.3s;
+}
+
+.section-label {
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 8px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Quando escondemos um grupo via JS */
+.hidden-group {
+    display: none;
+}
+
+/* Inputs desabilitados (para contexto) */
+.input-disabled {
+    opacity: 0.6;
+    pointer-events: none;
+    background: rgba(0,0,0,0.3) !important;
+    border-color: transparent !important;
+}
+
+/* ... (Mantenha o CSS anterior de Cores, Navegação, Barra e Listas) ... */
+/* Copie tudo do arquivo anterior ATÉ a parte de "DETALHES E ABAS" e substitua de lá para baixo por isto: */
+
+/* --- 4. DETALHES E ABAS --- */
+.song-details {
+    max-height: 0; overflow: hidden; transition: max-height 0.5s ease-in-out;
+    background: rgba(15, 23, 42, 0.5);
+}
+.song-item.open .song-details { max-height: 1500px; border-top: 1px solid var(--glass-border); }
+
+/* Cabeçalho das Abas */
+.tabs-header {
+    display: flex; padding: 0 20px; gap: 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.2);
+    align-items: center;
+}
+.tab-btn {
+    background: none; border: none; padding: 15px 5px; color: var(--text-muted);
+    cursor: pointer; font-size: 14px; font-weight: 500; position: relative; transition: 0.3s;
+}
+.tab-btn:hover { color: white; }
+.tab-btn.active { color: #60a5fa; }
+.tab-btn.active::after {
+    content: ''; position: absolute; bottom: -1px; left: 0; width: 100%; height: 3px;
+    background: var(--primary-gradient); border-radius: 3px 3px 0 0;
+    box-shadow: 0 -2px 10px rgba(59, 130, 246, 0.5);
+}
+
+/* Conteúdo das Abas */
+.tab-content { padding: 0; display: none; opacity: 0; animation: fadeIn 0.3s forwards; }
+@keyframes fadeIn { to { opacity: 1; } }
+.tab-content.active { display: block; }
+
+/* --- BARRA DE FERRAMENTAS INTERNA (CORREÇÃO DO BUG) --- */
+.internal-toolbar {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 10px 20px;
+    background: rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.btn-small {
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,0.1);
+    background: rgba(255,255,255,0.05);
+    color: var(--text-muted);
+    display: flex; align-items: center; gap: 6px;
+    transition: 0.2s;
+}
+.btn-small:hover { background: rgba(255,255,255,0.1); color: white; }
+
+/* Botão Transmitir (Holyrics) */
+.btn-holyrics {
+    color: #38bdf8; /* Azul claro */
+    border-color: rgba(56, 189, 248, 0.2);
+    background: rgba(56, 189, 248, 0.1);
+}
+.btn-holyrics:hover { background: rgba(56, 189, 248, 0.2); }
+
+/* Botão Editar (Amarelo) */
+.btn-edit-action {
+    color: var(--warning);
+    border-color: rgba(245, 158, 11, 0.2);
+    background: rgba(245, 158, 11, 0.1);
+}
+.btn-edit-action:hover { background: rgba(245, 158, 11, 0.2); }
+
+/* Área da Cifra */
+.cifra-wrapper {
+    padding: 20px;
+}
+.cifra-container {
+    font-family: 'Courier New', monospace; font-size: 15px; line-height: 1.8;
+    color: #ffffff; white-space: pre-wrap; background: #0b1120;
+    padding: 20px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.05);
+}
+.cifra-container strong { color: #3b82f6; font-weight: bold; }
+
+/* Audio Layout */
+.audio-wrapper { padding: 20px; }
+.audio-placeholder {
+    background: rgba(255,255,255,0.02); border-radius: 10px;
+    border: 1px dashed rgba(255,255,255,0.1); padding: 15px; text-align: center;
+}
+
+/* ... (Mantenha o CSS do MODAL igual ao anterior) ... */
+/* --- MODAL ESTILIZADO (GLASS) ... até o final do arquivo */
+
+/* ... MANTENHA TODO O CSS ANTERIOR AQUI ... */
+/* ... (Todo o código que te passei na última resposta) ... */
+
+
+/* --- ADICIONE ISTO NO FINAL DO ARQUIVO CSS --- */
+
+/* Estilo para Inputs dentro dos Cards (Configurações) */
+.input-glass {
+    width: 100%;
+    background: #0f172a;
+    border: 1px solid #334155;
+    color: white;
+    padding: 12px 15px;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.input-glass:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+    background: #151e2e;
+}
+
+/* Lista de Resultados da Busca (Dropdown) */
+.search-results-dropdown {
+    position: absolute;
+    top: 100%; /* Logo abaixo do input */
+    left: 0;
+    width: 100%;
+    background: rgba(30, 41, 59, 0.95);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0 0 12px 12px;
+    max-height: 250px;
+    overflow-y: auto;
+    z-index: 1000;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    display: none; /* Escondido por padrão */
+}
+
+.search-result-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s;
+}
+
+.search-result-item:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.search-result-info h4 {
+    margin: 0;
+    font-size: 14px;
+    color: #fff;
+}
+
+.search-result-info p {
+    margin: 2px 0 0 0;
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+.search-result-action {
+    font-size: 12px;
+    color: #10b981;
+}
+
+/* Ajuste para o texto não ficar em cima do ícone */
+#api-search-input {
+    padding-left: 40px !important; /* Abre espaço para o ícone */
+    background-position: 10px center; /* Se o ícone for background */
+}
+
+/* Garante que o dropdown não quebre o layout */
+.search-results-dropdown {
+    border-top: none;
+    background: #1e293b; /* Cor sólida para leitura */
+}
+
+/* Container das notificações (Canto superior direito) */
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+/* O card da notificação */
+.toast {
+    min-width: 250px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    opacity: 0;
+    transform: translateX(20px);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Animação de entrada */
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Tipos de notificação */
+.toast.success {
+    background: linear-gradient(135deg, #10b981, #059669);
+    border-left: 4px solid #a7f3d0;
+}
+
+.toast.error {
+    background: linear-gradient(135deg, #ef4444, #b91c1c);
+    border-left: 4px solid #fecaca;
+}
+
+.toast.info {
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    border-left: 4px solid #bfdbfe;
+}
+
+/* ==========================================================================
+   ESTILOS DA BUSCA INTELIGENTE (API SELECT + INPUT)
+   ========================================================================== */
+
+/* Container que segura o Select e o Input */
+.search-bar-integrated {
+    display: flex;
+    gap: 10px;       /* Espaço entre o select e o input */
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 50;     /* Garante que fique acima de outros elementos */
+}
+
+/* O Campo de Seleção (LRCLIB, Vagalume, Holyrics) */
+#api-search-source {
+    height: 45px;    /* Mesma altura dos inputs padrão */
+    background-color: rgba(255, 255, 255, 0.05); /* Fundo escuro translúcido */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #e2e8f0;
+    border-radius: 8px;
+    padding: 0 35px 0 15px; /* Espaço extra na direita para a setinha */
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 13px;
+    outline: none;
+    appearance: none; /* Remove estilo padrão do navegador */
+    
+    /* Ícone da setinha customizada (opcional, mas fica bonito) */
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    min-width: 140px; /* Largura mínima para ler o texto */
+}
+
+/* Opções do Select (Fundo sólido para leitura) */
+#api-search-source option {
+    background-color: #1e293b; /* Azul escuro */
+    color: white;
+    padding: 10px;
+}
+
+/* O Input de Busca (Ajuste para ícone interno) */
+#api-search-input {
+    height: 45px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding-left: 40px; /* Espaço para o ícone de globo na esquerda */
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+#api-search-input:focus {
+    border-color: #3b82f6; /* Azul no foco */
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Ícone dentro do input */
+.search-icon-modal {
+    position: absolute;
+    left: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none; /* Deixa clicar "através" do ícone */
+}
+
+
+/* ==========================================================================
+   DROPDOWN DE RESULTADOS (LISTA FLUTUANTE)
+   ========================================================================== */
+
+.search-results-dropdown {
+    position: absolute;
+    top: 100%;      /* Logo abaixo do input */
+    left: 0;
+    width: 100%;
+    background: #1e293b; /* Fundo sólido para não misturar texto */
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    max-height: 300px;
+    overflow-y: auto;    /* Scroll se a lista for grande */
+    z-index: 1000;       /* Fica em cima de tudo */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    display: none;       /* Escondido por padrão */
+}
+
+/* Item da lista */
+.search-result-item {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: background 0.2s ease;
+}
+
+.search-result-item:hover {
+    background-color: rgba(59, 130, 246, 0.15); /* Azulzinho ao passar o mouse */
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+/* Scrollbar Bonita no Dropdown */
+.search-results-dropdown::-webkit-scrollbar {
+    width: 6px;
+}
+.search-results-dropdown::-webkit-scrollbar-track {
+    background: #0f172a;
+}
+.search-results-dropdown::-webkit-scrollbar-thumb {
+    background: #475569;
+    border-radius: 3px;
+}
+
+
+/* ==========================================================================
+   NOTIFICAÇÕES TOAST (AVISOS FLUTUANTES)
+   ========================================================================== */
+
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    pointer-events: none; /* Permite clicar na página através do container */
+}
+
+.toast {
+    min-width: 300px;
+    background: #1e293b; /* Fundo escuro */
+    color: #f1f5f9;
+    padding: 16px 20px;
+    border-radius: 8px;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    font-weight: 500;
+    
+    /* Animação Inicial */
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    
+    border-left: 4px solid transparent;
+    pointer-events: auto; /* A notificação em si é clicável/interativa */
+}
+
+.toast.show {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Cores por tipo */
+.toast.success {
+    border-color: #10b981; /* Verde */
+}
+.toast.success i {
+    color: #10b981;
+}
+
+.toast.error {
+    border-color: #ef4444; /* Vermelho */
+}
+.toast.error i {
+    color: #ef4444;
+}
+
+.toast.info {
+    border-color: #3b82f6; /* Azul */
+}
+.toast.info i {
+    color: #3b82f6;
+}
+
+/* Botão de Ajuda do Holyrics */
+.btn-icon-help {
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 0 5px;
+    transition: color 0.3s;
+}
+
+.btn-icon-help:hover {
+    color: #3b82f6; /* Azul destaque */
+}
+
+/* Classe utilitária para esconder elementos */
+.hidden {
+    display: none !important;
+}
+
+/* --- CORREÇÃO DO LAYOUT DO CARD --- */
+
+.song-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* Isso alinha tudo verticalmente no centro */
+    padding: 20px 25px;
+    cursor: pointer;
+}
+
+.song-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espaço entre os botões */
+}
+
+/* Estilo do Botão de BPM (Metrônomo) */
+.badge-bpm {
+    background: rgba(244, 63, 94, 0.15);
+    color: #fb7185;
+    border: 1px solid rgba(244, 63, 94, 0.2);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px; /* Espaço entre ícone e número */
+    padding: 6px 12px;
+    user-select: none; /* Impede selecionar o texto clicando rápido */
+}
+
+.badge-bpm:hover {
+    background: rgba(244, 63, 94, 0.3);
+    transform: scale(1.05);
+}
+
+.badge-bpm:active {
+    transform: scale(0.95);
+}
+
+/* Animação quando está tocando */
+.badge-bpm.playing {
+    background: #f43f5e !important; /* Vermelho forte */
+    color: white !important;
+    box-shadow: 0 0 15px rgba(244, 63, 94, 0.6);
+    border-color: transparent;
+}
+
+/* Ícone de Play/Stop pequeno */
+.bpm-icon-state {
+    font-size: 10px;
+    opacity: 0.8;
+}
+
+/* --- CORREÇÃO DE RESPONSIVIDADE DO MODAL --- */
+
+/* 1. Limita a altura do modal e prepara para rolagem */
+.modal-content.glass-modal {
+    max-height: 85vh; /* Ocupa no máximo 85% da altura da tela */
+    display: flex;
+    flex-direction: column; /* Organiza: Cabeçalho em cima, corpo embaixo */
+    padding: 0; /* Remove padding global para controlar internamente */
+    overflow: hidden; /* Garante que nada saia das bordas arredondadas */
+}
+
+/* 2. Mantém o cabeçalho fixo no topo */
+.modal-header {
+    padding: 20px 25px;
+    background: rgba(15, 23, 42, 0.6); /* Um pouco mais escuro para destaque */
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    flex-shrink: 0; /* Impede que o cabeçalho seja esmagado */
+}
+
+/* 3. Área de conteúdo com rolagem (Scroll) */
+.modal-body {
+    padding: 25px;
+    overflow-y: auto; /* A mágica: cria a barra de rolagem vertical */
+    overflow-x: hidden;
+}
+
+/* --- ESTILIZAÇÃO DA BARRA DE ROLAGEM (SCROLLBAR) --- */
+/* Funciona no Chrome, Edge e Safari */
+
+.modal-body::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-body::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+}
+
+.modal-body::-webkit-scrollbar-thumb {
+    background: #334155; /* Cor da barra */
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.modal-body::-webkit-scrollbar-thumb:hover {
+    background: #3b82f6; /* Azul ao passar o mouse */
+}
+
+/* --- AJUSTES MOBILE (Celulares pequenos) --- */
+@media (max-width: 480px) {
+    .modal-content.glass-modal {
+        width: 100%;
+        height: 100vh; /* Em celular, ocupa a tela toda */
+        max-height: 100vh;
+        border-radius: 0; /* Remove cantos arredondados no full screen */
+    }
+    
+    .form-grid-row {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .modal-body {
+        padding: 15px; /* Menos espaçamento no celular */
+    }
+}
